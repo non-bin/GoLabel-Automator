@@ -1,11 +1,11 @@
 function processInput(field) {
   var value = document.getElementById(field).value;
 
-  if (field == 'barcodeStart') {
+  if (field == 'barcodeStartInput') {
     if (value == '') {
-      document.getElementById('barcodeEnd').placeholder = 'Quantity';
+      document.getElementById('barcodeEndInput').placeholder = 'Quantity';
     } else {
-      document.getElementById('barcodeEnd').placeholder = 'Barcode Number End';
+      document.getElementById('barcodeEndInput').placeholder = 'Barcode Number End';
     }
   }
 
@@ -25,11 +25,14 @@ function print(whiteOnBlack) {
   var barcodeEnd = document.getElementById('barcodeEndInput').value;
   var retestPeriod = document.getElementById('retestPeriodInput').value;
 
-  sendForPrint(deviceName, generateBarcodes(barcodePrefix, barcodeStart, barcodeEnd, whiteOnBlack), retestPeriod, whiteOnBlack);
+  sendForPrint({
+    deviceName: deviceName,
+    barcodes: generateBarcodes(barcodePrefix, barcodeStart, barcodeEnd, whiteOnBlack),
+    retestPeriod: retestPeriod
+  }, 'testTag', whiteOnBlack);
 }
 
 function generateBarcodes(barcodePrefix, barcodeStart, barcodeEnd, leader) {
-  leader = leader || false;
   var barcodes = [];
   var quantity;
 
@@ -50,6 +53,11 @@ function generateBarcodes(barcodePrefix, barcodeStart, barcodeEnd, leader) {
     }
   }
 
+  if (leader) {
+    // Add leader to the start of the barcode array
+    barcodes.unshift('leader');
+  }
+
   return barcodes;
 }
 
@@ -63,19 +71,22 @@ function updateTable(deviceName, barcodes, retestPeriod) {
   document.getElementById('previewTable').innerHTML = previewTableBody;
 }
 
-function sendForPrint(deviceName, barcodes, retestPeriod, blackOnWhite) {
+function sendForPrint(values, template, whiteOnBlack) {
+  let data = JSON.stringify({
+    values: values,
+    template: template,
+    whiteOnBlack: whiteOnBlack
+  });
+
   var printPromise = fetch('/print', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      deviceName: deviceName,
-      barcodes: barcodes,
-      retestPeriod: retestPeriod,
-      blackOnWhite: blackOnWhite
-    })
+    body: data
   });
+
+  console.log(data);
 
   console.log('Sent');
 

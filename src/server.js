@@ -2,6 +2,9 @@ const http = require('http');
 const url = require('url');
 const fs = require('fs');
 const path = require('path');
+const { type } = require('os');
+const { exec } = require('child_process');
+
 const port = process.argv[2] || 80;
 
 http.createServer(function (req, res) {
@@ -9,11 +12,25 @@ http.createServer(function (req, res) {
   const parsedUrl = url.parse(req.url);
 
   if (req.method === 'POST') {
-    res.statusCode = 200;
-    console.log(JSON.safeStringify(res));
-    res.end(`All Good :)`);
-    return;
+    var body = '';
+    req.on('data', function (data) {
+      body += data;
 
+      // Too much POST data, kill the connection!
+      // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+      if (body.length > 1e6)
+      req.socket.destroy();
+    });
+
+    req.on('end', function () {
+      let data = JSON.parse(body);
+      createDB(data.template, data.values);
+      // print(data.template, data.whiteOnBlack);
+
+      res.statusCode = 200;
+      res.end(`All Good :)`);
+      return;
+    });
   } else {
     // extract URL path
     let pathname = `./src/www/${parsedUrl.pathname}`;
@@ -78,3 +95,45 @@ JSON.safeStringify = (obj, indent = 2) => {
   cache = null;
   return retVal;
 };
+
+function createDB(template, values) {
+  var csv = '';
+
+  switch (template) {
+    case 'testTag':
+      csv += 'NAME,ID,RETEST\n';
+
+      for (let i = 0; i < values.barcodes.length; i++) {
+        csv += `${values.deviceName},${values.barcodes[i]},${values.retestPeriod}\n`;
+      }
+      break;
+
+    default:
+      console.log(`No template found for ${template}`);
+      return false;
+  }
+
+  fs.writeFile(`db.csv`, csv, function (err) {
+    if (err) {
+      console.log(err);
+      return false;
+    }
+    console.log('wrote db');
+  });
+}
+
+function print(template, whiteOnBlack) {
+  let command = `
+    "C:\\Program Files (x86)\\GoDEX\\GoLabel II\\GoLabel.exe"
+    /F="C:\\Users\\Public\\Documents\\GoDEX\\GoLabel II\\Templates\\${template}.lab"
+    /D="C:\\Users\\Public\\Documents\\GoDEX\\GoLabel II\\Templates\\${template}.csv"
+    /P /X /S`;
+
+  exec(command, (err, stdout, stderr) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log(stdout);
+  });
+}
