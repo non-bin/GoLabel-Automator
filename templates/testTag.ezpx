@@ -548,7 +548,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>339.204559</BoundRectWidth>
-        <DispData>asd</DispData>
+        <DispData>Up Quad</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F00</Data>
         <ItemInfoList>
@@ -597,7 +597,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>125</BoundRectWidth>
-        <DispData>ASD-2</DispData>
+        <DispData>IUPQUAD-3</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F01</Data>
         <ItemInfoList>
@@ -647,7 +647,7 @@
           <BoundRectWidth>100.1</BoundRectWidth>
           <DispData>1234</DispData>
           <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
-          <Data>ASD-2</Data>
+          <Data>IUPQUAD-3</Data>
           <ItemInfoList />
           <BoundRectHeight>100.3</BoundRectHeight>
           <BoundRect>

@@ -1,0 +1,50 @@
+.loading {
+  animation-name: loading;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+  animation-timing-function: ease;
+}
+
+.success {
+  animation-name: success;
+  animation-duration: 1s;
+  animation-iteration-count: 2;
+  animation-direction: alternate-reverse;
+  animation-timing-function: ease;
+}
+
+.failure {
+  animation-name: failure;
+  animation-duration: 2s;
+  animation-iteration-count: 2;
+  animation-direction: alternate-reverse;
+  animation-timing-function: ease;
+}
+
+@keyframes loading {
+  0% {
+    background-color: #d0d0ff;
+  }
+  100% {
+    background-color: #ffffff;
+  }
+}
+
+@keyframes success {
+  0% {
+    background-color: #aaffc4;
+  }
+  100% {
+    background-color: #ffffff;
+  }
+}
+
+@keyframes failure {
+  0% {
+    background-color: #fd8383;
+  }
+  100% {
+    background-color: #ffffff;
+  }
+}

@@ -2,7 +2,7 @@ const http = require('http');
 const url = require('url');
 const fs = require('fs');
 const path = require('path');
-const { exec } = require('child_process');
+const child_process = require('child_process');
 
 const port = process.argv[2] || 80;
 
@@ -23,9 +23,8 @@ http.createServer(function (req, res) {
 
     req.on('end', function () {
       let data = JSON.parse(body);
-      createDB(data.template, data.values, () => {
-        print(data.template, data.whiteOnBlack);
-      });
+      createDB(data.template, data.values);
+      print(data.template, data.whiteOnBlack);
 
       res.statusCode = 200;
       res.end(`All Good :)`);
@@ -113,38 +112,23 @@ function createDB(template, values, callback) {
       return false;
   }
 
-  fs.writeFile(`db.csv`, csv, function (err) {
-    if (err) {
-      console.error(err);
-      return false;
-    }
-    console.log('wrote db');
-
-    callback();
-  });
+  fs.writeFileSync(`db.csv`, csv);
 }
 
 function print(template, whiteOnBlack) {
 
   let command = `"C:\\Program Files (x86)\\GoDEX\\GoLabel II\\GoLabel.exe" -f ".\\templates${whiteOnBlack ? '\\inverses' : ''}\\${template}.ezpx" -db ".\\db.csv"`;
 
-    console.log(command);
-
-  console.log('printing');
-  exec(command, (err, stdout, stderr) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log('done');
-  });
+  console.log(`Printing ${template} ${whiteOnBlack ? 'inverses' : ''}`);
+  child_process.execSync(command);
+  console.log('Done');
 }
 generateInverses();
 function generateInverses() {
   const speed = 2;
   const darkness = 1;
 
-  console.log('generating inverses');
+  console.log('Generating inverses');
 
   fs.rm('./templates/inverses/', {recursive: true, force: true}, (err) => {
     if (err) {
@@ -195,7 +179,7 @@ function generateInverses() {
                   return;
                 }
 
-                console.log(`wrote ${entry.name}`);
+                console.log(`Wrote ${entry.name}`);
               });
             });
           }

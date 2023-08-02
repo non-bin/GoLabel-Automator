@@ -39,6 +39,9 @@ function generateBarcodes(barcodePrefix, barcodeStart, barcodeEnd, leader) {
   barcodeStart = parseInt(barcodeStart);
   barcodeEnd = parseInt(barcodeEnd);
 
+  if (!isNaN(barcodeStart) && isNaN(barcodeEnd)) {
+    barcodeEnd = barcodeStart;
+  }
   if (isNaN(barcodeStart)) {
     quantity = barcodeEnd || 1;
   } else {
@@ -78,6 +81,10 @@ function sendForPrint(values, template, whiteOnBlack) {
     whiteOnBlack: whiteOnBlack
   });
 
+  document.querySelector('body').classList.add('loading');
+  document.querySelector('body').classList.remove('success');
+  document.querySelector('body').classList.remove('failure');
+
   var printPromise = fetch('/print', {
     method: 'POST',
     headers: {
@@ -91,10 +98,15 @@ function sendForPrint(values, template, whiteOnBlack) {
   console.log('Sent');
 
   printPromise.then(function (response) {
+    document.querySelector('body').classList.remove('loading');
+    document.querySelector('body').classList.add('success');
     var responseText = response.text();
     console.log(responseText);
     return response.text(responseText);
   }, function (error) {
-    console.log(error.message);
+    document.querySelector('body').classList.remove('loading');
+    document.querySelector('body').classList.add('failure');
+
+    console.error(error.message);
   });
 }
