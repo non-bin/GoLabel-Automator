@@ -2,7 +2,6 @@ const http = require('http');
 const url = require('url');
 const fs = require('fs');
 const path = require('path');
-const { type } = require('os');
 const { exec } = require('child_process');
 
 const port = process.argv[2] || 80;
@@ -24,8 +23,9 @@ http.createServer(function (req, res) {
 
     req.on('end', function () {
       let data = JSON.parse(body);
-      createDB(data.template, data.values);
-      // print(data.template, data.whiteOnBlack);
+      createDB(data.template, data.values, () => {
+        print(data.template, data.whiteOnBlack);
+      });
 
       res.statusCode = 200;
       res.end(`All Good :)`);
@@ -36,7 +36,7 @@ http.createServer(function (req, res) {
     let pathname = `./src/www/${parsedUrl.pathname}`;
     // based on the URL path, extract the file extension. e.g. .js, .doc, ...
     const ext = path.parse(pathname).ext || ".html";
-    // maps file extension to MIME typere
+    // maps file extension to MIME type
     const map = {
       '.ico': 'image/x-icon',
       '.html': 'text/html',
@@ -96,7 +96,7 @@ JSON.safeStringify = (obj, indent = 2) => {
   return retVal;
 };
 
-function createDB(template, values) {
+function createDB(template, values, callback) {
   var csv = '';
 
   switch (template) {
@@ -109,31 +109,98 @@ function createDB(template, values) {
       break;
 
     default:
-      console.log(`No template found for ${template}`);
+      console.error(`No template found for ${template}`);
       return false;
   }
 
   fs.writeFile(`db.csv`, csv, function (err) {
     if (err) {
-      console.log(err);
+      console.error(err);
       return false;
     }
     console.log('wrote db');
+
+    callback();
   });
 }
 
 function print(template, whiteOnBlack) {
-  let command = `
-    "C:\\Program Files (x86)\\GoDEX\\GoLabel II\\GoLabel.exe"
-    /F="C:\\Users\\Public\\Documents\\GoDEX\\GoLabel II\\Templates\\${template}.lab"
-    /D="C:\\Users\\Public\\Documents\\GoDEX\\GoLabel II\\Templates\\${template}.csv"
-    /P /X /S`;
 
+  let command = `"C:\\Program Files (x86)\\GoDEX\\GoLabel II\\GoLabel.exe" -f ".\\templates${whiteOnBlack ? '\\inverses' : ''}\\${template}.ezpx" -db ".\\db.csv"`;
+
+    console.log(command);
+
+  console.log('printing');
   exec(command, (err, stdout, stderr) => {
     if (err) {
-      console.log(err);
+      console.error(err);
       return;
     }
-    console.log(stdout);
+    console.log('done');
+  });
+}
+generateInverses();
+function generateInverses() {
+  const speed = 2;
+  const darkness = 1;
+
+  console.log('generating inverses');
+
+  fs.rm('./templates/inverses/', {recursive: true, force: true}, (err) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    fs.mkdir('./templates/inverses/', (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      fs.readdir('./templates', {withFileTypes: true}, (err, entries) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+
+        entries.forEach(entry => {
+          if (entry.isFile() && entry.name.indexOf('ezpn')) {
+            fs.readFile(`./templates/${entry.name}`, 'utf8', (err, data) => {
+              if (err) {
+                console.error(err);
+                return;
+              }
+
+              var newData = data.replace('</qlabel>', `  <GraphicShape xsi:type="Line" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" Alignment="Left" AlignPointX="0" AlignPointY="0">
+                    <qHitOnCircumferance>false</qHitOnCircumferance>
+                    <Selected>true</Selected>
+                    <iBackground_color>4294967295</iBackground_color>
+                    <Id>12</Id>
+                    <ItemLabel>None12</ItemLabel>
+                    <ObjectDrawMode>FW</ObjectDrawMode>
+                    <Name>L</Name>
+                    <GroupID>0</GroupID>
+                    <GroupSelected>false</GroupSelected>
+                    <lineShape>FillRect</lineShape>
+                    <Height>819.5402</Height>
+                    <Operation>101</Operation>
+                    <Width>361.494263</Width>
+                  </GraphicShape>
+                </qlabel>`)
+                .replace(/(<Setup.*Speed=")\d+(.*Darkness=")\d+(.*)/, `$1${speed}$2${darkness}$3` )
+
+              fs.writeFile(`./templates/inverses/${entry.name}`, newData, {flag: 'wx'}, (err) => {
+                if (err) {
+                  console.error(err);
+                  return;
+                }
+
+                console.log(`wrote ${entry.name}`);
+              });
+            });
+          }
+        });
+      });
+    });
   });
 }
