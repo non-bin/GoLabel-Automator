@@ -1,27 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GoLabel Automator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <link rel="stylesheet" href="index.css">
 </head>
-<body>
-  <div class="input">
-    <input type="text" oninput="processInput('deviceNameInput')" placeholder="Device Name" name="deviceName" id="deviceNameInput">
-    <input type="text" oninput="processInput('barcodePrefixInput')" placeholder="Barcode Prefix" name="barcodePrefix" id="barcodePrefixInput">
-    <input type="number" oninput="processInput('retestPeriodInput')" placeholder="Retest Period" name="retestPeriod" id="retestPeriodInput">
-    <input type="number" oninput="processInput('barcodeStartInput')" placeholder="Barcode Number Start (Optional)" name="barcodeStart" id="barcodeStartInput">
-    <input type="number" oninput="processInput('barcodeEndInput')" placeholder="Quantity" name="barcodeEnd" id="barcodeEndInput">
-    <button onclick="print(false)">Print</button>
-    <button onclick="print(true)" style=" background: black; color: white;">Print</button>
-  </div>
+<body data-bs-theme="dark">
+  <nav class="navbar navbar-expand bg-body-tertiary">
+    <div class="container">
+      <a class="navbar-brand" href="#">Test Tag</a>
+      <div>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu" aria-labelledby="dropdownId">
+              <a class="dropdown-item" href="#">Action 1</a>
+              <a class="dropdown-item" href="#">Action 2</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-  <div class="preview">
-    <table id="previewTable">
-    </table>
+
+  <div class="container mt-3">
+    <div class="input">
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="deviceNameLabel">Device Name</span>
+        <input id="deviceNameInput" type="text" class="form-control" oninput="processInput('deviceNameInput')"
+          placeholder="Legend H4 IP Upquad" aria-label="Device Name" aria-describedby="deviceNameLabel">
+      </div>
+
+      <div class="mb-3">
+        <div class="input-group">
+          <span class="input-group-text" id="barcodePrefixLabel">Barcode Prefix</span>
+          <input id="barcodePrefixInput" type="text" class="form-control" oninput="processInput('barcodePrefixInput')"
+            placeholder="H4UPQUAD-" aria-label="Barcode Prefix" aria-describedby="barcodePrefixLabel">
+        </div>
+        <small id="barcodePrefixHelp" class="form-text text-muted">Include a "-" at the end if using numbers, eg "ABC-" -> ABC-1 ABC-2</small>
+      </div>
+
+      <div class="mb-3">
+        <div class="input-group">
+          <span class="input-group-text" id="retestPeriodLabel">Retest Period</span>
+          <input id="retestPeriodInput" type="number" class="form-control" oninput="processInput('retestPeriodInput')"
+            placeholder="12" aria-label="Retest Period" aria-describedby="retestPeriodLabel">
+        </div>
+        <small id="retestPeriodHelp" class="form-text text-muted">In months, leave blank for 12</small>
+      </div>
+
+      <div class="mb-3">
+        <div class="input-group">
+          <span class="input-group-text" id="barcodeStartLabel">Barcode Number Start</span>
+          <input id="barcodeStartInput" type="number" class="form-control" oninput="processInput('barcodeStartInput')"
+            placeholder="3" aria-label="Barcode Number Start" aria-describedby="barcodeStartLabel">
+        </div>
+        <small id="barcodeStartHelp" class="form-text text-muted">Leave blank to start at 1</small>
+      </div>
+
+      <div class="mb-3">
+        <div class="input-group">
+          <span class="input-group-text" id="barcodeEndLabel">Quantity</span>
+          <input id="barcodeEndInput" type="number" class="form-control" oninput="processInput('barcodeEndInput')"
+            placeholder="10" aria-label="Quantity" aria-describedby="barcodeEndLabel">
+        </div>
+        <small id="barcodeEndHelp" class="form-text text-muted">Leave blank for just 1</small>
+      </div>
+
+      <span class="mt-5">
+        <button type="button" class="btnPrintBoW btn" onclick="print(false, true)" aria-label="Save Database Only">Save DB</button>
+        <button type="button" class="btnPrintBoW btn btn-light" onclick="print(false)" aria-label="Print black on white">Print</button>
+        <button type="button" class="btnPrintWoB btn btn-dark" onclick="print(true)" aria-label="Print white on black">Print</button>
+        <span class="dropdown">
+          <button class="btn dropdown-toggle" type="button" id="labelSelectorDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Large
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="labelSelectorDropdown">
+            <li><a class="dropdown-item active" href="#" onclick="processInput('largeLabel')">Large</a></li>
+            <li><a class="dropdown-item" href="#" onclick="processInput('smallLabel')">Small</a></li>
+          </ul>
+        </span>
+        <div class="spinner-border align-middle d-none" id="loadingSpinner" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </span>
+    </div>
+
+    <div class="preview mt-1">
+      <table class="table" id="previewTable">
+      </table>
+    </div>
   </div>
 
   <script src="index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>

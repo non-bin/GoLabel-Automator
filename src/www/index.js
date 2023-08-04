@@ -3,9 +3,9 @@ function processInput(field) {
 
   if (field == 'barcodeStartInput') {
     if (value == '') {
-      document.getElementById('barcodeEndInput').placeholder = 'Quantity';
+      document.getElementById('barcodeEndLabel').innerText = 'Quantity';
     } else {
-      document.getElementById('barcodeEndInput').placeholder = 'Barcode Number End';
+      document.getElementById('barcodeEndLabel').innerText = 'Barcode Number End';
     }
   }
 
@@ -13,7 +13,7 @@ function processInput(field) {
   var barcodePrefix = document.getElementById('barcodePrefixInput').value;
   var barcodeStart = document.getElementById('barcodeStartInput').value;
   var barcodeEnd = document.getElementById('barcodeEndInput').value;
-  var retestPeriod = document.getElementById('retestPeriodInput').value;
+  var retestPeriod = document.getElementById('retestPeriodInput').value || 12;
 
   updateTable(deviceName, generateBarcodes(barcodePrefix, barcodeStart, barcodeEnd), retestPeriod);
 }
@@ -23,7 +23,7 @@ function print(whiteOnBlack) {
   var barcodePrefix = document.getElementById('barcodePrefixInput').value;
   var barcodeStart = document.getElementById('barcodeStartInput').value;
   var barcodeEnd = document.getElementById('barcodeEndInput').value;
-  var retestPeriod = document.getElementById('retestPeriodInput').value;
+  var retestPeriod = document.getElementById('retestPeriodInput').value || 12;
 
   sendForPrint({
     deviceName: deviceName,
@@ -68,7 +68,7 @@ function updateTable(deviceName, barcodes, retestPeriod) {
   var previewTableBody = '<tr><th>Device Name</th><th>Barcode</th><th>Retest Period</th></tr>';
 
   for (let i = 0; i < barcodes.length; i++) {
-    previewTableBody += `<tr><td>${deviceName}</td><td>${barcodes[i]}</td><td>${retestPeriod}</td></tr>`;
+    previewTableBody += `<tr><td><input type="text" class="form-control" value="${deviceName}"></td><td><input type="text" class="form-control" value="${barcodes[i]}"></td><td><input type="text" class="form-control" value="${retestPeriod || 12}"></td></tr>`;
   }
 
   document.getElementById('previewTable').innerHTML = previewTableBody;
@@ -81,9 +81,7 @@ function sendForPrint(values, template, whiteOnBlack) {
     whiteOnBlack: whiteOnBlack
   });
 
-  document.querySelector('body').classList.add('loading');
-  document.querySelector('body').classList.remove('success');
-  document.querySelector('body').classList.remove('failure');
+  loading(true);
 
   var printPromise = fetch('/print', {
     method: 'POST',
@@ -98,15 +96,21 @@ function sendForPrint(values, template, whiteOnBlack) {
   console.log('Sent');
 
   printPromise.then(function (response) {
-    document.querySelector('body').classList.remove('loading');
-    document.querySelector('body').classList.add('success');
+    loading(false);
     var responseText = response.text();
     console.log(responseText);
     return response.text(responseText);
   }, function (error) {
-    document.querySelector('body').classList.remove('loading');
-    document.querySelector('body').classList.add('failure');
+    loading(false);
 
     console.error(error.message);
   });
+}
+
+function loading(bool) {
+  if (bool) {
+    document.getElementById("loadingSpinner").classList.remove('d-none');
+  } else {
+    document.getElementById("loadingSpinner").classList.add('d-none');
+  }
 }
