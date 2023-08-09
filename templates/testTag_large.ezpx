@@ -548,7 +548,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>339.204559</BoundRectWidth>
-        <DispData>Art 410A White Speaker</DispData>
+        <DispData>0</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F00</Data>
         <ItemInfoList>
@@ -597,7 +597,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>125</BoundRectWidth>
-        <DispData>ART410AW-1</DispData>
+        <DispData>1</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F01</Data>
         <ItemInfoList>
@@ -647,7 +647,7 @@
           <BoundRectWidth>100.1</BoundRectWidth>
           <DispData>1234</DispData>
           <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
-          <Data>ART410AW-1</Data>
+          <Data>1</Data>
           <ItemInfoList />
           <BoundRectHeight>100.3</BoundRectHeight>
           <BoundRect>
@@ -790,8 +790,8 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <DateFormat>me.dd.y4</DateFormat>
-        <BoundRectWidth>205.664063</BoundRectWidth>
-        <DispData>Aug.04.2023M12</DispData>
+        <BoundRectWidth>190.647949</BoundRectWidth>
+        <DispData>Aug.09.2023M2</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^D+M^F02</Data>
         <ItemInfoList />
@@ -802,12 +802,12 @@
             <Y>536.465332</Y>
           </Location>
           <Size>
-            <Width>205.664063</Width>
+            <Width>190.647949</Width>
             <Height>30.1640625</Height>
           </Size>
           <X>172.587463</X>
           <Y>536.465332</Y>
-          <Width>205.664063</Width>
+          <Width>190.647949</Width>
           <Height>30.1640625</Height>
         </BoundRect>
         <NormalRatio>true</NormalRatio>
@@ -837,7 +837,7 @@
         <Prompt>None</Prompt>
         <DateFormat>me.dd.y4</DateFormat>
         <BoundRectWidth>153.140625</BoundRectWidth>
-        <DispData>Aug.04.2023</DispData>
+        <DispData>Aug.09.2023</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^D</Data>
         <ItemInfoList>
@@ -984,7 +984,7 @@
     <IntegratedSecurity>false</IntegratedSecurity>
     <RowIndex>0</RowIndex>
   </Label>
-  <Setup bInfinityPrint="false" LabelLength="102" LabelWidth="45" LeftMargin="0" TopMargin="0" LabelType="0" GapLength="3" FeedLength="0" ZSign="45" BlackMark="0" Position="0" Speed="4" Copy="1" bCopyDataBase="false" CopyField="^F03" Stripper="0" LabelsPerCut="0" DoubleCut_Enable="false" DoubleCut_OffsetLen="0" DoubleCut_FirstCutMode="1" Rotate180="255" Stop="13" Darkness="8" Number="1" bCutDataBase="false" bBatchCut="false" bNumberDataBase="false" NumberField="None" PageDirection="Portrait" PrintMode="0" PowerRFID="0" LengthRFID="-1" RetryRFID="1" DrawMode="0">
+  <Setup bInfinityPrint="false" LabelLength="102" LabelWidth="45" LeftMargin="0" TopMargin="0" LabelType="0" GapLength="3" FeedLength="0" ZSign="45" BlackMark="0" Position="0" Speed="3" Copy="1" bCopyDataBase="false" CopyField="^F00" Stripper="0" LabelsPerCut="0" DoubleCut_Enable="false" DoubleCut_OffsetLen="0" DoubleCut_FirstCutMode="1" Rotate180="255" Stop="13" Darkness="8" Number="1" bCutDataBase="false" bBatchCut="false" bNumberDataBase="false" NumberField="None" PageDirection="Portrait" PrintMode="0" PowerRFID="0" LengthRFID="-1" RetryRFID="1" DrawMode="0">
     <Layout Shape="2" AcrossType="Copied" PageDirection="Portrait" HorAcross="1" VerAcross="1" HorGap="0" VerGap="0" HorAcrossMode1="1" VerAcrossMode1="1" LabelMode="0" HorGapMode1="0" VerGapMode1="0" BottomMargin="0" RightMargin="0" />
     <Description>&#x0;
 Lang:(en-US) OS:Microsoft Windows NT 10.0.19045.0(Win32NT)</Description>

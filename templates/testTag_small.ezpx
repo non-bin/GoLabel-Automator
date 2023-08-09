@@ -577,9 +577,9 @@
         <Angle>0</Angle>
         <Binverse>false</Binverse>
       </GraphicShape>
-      <GraphicShape xsi:type="GdiWindowTextBox" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="8.482758" Y="68.60396" Alignment="Center" AlignPointX="8.482758" AlignPointY="71.60396" FontScript="Default" AutoFontResize="false" FontCmd="Arial,8&#xD;&#xA;" LineSpacing="Single" bSpaceCropping="false" LineHeight="27" Multiple="10" DotBeforePara="0" DotAfterPara="0" FontWidth="11" TextSpace="0" BoundingAlignment="Center">
+      <GraphicShape xsi:type="GdiWindowTextBox" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="8.482757" Y="68.60396" Alignment="Center" AlignPointX="8.482757" AlignPointY="68.60396" FontScript="Default" AutoFontResize="false" FontCmd="Arial,8&#xD;&#xA;" LineSpacing="Single" bSpaceCropping="false" LineHeight="27" Multiple="10" DotBeforePara="0" DotAfterPara="0" FontWidth="11" TextSpace="0" BoundingAlignment="Center">
         <qHitOnCircumferance>false</qHitOnCircumferance>
-        <Selected>true</Selected>
+        <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
         <Id>22</Id>
         <ItemLabel>GdiWindowTextBox_22</ItemLabel>
@@ -600,7 +600,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>323.0345</BoundRectWidth>
-        <DispData> </DispData>
+        <DispData>Short LED Pixel Bars</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F00</Data>
         <ItemInfoList>
@@ -612,14 +612,14 @@
         <BoundRectHeight>65.8788</BoundRectHeight>
         <BoundRect>
           <Location>
-            <X>8.482758</X>
+            <X>8.482757</X>
             <Y>68.60396</Y>
           </Location>
           <Size>
             <Width>323.0345</Width>
             <Height>65.8788</Height>
           </Size>
-          <X>8.482758</X>
+          <X>8.482757</X>
           <Y>68.60396</Y>
           <Width>323.0345</Width>
           <Height>65.8788</Height>
@@ -649,7 +649,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>100</BoundRectWidth>
-        <DispData> </DispData>
+        <DispData>LEDBARSH</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F01</Data>
         <ItemInfoList>
@@ -658,7 +658,7 @@
             <ItemData>^F01</ItemData>
           </Item>
         </ItemInfoList>
-        <BoundRectHeight>100</BoundRectHeight>
+        <BoundRectHeight>118</BoundRectHeight>
         <BoundRect>
           <Location>
             <X>48.30459</X>
@@ -666,12 +666,12 @@
           </Location>
           <Size>
             <Width>100</Width>
-            <Height>100</Height>
+            <Height>118</Height>
           </Size>
           <X>48.30459</X>
           <Y>137.512939</Y>
           <Width>100</Width>
-          <Height>100</Height>
+          <Height>118</Height>
         </BoundRect>
         <BLegacy>true</BLegacy>
         <MultiLineCaption Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="4" Y="4" Alignment="Left" AlignPointX="0" AlignPointY="0" FontScript="Default" FontCmd="Microsoft Sans Serif,24&#xD;&#xA;" LineSpacing="Single" LineHeight="0" Multiple="10" DotBeforePara="0" DotAfterPara="0" FontWidth="24" BTrueType="true">
@@ -699,7 +699,7 @@
           <BoundRectWidth>100.1</BoundRectWidth>
           <DispData>1234</DispData>
           <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
-          <Data> </Data>
+          <Data>LEDBARSH</Data>
           <ItemInfoList />
           <BoundRectHeight>100.3</BoundRectHeight>
           <BoundRect>
@@ -848,15 +848,10 @@
         <Prompt>None</Prompt>
         <DateFormat>me.dd.y4</DateFormat>
         <BoundRectWidth>167.578125</BoundRectWidth>
-        <DispData>Aug.04.2023M12</DispData>
+        <DispData>Aug.09.2023M12</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^D+M^F02</Data>
-        <ItemInfoList>
-          <Item>
-            <ItemSymbol>1</ItemSymbol>
-            <ItemData>^D+M^F02</ItemData>
-          </Item>
-        </ItemInfoList>
+        <ItemInfoList />
         <BoundRectHeight>24.578125</BoundRectHeight>
         <BoundRect>
           <Location>
@@ -899,7 +894,7 @@
         <Prompt>None</Prompt>
         <DateFormat>me.dd.y4</DateFormat>
         <BoundRectWidth>124.78125</BoundRectWidth>
-        <DispData>Aug.04.2023</DispData>
+        <DispData>Aug.09.2023</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^D</Data>
         <ItemInfoList>
@@ -994,7 +989,7 @@
     <IntegratedSecurity>false</IntegratedSecurity>
     <RowIndex>0</RowIndex>
   </Label>
-  <Setup bInfinityPrint="false" LabelLength="99.5" LabelWidth="43" LeftMargin="0" TopMargin="0" LabelType="0" GapLength="3" FeedLength="0" ZSign="45" BlackMark="0" Position="0" Speed="2" Copy="1" bCopyDataBase="false" CopyField="^F03" Stripper="0" LabelsPerCut="0" DoubleCut_Enable="false" DoubleCut_OffsetLen="0" DoubleCut_FirstCutMode="1" Rotate180="255" Stop="13" Darkness="1" Number="1" bCutDataBase="false" bBatchCut="false" bNumberDataBase="false" NumberField="None" PageDirection="Portrait" PrintMode="0" PowerRFID="0" LengthRFID="-1" RetryRFID="1" DrawMode="0">
+  <Setup bInfinityPrint="false" LabelLength="99.5" LabelWidth="43" LeftMargin="0" TopMargin="0" LabelType="0" GapLength="3" FeedLength="0" ZSign="45" BlackMark="0" Position="0" Speed="3" Copy="1" bCopyDataBase="false" CopyField="^F03" Stripper="0" LabelsPerCut="0" DoubleCut_Enable="false" DoubleCut_OffsetLen="0" DoubleCut_FirstCutMode="1" Rotate180="255" Stop="13" Darkness="10" Number="1" bCutDataBase="false" bBatchCut="false" bNumberDataBase="false" NumberField="None" PageDirection="Portrait" PrintMode="0" PowerRFID="0" LengthRFID="-1" RetryRFID="1" DrawMode="0">
     <Layout Shape="2" AcrossType="LeftToRight" PageDirection="Portrait" HorAcross="1" VerAcross="3" HorGap="0" VerGap="0" HorAcrossMode1="1" VerAcrossMode1="1" LabelMode="0" HorGapMode1="0" VerGapMode1="0" BottomMargin="0" RightMargin="0" />
     <Description>&#x0;
 Lang:(en-US) OS:Microsoft Windows NT 10.0.19045.0(Win32NT)</Description>

@@ -23,8 +23,16 @@ http.createServer(function (req, res) {
 
     req.on('end', function () {
       let data = JSON.parse(body);
-      createDB(data.template, data.values);
-      print(data.template, data.whiteOnBlack);
+
+      let template = sanitize(data.template, ['testTag', 'assetTag']);
+      let variant = sanitize(data.variant, ['small', 'large', 'dbOnly']);
+
+      createDB(template, data.values);
+      if (variant === 'dbOnly') {
+        console.log(`Saved ${template} db only`);
+      } else {
+        print(template, variant, data.whiteOnBlack);
+      }
 
       res.statusCode = 200;
       res.end(`All Good :)`);
@@ -36,7 +44,7 @@ http.createServer(function (req, res) {
     // based on the URL path, extract the file extension. e.g. .js, .doc, ...
     const ext = path.parse(pathname).ext || ".html";
     // maps file extension to MIME type
-    const map = {
+    const docTypeMap = {
       '.ico': 'image/x-icon',
       '.html': 'text/html',
       '.js': 'text/javascript',
@@ -69,7 +77,7 @@ http.createServer(function (req, res) {
           res.end(`Error getting the file: ${err}.`);
         } else {
           // if the file is found, set Content-type and send data
-          res.setHeader('Content-type', map[ext] || 'text/plain' );
+          res.setHeader('Content-type', docTypeMap[ext] || 'text/plain' );
           res.end(data);
         }
       });
@@ -103,7 +111,7 @@ function createDB(template, values, callback) {
       csv += 'NAME,ID,RETEST\n';
 
       for (let i = 0; i < values.barcodes.length; i++) {
-        csv += `${values.deviceName},${values.barcodes[i]},${values.retestPeriod}\n`;
+        csv += `${values.deviceNames[i]},${values.barcodes[i]},${values.retestPeriods[i]}\n`;
       }
       break;
 
@@ -115,11 +123,12 @@ function createDB(template, values, callback) {
   fs.writeFileSync(`db.csv`, csv);
 }
 
-function print(template, whiteOnBlack) {
+function print(template, variant, whiteOnBlack) {
+  let templateFile = `${template}_${variant}`;
 
-  let command = `"C:\\Program Files (x86)\\GoDEX\\GoLabel II\\GoLabel.exe" -f ".\\templates${whiteOnBlack ? '\\inverses' : ''}\\${template}.ezpx" -db ".\\db.csv"`;
+  let command = `"C:\\Program Files (x86)\\GoDEX\\GoLabel II\\GoLabel.exe" -f ".\\templates${whiteOnBlack ? '\\inverses' : ''}\\${templateFile}.ezpx" -db ".\\db.csv"`;
 
-  console.log(`Printing ${template} ${whiteOnBlack ? 'inverses' : ''}`);
+  console.log(`Printing ${templateFile} ${whiteOnBlack ? 'inverses' : ''}`);
   child_process.execSync(command);
   console.log('Done');
 }
@@ -187,4 +196,18 @@ function generateInverses() {
       });
     });
   });
+}
+
+function sanitize(input, options) {
+  if (typeof input != 'string') {
+    return undefined;
+  }
+
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].toLowerCase() == input.toLowerCase()) {
+      return options[i];
+    }
+  }
+
+  return undefined;
 }

@@ -75,12 +75,10 @@
         <button type="button" class="btnPrintBoW btn btn-light" onclick="print(false)" aria-label="Print black on white">Print</button>
         <button type="button" class="btnPrintWoB btn btn-dark" onclick="print(true)" aria-label="Print white on black">Print</button>
         <span class="dropdown">
-          <button class="btn dropdown-toggle" type="button" id="labelSelectorDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            Large
-          </button>
+          <button class="btn dropdown-toggle" type="button" id="labelSelectorDropdown" data-bs-toggle="dropdown" aria-expanded="false">Large</button>
           <ul class="dropdown-menu" aria-labelledby="labelSelectorDropdown">
-            <li><a class="dropdown-item active" href="#" onclick="processInput('largeLabel')">Large</a></li>
-            <li><a class="dropdown-item" href="#" onclick="processInput('smallLabel')">Small</a></li>
+            <li><a class="dropdown-item labelSelectorItems active" id="labelSelectorLarge" href="#" onclick="processInput('labelSelector', 'Large')">Large</a></li>
+            <li><a class="dropdown-item labelSelectorItems" id="labelSelectorSmall" href="#" onclick="processInput('labelSelector', 'Small')">Small</a></li>
           </ul>
         </span>
         <div class="spinner-border align-middle d-none" id="loadingSpinner" role="status">
@@ -91,6 +89,28 @@
 
     <div class="preview mt-1">
       <table class="table" id="previewTable">
+        <tr>
+          <th>
+            Device Name
+          </th>
+          <th>
+            Barcode
+          </th>
+          <th>
+            Retest Period
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <input oninput="processInput('table', this)" type="text" class="form-control">
+          </td>
+          <td>
+            <input oninput="processInput('table', this)" type="text" class="form-control">
+          </td>
+          <td>
+            <input oninput="processInput('table', this)" type="text" class="form-control">
+          </td>
+        </tr>
       </table>
     </div>
   </div>
