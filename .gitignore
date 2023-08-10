@@ -1,6 +1,4 @@
-db.csv
-schema.ini
-templates/inverses/
+tmp/
 
 ## GitHub NodeJS Template
 # Logs

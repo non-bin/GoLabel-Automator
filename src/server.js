@@ -120,18 +120,27 @@ function createDB(template, values, callback) {
       return false;
   }
 
-  fs.writeFileSync(`db.csv`, csv);
+  fs.writeFileSync(`./tmp/db.csv`, csv);
 }
 
 function print(template, variant, whiteOnBlack) {
   let templateFile = `${template}_${variant}`;
 
-  let command = `"C:\\Program Files (x86)\\GoDEX\\GoLabel II\\GoLabel.exe" -f ".\\templates${whiteOnBlack ? '\\inverses' : ''}\\${templateFile}.ezpx" -db ".\\db.csv"`;
+  switch (process.platform) {
+    case 'win32':
+      let command = `"C:\\Program Files (x86)\\GoDEX\\GoLabel II\\GoLabel.exe" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}.ezpx" -db ".\\tmp\\db.csv"`;
+      break;
+
+    default:
+      throw new Error(`Unsupported platform ${process.platform}`);
+      break;
+  }
 
   console.log(`Printing ${templateFile} ${whiteOnBlack ? 'inverses' : ''}`);
   child_process.execSync(command);
   console.log('Done');
 }
+
 generateInverses();
 function generateInverses() {
   const speed = 2;
@@ -139,13 +148,14 @@ function generateInverses() {
 
   console.log('Generating inverses');
 
-  fs.rm('./templates/inverses/', {recursive: true, force: true}, (err) => {
+  fs.rm('./tmp/inverses/', {recursive: true, force: true}, (err) => {
     if (err) {
       console.error(err);
       return;
     }
 
-    fs.mkdir('./templates/inverses/', (err) => {
+    // Create inverses directory recursively
+    fs.mkdir('./tmp/inverses/', {recursive: true}, (err) => {
       if (err) {
         console.error(err);
         return;
@@ -182,13 +192,13 @@ function generateInverses() {
                 </qlabel>`)
                 .replace(/(<Setup.*Speed=")\d+(.*Darkness=")\d+(.*)/, `$1${speed}$2${darkness}$3` )
 
-              fs.writeFile(`./templates/inverses/${entry.name}`, newData, {flag: 'wx'}, (err) => {
+              fs.writeFile(`./tmp/inverses/${entry.name}`, newData, {flag: 'wx'}, (err) => {
                 if (err) {
                   console.error(err);
                   return;
                 }
 
-                console.log(`Wrote ${entry.name}`);
+                console.log(`Wrote ./tmp/inverses/${entry.name}`);
               });
             });
           }
