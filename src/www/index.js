@@ -1,4 +1,8 @@
 var labelSelectorValue = 'Large';
+const tableListener = function () {
+  processInput('table', 'lastRow', this);
+};
+updateTableListeners();
 
 function processInput(field, ...params) {
   if (field == 'labelSelector') {
@@ -13,11 +17,14 @@ function processInput(field, ...params) {
     document.getElementById('labelSelectorDropdown').innerText = labelSelectorValue;
   } else if (field == 'table') {
     if (params[0] == 'lastRow') {
-      // if the last row is not empty
-      if (document.querySelector('#previewTable tbody tr:last-child td:first-child input').value != '') {
-        document.querySelector('#previewTable tbody').appendChild(document.createElement('tr')).innerHTML = '<td><input oninput="processInput(\'table\', this)" type="text" class="form-control" value=""></td><td><input oninput="processInput(\'table\', this)" type="text" class="form-control" value=""></td><td><input oninput="processInput(\'table\', this)" type="text" class="form-control" value=""></td>';
+      const rowInputs = params[1].parentElement.parentElement.querySelectorAll('input');
+
+      for (const input of rowInputs) {
+        if (input.value != '') {
+          document.querySelector('#previewTable tbody').appendChild(document.createElement('tr')).innerHTML = '<td><input type="text" class="form-control" value=""></td><td><input type="text" class="form-control" value=""></td><td><input type="text" class="form-control" value=""></td>';
+          updateTableListeners();
+        }
       }
-      document.querySelector('#previewTable tbody').appendChild(document.createElement('tr')).innerHTML = '<td><input oninput="processInput(\'table\', this)" type="text" class="form-control" value=""></td><td><input oninput="processInput(\'table\', this)" type="text" class="form-control" value=""></td><td><input oninput="processInput(\'table\', this)" type="text" class="form-control" value=""></td>';
     }
   } else {
     var value = document.getElementById(field).value;
@@ -84,10 +91,14 @@ function updateTable(deviceName, barcodes, retestPeriod) {
   var previewTableBody = '<tr><th>Device Name</th><th>Barcode</th><th>Retest Period</th></tr>';
 
   for (let i = 0; i < barcodes.length; i++) {
-    previewTableBody += `<tr><td><input oninput="processInput('table', this)" type="text" class="form-control" value="${deviceName}"></td><td><input oninput="processInput('table', this)" type="text" class="form-control" value="${barcodes[i]}"></td><td><input oninput="processInput('table', this)" type="text" class="form-control" value="${retestPeriod || 12}"></td></tr>`;
+    previewTableBody += `<tr><td><input type="text" class="form-control" value="${deviceName}"></td><td><input type="text" class="form-control" value="${barcodes[i]}"></td><td><input type="text" class="form-control" value="${retestPeriod || 12}"></td></tr>`;
   }
 
+  // add an empty row to the end
+  previewTableBody += `<tr><td><input type="text" class="form-control"></td><td><input type="text" class="form-control"></td><td><input type="text" class="form-control"></td></tr>`;
   document.getElementById('previewTable').innerHTML = previewTableBody;
+
+  updateTableListeners();
 }
 
 function sendForPrint(values, template, variant, whiteOnBlack) {
@@ -145,8 +156,8 @@ function readTable(whiteOnBlack) {
     retestPeriods.push(0);
   }
 
-  // Skip the header row
-  for (let i = 1; i < rows.length; i++) {
+  // Skip the header row, and last empty row
+  for (let i = 1; i < rows.length-1; i++) {
     deviceNames.push(rows[i].querySelectorAll('td')[0].querySelector('input').value);
     barcodes.push(rows[i].querySelectorAll('td')[1].querySelector('input').value);
     retestPeriods.push(rows[i].querySelectorAll('td')[2].querySelector('input').value);
@@ -157,4 +168,18 @@ function readTable(whiteOnBlack) {
     barcodes: barcodes,
     retestPeriods: retestPeriods,
   };
+}
+
+function updateTableListeners() {
+  var inputs = document.querySelectorAll('#previewTable tr input');
+  for (const input of inputs) {
+    input.removeEventListener('input', tableListener);
+    console.log(input);
+  }
+
+  var lastRowInputs = document.querySelectorAll('#previewTable tr:last-child input');
+  for (const input of lastRowInputs) {
+    input.addEventListener('input', tableListener);
+    console.log(input);
+  }
 }
