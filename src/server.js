@@ -1,8 +1,9 @@
-const http = require('http');
-const url = require('url');
-const fs = require('fs');
-const path = require('path');
+const http          = require('http');
+const url           = require('url');
+const fs            = require('fs');
+const path          = require('path');
 const child_process = require('child_process');
+const os            = require('os');
 
 const port = process.argv[2] || 80;
 
@@ -85,7 +86,8 @@ http.createServer(function (req, res) {
   }
 }).listen(parseInt(port));
 
-console.log(`Server listening on port ${port}`);
+console.log(`Server started, listening on:`);
+printAddresses(port);
 
 JSON.safeStringify = (obj, indent = 2) => {
   let cache = [];
@@ -220,4 +222,40 @@ function sanitize(input, options) {
   }
 
   return undefined;
+}
+
+function printAddresses(port) {
+  // https://stackoverflow.com/a/8440736/10805855
+  const nets = os.networkInterfaces();
+  const results = Object.create(null); // Or just '{}', an empty object
+  for (const name of Object.keys(nets)) {
+      for (const net of nets[name]) {
+          // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
+          // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
+          const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4
+          if (net.family === familyV4Value && !net.internal) {
+              if (!results[name]) {
+                  results[name] = [];
+              }
+              results[name].push(net.address);
+          }
+      }
+  }
+
+  let output = '';
+
+  for (const interface in results) {
+    if (Object.hasOwnProperty.call(results, interface)) {
+      const ip = results[interface];
+      // don't print port if it's 80
+      output += `http://${ip}${port == 80 ? '' : `:${port}`}/\n`;
+    }
+  }
+
+  if (output == '') {
+    output += `http://localhost${port == 80 ? '' : `:${port}`}/`;
+    output += `No other addresses found, are you connected to a network?`;
+  }
+
+  console.log(output);
 }
