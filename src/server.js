@@ -142,10 +142,11 @@ function createDB(template, values, callback) {
 
 function print(template, variant, whiteOnBlack) {
   let templateFile = `${template}_${variant}`;
+  let command;
 
   switch (process.platform) {
     case 'win32':
-      let command = `"${config.golabelPath}" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}.ezpx" -db ".\\tmp\\db.csv"`;
+      command = `"${config.golabelPath}" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}.ezpx" -db ".\\tmp\\db.csv"`;
       break;
 
     default:
