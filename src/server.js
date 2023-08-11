@@ -8,7 +8,6 @@ const os            = require('os');
 const port = process.argv[2] || 80;
 
 http.createServer(function (req, res) {
-  console.log(`${req.method} ${req.url}`);
   const parsedUrl = url.parse(req.url);
 
   if (req.method === 'POST') {
@@ -23,21 +22,32 @@ http.createServer(function (req, res) {
     });
 
     req.on('end', function () {
-      let data = JSON.parse(body);
+      if (parsedUrl.pathname.startsWith('/api')) {
+        if (parsedUrl.pathname.startsWith('/api/regenerateInverses')) {
+          generateInverses();
 
-      let template = sanitize(data.template, ['testTag', 'assetTag']);
-      let variant = sanitize(data.variant, ['small', 'large', 'dbOnly']);
+          res.statusCode = 200;
+          res.end(`All Good :)`);
+        } else if (parsedUrl.pathname.startsWith('/api/print')) {
+          let data = JSON.parse(body);
 
-      createDB(template, data.values);
-      if (variant === 'dbOnly') {
-        console.log(`Saved ${template} db only`);
-      } else {
-        print(template, variant, data.whiteOnBlack);
+          let template = sanitize(data.template, ['testTag', 'assetTag']);
+          let variant = sanitize(data.variant, ['small', 'large', 'dbOnly']);
+
+          createDB(template, data.values);
+          if (variant === 'dbOnly') {
+            console.log(`Saved ${template} db only`);
+          } else {
+            print(template, variant, data.whiteOnBlack);
+          }
+
+          res.statusCode = 200;
+          res.end(`All Good :)`);
+        }
+
+        console.log(`${req.method} ${req.url} ${res.statusCode}`);
+        return;
       }
-
-      res.statusCode = 200;
-      res.end(`All Good :)`);
-      return;
     });
   } else {
     // extract URL path
@@ -65,6 +75,8 @@ http.createServer(function (req, res) {
         // if the file is not found, return 404
         res.statusCode = 404;
         res.end(`File ${pathname} not found!`);
+
+        console.log(`${req.method} ${req.url} ${res.statusCode}`);
         return;
       }
 
@@ -76,10 +88,12 @@ http.createServer(function (req, res) {
         if(err){
           res.statusCode = 500;
           res.end(`Error getting the file: ${err}.`);
+          console.log(`${req.method} ${req.url} ${res.statusCode}`);
         } else {
           // if the file is found, set Content-type and send data
           res.setHeader('Content-type', docTypeMap[ext] || 'text/plain' );
           res.end(data);
+          console.log(`${req.method} ${req.url} ${res.statusCode}`);
         }
       });
     });

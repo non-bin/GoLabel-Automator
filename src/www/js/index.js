@@ -111,7 +111,7 @@ function sendForPrint(values, template, variant, whiteOnBlack) {
 
   loading(true);
 
-  var printPromise = fetch('/print', {
+  var printPromise = fetch('/api/print', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -133,14 +133,6 @@ function sendForPrint(values, template, variant, whiteOnBlack) {
 
     console.error(error.message);
   });
-}
-
-function loading(bool) {
-  if (bool) {
-    document.getElementById("loadingSpinner").classList.remove('d-none');
-  } else {
-    document.getElementById("loadingSpinner").classList.add('d-none');
-  }
 }
 
 function readTable(whiteOnBlack) {
