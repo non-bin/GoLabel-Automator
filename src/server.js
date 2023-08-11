@@ -4,8 +4,9 @@ const fs            = require('fs');
 const path          = require('path');
 const child_process = require('child_process');
 const os            = require('os');
+const config        = require('../config.json');
 
-const port = process.argv[2] || 80;
+const port = process.argv[2] || config.defaultPort;
 
 http.createServer(function (req, res) {
   const parsedUrl = url.parse(req.url);
@@ -144,7 +145,7 @@ function print(template, variant, whiteOnBlack) {
 
   switch (process.platform) {
     case 'win32':
-      let command = `"C:\\Program Files (x86)\\GoDEX\\GoLabel II\\GoLabel.exe" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}.ezpx" -db ".\\tmp\\db.csv"`;
+      let command = `"${config.golabelPath}" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}.ezpx" -db ".\\tmp\\db.csv"`;
       break;
 
     default:
@@ -159,9 +160,6 @@ function print(template, variant, whiteOnBlack) {
 
 generateInverses();
 function generateInverses() {
-  const speed = 2;
-  const darkness = 1;
-
   console.log('Generating inverses');
 
   fs.rm('./tmp/inverses/', {recursive: true, force: true}, (err) => {
@@ -206,7 +204,7 @@ function generateInverses() {
                     <Width>361.494263</Width>
                   </GraphicShape>
                 </qlabel>`)
-                .replace(/(<Setup.*Speed=")\d+(.*Darkness=")\d+(.*)/, `$1${speed}$2${darkness}$3` )
+                .replace(/(<Setup.*Speed=")\d+(.*Darkness=")\d+(.*)/, `$1${config.inverseSettings.speed}$2${config.inverseSettings.darkness}$3` )
 
               fs.writeFile(`./tmp/inverses/${entry.name}`, newData, {flag: 'wx'}, (err) => {
                 if (err) {
