@@ -103,22 +103,7 @@ http.createServer(function (req, res) {
 
 console.log(`Server started, listening on:`);
 printAddresses(port);
-
-JSON.safeStringify = (obj, indent = 2) => {
-  let cache = [];
-  const retVal = JSON.stringify(
-    obj,
-    (key, value) =>
-      typeof value === "object" && value !== null
-        ? cache.includes(value)
-          ? undefined // Duplicate reference found, discard key
-          : cache.push(value) && value // Store value in our collection
-        : value,
-    indent
-  );
-  cache = null;
-  return retVal;
-};
+});
 
 function createDB(template, values, callback) {
   var csv = '';
@@ -142,16 +127,11 @@ function createDB(template, values, callback) {
 
 function print(template, variant, whiteOnBlack) {
   let templateFile = `${template}_${variant}`;
-  let command;
 
-  switch (process.platform) {
-    case 'win32':
-      command = `"${config.golabelPath}" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}.ezpx" -db ".\\tmp\\db.csv"`;
-      break;
+  let command = `"${config.golabelPath}" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}.ezpx" -db ".\\tmp\\db.csv"`;
 
     default:
       throw new Error(`Unsupported platform ${process.platform}`);
-      break;
   }
 
   console.log(`Printing ${templateFile} ${whiteOnBlack ? 'inverses' : ''}`);
@@ -223,20 +203,6 @@ function generateInverses() {
   });
 }
 
-function sanitize(input, options) {
-  if (typeof input != 'string') {
-    return undefined;
-  }
-
-  for (let i = 0; i < options.length; i++) {
-    if (options[i].toLowerCase() == input.toLowerCase()) {
-      return options[i];
-    }
-  }
-
-  return undefined;
-}
-
 function printAddresses(port) {
   // https://stackoverflow.com/a/8440736/10805855
   const nets = os.networkInterfaces();
@@ -270,5 +236,45 @@ function printAddresses(port) {
     output += `No other addresses found, are you connected to a network?`;
   }
 
-  console.log(output);
+  log(output);
+}
+
+// Helper functions:
+
+JSON.safeStringify = (obj, indent = 2) => {
+  let cache = [];
+  const retVal = JSON.stringify(
+    obj,
+    (key, value) =>
+      typeof value === "object" && value !== null
+        ? cache.includes(value)
+          ? undefined // Duplicate reference found, discard key
+          : cache.push(value) && value // Store value in our collection
+        : value,
+    indent
+  );
+  cache = null;
+  return retVal;
+};
+
+function sanitize(input, options) {
+  if (typeof input != 'string') {
+    return undefined;
+  }
+
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].toLowerCase() == input.toLowerCase()) {
+      return options[i];
+    }
+  }
+
+  return undefined;
+}
+
+function log(message) {
+  console.log(message);
+}
+
+function logError(message) {
+  console.error(`${ESC_RED}${message}${ESC_RESET}`);
 }
