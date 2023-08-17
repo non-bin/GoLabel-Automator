@@ -6,9 +6,14 @@ const child_process = require('child_process');
 const os            = require('os');
 const config        = require('../config.json');
 
-const port = process.argv[2] || config.defaultPort;
+const ESC_RED = '\x1b[91m';
+const ESC_RESET = '\x1b[0m';
 
-http.createServer(function (req, res) {
+const port = parseInt(process.argv[2] || config.defaultPort);
+
+print(null, null, null, true); // Test if the GoLabel is installed
+
+const server = http.createServer(function (req, res) {
   const parsedUrl = url.parse(req.url);
 
   if (req.method === 'POST') {
@@ -37,7 +42,7 @@ http.createServer(function (req, res) {
 
           createDB(template, data.values);
           if (variant === 'dbOnly') {
-            console.log(`Saved ${template} db only`);
+            log(`Saved ${template} db only`);
           } else {
             print(template, variant, data.whiteOnBlack);
           }
@@ -46,7 +51,7 @@ http.createServer(function (req, res) {
           res.end(`All Good :)`);
         }
 
-        console.log(`${req.method} ${req.url} ${res.statusCode}`);
+        log(`${req.method} ${req.url} ${res.statusCode}`);
         return;
       }
     });
@@ -77,7 +82,7 @@ http.createServer(function (req, res) {
         res.statusCode = 404;
         res.end(`File ${pathname} not found!`);
 
-        console.log(`${req.method} ${req.url} ${res.statusCode}`);
+        log(`${req.method} ${req.url} ${res.statusCode}`);
         return;
       }
 
@@ -89,20 +94,30 @@ http.createServer(function (req, res) {
         if(err){
           res.statusCode = 500;
           res.end(`Error getting the file: ${err}.`);
-          console.log(`${req.method} ${req.url} ${res.statusCode}`);
+          log(`${req.method} ${req.url} ${res.statusCode}`);
         } else {
           // if the file is found, set Content-type and send data
           res.setHeader('Content-type', docTypeMap[ext] || 'text/plain' );
           res.end(data);
-          console.log(`${req.method} ${req.url} ${res.statusCode}`);
+          log(`${req.method} ${req.url} ${res.statusCode}`);
         }
       });
     });
   }
-}).listen(parseInt(port));
+});
+server.listen(port);
+server.on('error', (e) => {
+  if (e.code === 'EADDRINUSE') {
+    logError(`ERROR: Port ${port} is already in use`);
+  } else {
+    logError(e);
+  }
 
-console.log(`Server started, listening on:`);
-printAddresses(port);
+  process.exit(1);
+});
+server.on('listening', () => {
+  log(`Server started, listening on:`);
+  printAddresses(port);
 });
 
 function createDB(template, values, callback) {
@@ -118,46 +133,57 @@ function createDB(template, values, callback) {
       break;
 
     default:
-      console.error(`No template found for ${template}`);
+      logError(`No template found for ${template}`);
       return false;
   }
 
   fs.writeFileSync(`./tmp/db.csv`, csv);
 }
 
-function print(template, variant, whiteOnBlack) {
+function print(template, variant, whiteOnBlack, testOnly) {
   let templateFile = `${template}_${variant}`;
 
   let command = `"${config.golabelPath}" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}.ezpx" -db ".\\tmp\\db.csv"`;
 
-    default:
-      throw new Error(`Unsupported platform ${process.platform}`);
+  if (testOnly) { // Just make sure the program is installed
+    command = `"${config.golabelPath}" -v`; // This doesn't actually do anything, even output the version. Stupid program.
   }
 
-  console.log(`Printing ${templateFile} ${whiteOnBlack ? 'inverses' : ''}`);
-  child_process.execSync(command);
-  console.log('Done');
+  log(`Printing ${templateFile} ${whiteOnBlack ? 'inverses' : ''}`);
+  child_process.exec(command, (error, stdout, stderr) => {
+    if (error) {
+      if (error.message.indexOf('is not recognized as an internal or external command') != -1) {
+        logError('ERROR: Either GoLabel II is not installed, or the path in config.json is incorrect');
+      } else {
+        logError(error);
+      }
+
+      process.exit(1);
+    }
+
+    log('Done printing');
+  });
 }
 
 generateInverses();
 function generateInverses() {
-  console.log('Generating inverses');
+  log('Generating inverses');
 
   fs.rm('./tmp/inverses/', {recursive: true, force: true}, (err) => {
     if (err) {
-      console.error(err);
+      logError(err);
       return;
     }
 
     // Create inverses directory recursively
     fs.mkdir('./tmp/inverses/', {recursive: true}, (err) => {
       if (err) {
-        console.error(err);
+        logError(err);
         return;
       }
       fs.readdir('./templates', {withFileTypes: true}, (err, entries) => {
         if (err) {
-          console.error(err);
+          logError(err);
           return;
         }
 
@@ -165,7 +191,7 @@ function generateInverses() {
           if (entry.isFile() && entry.name.indexOf('ezpn')) {
             fs.readFile(`./templates/${entry.name}`, 'utf8', (err, data) => {
               if (err) {
-                console.error(err);
+                logError(err);
                 return;
               }
 
@@ -189,11 +215,11 @@ function generateInverses() {
 
               fs.writeFile(`./tmp/inverses/${entry.name}`, newData, {flag: 'wx'}, (err) => {
                 if (err) {
-                  console.error(err);
+                  logError(err);
                   return;
                 }
 
-                console.log(`Wrote ./tmp/inverses/${entry.name}`);
+                log(`Wrote ./tmp/inverses/${entry.name}`);
               });
             });
           }
