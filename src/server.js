@@ -188,30 +188,68 @@ function generateInverses() {
         }
 
         entries.forEach(entry => {
-          if (entry.isFile() && entry.name.indexOf('ezpn')) {
+          if (entry.isFile()) {
+            if (!entry.name.endsWith('.ezpx')) {
+              log(`Skipping ${entry.name} (not an ezpx file)`);
+              return;
+            }
+
             fs.readFile(`./templates/${entry.name}`, 'utf8', (err, data) => {
               if (err) {
                 logError(err);
                 return;
               }
 
-              var newData = data.replace('</qlabel>', `  <GraphicShape xsi:type="Line" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" Alignment="Left" AlignPointX="0" AlignPointY="0">
-                    <qHitOnCircumferance>false</qHitOnCircumferance>
-                    <Selected>true</Selected>
-                    <iBackground_color>4294967295</iBackground_color>
-                    <Id>12</Id>
-                    <ItemLabel>None12</ItemLabel>
-                    <ObjectDrawMode>FW</ObjectDrawMode>
-                    <Name>L</Name>
-                    <GroupID>0</GroupID>
-                    <GroupSelected>false</GroupSelected>
-                    <lineShape>FillRect</lineShape>
-                    <Height>819.5402</Height>
-                    <Operation>101</Operation>
-                    <Width>361.494263</Width>
-                  </GraphicShape>
-                </qlabel>`)
-                .replace(/(<Setup.*Speed=")\d+(.*Darkness=")\d+(.*)/, `$1${config.inverseSettings.speed}$2${config.inverseSettings.darkness}$3` )
+              let label = {
+                setup: {},
+                layout: {}
+              };
+
+              for (const match of data.matchAll(/(?<=<Setup [^>]*)(?<key>\S+)="(?<value>\S+)"(?=.*>)/gms)) {
+                label.setup[match.groups.key] = match.groups.value;
+              }
+
+              for (const match of data.matchAll(/(?<=<Layout [^>]*)(?<key>\S+)="(?<value>\S+)"(?=.*>)/gms)) {
+                label.layout[match.groups.key] = match.groups.value;
+              }
+
+              const mediaWidth          = label.setup.LabelWidth;
+              const mediaHeight         = label.setup.LabelLength;
+              const leftMargin          = (label.setup.LeftMargin||0)   /8;
+              const rightMargin         = (label.layout.RightMargin||0) /8;
+              const topMargin           = (label.setup.TopMargin||0)    /-8; // TODO: IDK What's going on with this
+              const bottomMargin        = (label.layout.BottomMargin||0)/8;
+              const horizontalGap       = (label.layout.HorGap||0);
+              const verticalGap         = (label.layout.VerGap||0);
+              const horizontalDivisions = (label.layout.HorAcross||1);
+              const verticalDivisions   = (label.layout.VerAcross||1);
+
+              if (mediaWidth === undefined || mediaHeight === undefined) {
+                logError(`ERROR: While generating inverse for ${entry.name} (missing media width or length)`);
+                throw(new Error());
+              }
+
+              const inverseMaskWidth = (mediaWidth-leftMargin-rightMargin-horizontalGap*(horizontalDivisions-1))/horizontalDivisions*8;
+              const inverseMashHeight = (mediaHeight-topMargin-bottomMargin-verticalGap*(verticalDivisions-1))/verticalDivisions*8;
+
+              var newData = data.replace('</qlabel>',`
+                <GraphicShape xsi:type="Line" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" Alignment="Left" AlignPointX="0" AlignPointY="0">
+                  <qHitOnCircumferance>false</qHitOnCircumferance>
+                  <Selected>false</Selected>
+                  <iBackground_color>4294967295</iBackground_color>
+                  <Id>11</Id>
+                  <ItemLabel>None11</ItemLabel>
+                  <ObjectDrawMode>FW</ObjectDrawMode>
+                  <Name>L</Name>
+                  <GroupID>0</GroupID>
+                  <GroupSelected>false</GroupSelected>
+                  <lineShape>FillRect</lineShape>
+                  <Height>${inverseMashHeight}</Height>
+                  <Operation>101</Operation>
+                  <Width>${inverseMaskWidth}</Width>
+                </GraphicShape>
+              </qlabel>
+              `).replace(/(<Setup.*Speed=")\d+(.*Darkness=")\d+(.*)/, `$1${config.inverseSettings.speed}$2${config.inverseSettings.darkness}$3` )
 
               fs.writeFile(`./tmp/inverses/${entry.name}`, newData, {flag: 'wx'}, (err) => {
                 if (err) {
