@@ -29,6 +29,15 @@
 
   <div class="container mt-3">
     <div class="input">
+      <div class="mb-3">
+        <div class="input-group">
+          <span class="input-group-text" id="operatorNameLabel">Operator Name</span>
+          <input id="operatorNameInput" type="text" class="form-control" oninput="processInput('operatorNameInput')"
+            placeholder="Alice Jacka" aria-label="Operator Name" aria-describedby="operatorNameLabel">
+        </div>
+        <small id="operatorNameHelp" class="form-text text-muted">Your name, or the person testing</small>
+      </div>
+
       <div class="input-group mb-3">
         <span class="input-group-text" id="deviceNameLabel">Equipment Name</span>
         <input id="deviceNameInput" type="text" class="form-control" oninput="processInput('deviceNameInput')"
@@ -100,8 +109,14 @@
           <th>
             Retest Period
           </th>
+          <th>
+            Operator Name
+          </th>
         </tr>
         <tr>
+          <td>
+            <input type="text" class="form-control">
+          </td>
           <td>
             <input type="text" class="form-control">
           </td>

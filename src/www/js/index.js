@@ -4,6 +4,8 @@ const tableListener = function () {
 };
 updateTableListeners();
 
+const tableEmptyRow = `<tr><td><input type="text" class="form-control"></td><td><input type="text" class="form-control"></td><td><input type="text" class="form-control"></td><td><input type="text" class="form-control"></td></tr>`
+
 function processInput(field, ...params) {
   if (field == 'labelSelector') {
     labelSelectorValue = params[0];
@@ -21,7 +23,7 @@ function processInput(field, ...params) {
 
       for (const input of rowInputs) {
         if (input.value != '') {
-          document.querySelector('#previewTable tbody').appendChild(document.createElement('tr')).innerHTML = '<td><input type="text" class="form-control" value=""></td><td><input type="text" class="form-control" value=""></td><td><input type="text" class="form-control" value=""></td>';
+          document.querySelector('#previewTable tbody').appendChild(document.createElement('tr')).innerHTML = tableEmptyRow;
           updateTableListeners();
         }
       }
@@ -37,21 +39,28 @@ function processInput(field, ...params) {
       }
     }
 
+    var operatorName = document.getElementById('operatorNameInput').value;
     var deviceName = document.getElementById('deviceNameInput').value;
     var barcodePrefix = document.getElementById('barcodePrefixInput').value;
     var barcodeStart = document.getElementById('barcodeStartInput').value;
     var barcodeEnd = document.getElementById('barcodeEndInput').value;
     var retestPeriod = document.getElementById('retestPeriodInput').value || 12;
 
-    updateTable(deviceName, generateBarcodes(barcodePrefix, barcodeStart, barcodeEnd), retestPeriod);
+    updateTable(deviceName, generateBarcodes(barcodePrefix, barcodeStart, barcodeEnd), retestPeriod, operatorName);
   }
 }
 
 function print(whiteOnBlack, dbOnly) {
+  let table = readTable(whiteOnBlack);
+  if (table == 'MISSING_OPERATOR_NAME') {
+    alert('Please enter an operator name for all rows');
+    return false;
+  }
+
   if (dbOnly) {
-    sendForPrint(readTable(whiteOnBlack), 'testTag', 'dbOnly');
+    sendForPrint(table, 'testTag', 'dbOnly');
   } else {
-    sendForPrint(readTable(whiteOnBlack), 'testTag', labelSelectorValue, whiteOnBlack);
+    sendForPrint(table, 'testTag', labelSelectorValue, whiteOnBlack);
   }
 }
 
@@ -87,15 +96,15 @@ function generateBarcodes(barcodePrefix, barcodeStart, barcodeEnd, leader) {
   return barcodes;
 }
 
-function updateTable(deviceName, barcodes, retestPeriod) {
-  var previewTableBody = '<tr><th>Device Name</th><th>Barcode</th><th>Retest Period</th></tr>';
+function updateTable(deviceName, barcodes, retestPeriod, operatorName) {
+  var previewTableBody = '<tr><th>Device Name</th><th>Barcode</th><th>Retest Period</th><th>Operator Name</th></tr>';
 
   for (let i = 0; i < barcodes.length; i++) {
-    previewTableBody += `<tr><td><input type="text" class="form-control" value="${deviceName}"></td><td><input type="text" class="form-control" value="${barcodes[i]}"></td><td><input type="text" class="form-control" value="${retestPeriod || 12}"></td></tr>`;
+    previewTableBody += `<tr><td><input type="text" class="form-control" value="${deviceName}"></td><td><input type="text" class="form-control" value="${barcodes[i]}"></td><td><input type="text" class="form-control" value="${retestPeriod || 12}"></td><td><input type="text" class="form-control" value="${operatorName}"></td></tr>`;
   }
 
   // add an empty row to the end
-  previewTableBody += `<tr><td><input type="text" class="form-control"></td><td><input type="text" class="form-control"></td><td><input type="text" class="form-control"></td></tr>`;
+  previewTableBody += tableEmptyRow;
   document.getElementById('previewTable').innerHTML = previewTableBody;
 
   updateTableListeners();
@@ -141,11 +150,13 @@ function readTable(whiteOnBlack) {
   let deviceNames = [];
   let barcodes = [];
   let retestPeriods = [];
+  let operatorNames = [];
 
   if (whiteOnBlack) {
     deviceNames.push('leader');
     barcodes.push('leader');
     retestPeriods.push(0);
+    operatorNames.push('leader');
   }
 
   // Skip the header row, and last empty row
@@ -153,12 +164,19 @@ function readTable(whiteOnBlack) {
     deviceNames.push(rows[i].querySelectorAll('td')[0].querySelector('input').value);
     barcodes.push(rows[i].querySelectorAll('td')[1].querySelector('input').value);
     retestPeriods.push(rows[i].querySelectorAll('td')[2].querySelector('input').value);
+
+    let operatorName = rows[i].querySelectorAll('td')[3].querySelector('input').value;
+    if (operatorName.length == 0) {
+      return 'MISSING_OPERATOR_NAME';
+    }
+    operatorNames.push(operatorName);
   }
 
   return {
     deviceNames: deviceNames,
     barcodes: barcodes,
     retestPeriods: retestPeriods,
+    operatorNames: operatorNames
   };
 }
 

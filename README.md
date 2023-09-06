@@ -59,3 +59,7 @@ Label has lines through it | Turn down `inverseSettings.speed`
 - Check that GoLabel II is installed. You can download it from [https://www.godexintl.com/product/16681379086423723?locale=en](https://www.godexintl.com/product/16681379086423723?locale=en)
 - Check that the path in config.json is correct. It's usually at `C:\Program Files (x86)\GoDEX\GoLabel II\GoLabel.exe`
 - Remember you have to replace ingle slashes (`\`) with double slashes (`\\`), eg `C:\Users\Alice` > `C:\\Users\\Alice`
+
+## Testing
+
+Only tested on a GoDex RT200 printer

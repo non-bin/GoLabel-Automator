@@ -125,10 +125,10 @@ function createDB(template, values, callback) {
 
   switch (template) {
     case 'testTag':
-      csv += 'NAME,ID,RETEST\n';
+      csv += 'NAME,ID,RETEST,OPERATOR\n';
 
       for (let i = 0; i < values.barcodes.length; i++) {
-        csv += `${values.deviceNames[i]},${values.barcodes[i]},${values.retestPeriods[i]}\n`;
+        csv += `${values.deviceNames[i]},${values.barcodes[i]},${values.retestPeriods[i]},${values.operatorNames[i]}\n`;
       }
       break;
 
@@ -234,17 +234,17 @@ function printAddresses(port) {
   const nets = os.networkInterfaces();
   const results = Object.create(null); // Or just '{}', an empty object
   for (const name of Object.keys(nets)) {
-      for (const net of nets[name]) {
-          // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
-          // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
-          const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4
-          if (net.family === familyV4Value && !net.internal) {
-              if (!results[name]) {
-                  results[name] = [];
-              }
-              results[name].push(net.address);
-          }
+    for (const net of nets[name]) {
+      // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
+      // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
+      const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4
+      if (net.family === familyV4Value && !net.internal) {
+        if (!results[name]) {
+          results[name] = [];
+        }
+        results[name].push(net.address);
       }
+    }
   }
 
   let output = '';
@@ -257,8 +257,9 @@ function printAddresses(port) {
     }
   }
 
+  output += `http://localhost${port == 80 ? '' : `:${port}`}/`;
+
   if (output == '') {
-    output += `http://localhost${port == 80 ? '' : `:${port}`}/`;
     output += `No other addresses found, are you connected to a network?`;
   }
 
