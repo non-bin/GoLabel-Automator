@@ -11,7 +11,7 @@ const ESC_RESET = '\x1b[0m';
 
 const port = parseInt(process.argv[2] || config.defaultPort);
 
-print(null, null, null, true); // Test if the GoLabel is installed
+print(null, null, null, ()=>{}, true); // Test if the GoLabel is installed
 
 const server = http.createServer(function (req, res) {
   const parsedUrl = url.parse(req.url);
@@ -40,15 +40,24 @@ const server = http.createServer(function (req, res) {
           let template = sanitize(data.template, ['testTag', 'assetTag']);
           let variant = sanitize(data.variant, ['small', 'large', 'dbOnly']);
 
-          createDB(template, data.values);
-          if (variant === 'dbOnly') {
-            log(`Saved ${template} db only`);
-          } else {
-            print(template, variant, data.whiteOnBlack);
-          }
+          createDB(template, data.values, () => {
+            if (variant === 'dbOnly') {
+              log(`Saved ${template} db only`);
 
-          res.statusCode = 200;
-          res.end(`All Good :)`);
+              res.statusCode = 200;
+              res.end(`All Good :)`);
+            } else {
+              print(template, variant, data.whiteOnBlack, (err) => {
+                if (err) {
+                  logError('Error printing:');
+                  logError(err);
+                } else {
+                  res.statusCode = 200;
+                  res.end(`All Good :)`);
+                }
+              });
+            }
+          });
         }
 
         log(`${req.method} ${req.url} ${res.statusCode}`);
@@ -137,10 +146,12 @@ function createDB(template, values, callback) {
       return false;
   }
 
-  fs.writeFileSync(`./tmp/db.csv`, csv);
+  fs.writeFile(`./tmp/db.csv`, csv, callback);
+
+  return;
 }
 
-function print(template, variant, whiteOnBlack, testOnly) {
+function print(template, variant, whiteOnBlack, callback, testOnly) {
   let templateFile = `${template}_${variant}`;
 
   let command = `"${config.golabelPath}" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}.ezpx" -db ".\\tmp\\db.csv"`;
@@ -150,7 +161,7 @@ function print(template, variant, whiteOnBlack, testOnly) {
   }
 
   log(`Printing ${templateFile} ${whiteOnBlack ? 'inverses' : ''}`);
-  child_process.exec(command, (error, stdout, stderr) => {
+  child_process.exec(command, function(error, stdout, stderr) {
     if (error) {
       if (error.message.indexOf('is not recognized as an internal or external command') != -1) {
         logError('ERROR: Either GoLabel II is not installed, or the path in config.json is incorrect');
@@ -161,8 +172,14 @@ function print(template, variant, whiteOnBlack, testOnly) {
       process.exit(1);
     }
 
-    log('Done printing');
-  });
+    if (testOnly) {
+      log('Test print successful');
+    } else {
+      log('Done printing');
+    }
+
+    callback(error);
+  }.bind({callback: callback}));
 }
 
 generateInverses();

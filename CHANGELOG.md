@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved error feedback in the server, and bat file
 - Improved README
 
+### Fixed
+
+- Program now waits for printing to finish before returning success to client
+
 ## [1.1.1] - 2023-8-11
 
 ## Fixed
