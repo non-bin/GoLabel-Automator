@@ -26,15 +26,24 @@ const server = http.createServer(function (req, res) {
       if (body.length > 1e6)
       req.socket.destroy();
     });
+  }
 
-    req.on('end', function () {
-      if (parsedUrl.pathname.startsWith('/api')) {
-        if (parsedUrl.pathname.startsWith('/api/regenerateInverses')) {
+  if (parsedUrl.pathname.startsWith('/api')) {
+    if (parsedUrl.pathname == '/api/regenerateInverses') {
+      if (req.method === 'POST') {
+        req.on('end', () => {
           generateInverses();
 
           res.statusCode = 200;
           res.end(`All Good :)`);
-        } else if (parsedUrl.pathname.startsWith('/api/print')) {
+        });
+      } else {
+        res.statusCode = 405; // Method not allowed
+        res.end(`Method ${req.method} not allowed!`);
+      }
+    } else if (parsedUrl.pathname == '/api/print') {
+      if (req.method === 'POST') {
+        req.on('end', () => {
           let data = JSON.parse(body);
 
           let template = sanitize(data.template, ['testTag', 'assetTag']);
@@ -58,12 +67,28 @@ const server = http.createServer(function (req, res) {
               });
             }
           });
-        }
-
-        log(`${req.method} ${req.url} ${res.statusCode}`);
-        return;
+        });
+      } else {
+        res.statusCode = 405; // Method not allowed
+        res.end(`Method ${req.method} not allowed!`);
       }
-    });
+    } else if (parsedUrl.pathname == '/api/printingEnabled') {
+      if (req.method === 'POST') {
+        config.printingEnabled = body == 'true' ? true : false;
+
+        res.statusCode = 200;
+        res.end(`All Good :)`);
+      } else if (req.method === 'GET') {
+        res.statusCode = 200;
+        res.end(`${config.printingEnabled}`);
+      } else {
+        res.statusCode = 405; // Method not allowed
+        res.end(`Method ${req.method} not allowed!`);
+      }
+    } else {
+      res.statusCode = 404;
+      res.end(`API endpoint ${parsedUrl.pathname} not found!`);
+    }
   } else {
     // extract URL path
     let pathname = `./src/www/${parsedUrl.pathname}`;
@@ -123,7 +148,11 @@ const server = http.createServer(function (req, res) {
       });
     });
   }
+
+  log(`${req.method} ${req.url} ${res.statusCode}`);
+  return;
 });
+
 server.listen(port);
 server.on('error', (e) => {
   if (e.code === 'EADDRINUSE') {
@@ -170,6 +199,10 @@ function createDB(template, values, callback) {
 }
 
 function print(template, variant, whiteOnBlack, callback, testOnly) {
+  if (!config.printingEnabled) {
+    testOnly = true;
+  }
+
   let templateFile = `${template}_${variant}`;
 
   let command = `"${config.golabelPath}" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}.ezpx" -db ".\\tmp\\db.csv"`;
