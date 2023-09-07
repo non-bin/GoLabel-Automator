@@ -130,11 +130,12 @@ server.on('listening', () => {
 });
 
 function createDB(template, values, callback) {
+  var header = '';
   var csv = '';
 
   switch (template) {
     case 'testTag':
-      csv += 'NAME,ID,RETEST,OPERATOR\n';
+      header = 'NAME,ID,RETEST,OPERATOR\n';
 
       for (let i = 0; i < values.barcodes.length; i++) {
         csv += `${values.deviceNames[i]},${values.barcodes[i]},${values.retestPeriods[i]},${values.operatorNames[i]}\n`;
@@ -146,7 +147,14 @@ function createDB(template, values, callback) {
       return false;
   }
 
-  fs.writeFile(`./tmp/db.csv`, csv, callback);
+  fs.writeFile(`./tmp/db.csv`, header+csv, callback);
+  fs.writeFile(`./history.csv`, csv, {flag: 'a'}, (err) => {
+    if (err) {
+      logError('Error writing new history entry:');
+      logError(err);
+      return;
+    }
+  });
 
   return;
 }
