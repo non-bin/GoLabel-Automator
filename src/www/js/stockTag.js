@@ -1,17 +1,25 @@
-var labelVariantValue = 'Large';
+var selectedLabelVariant = 'Large';
 const tableListener = function () {
   processInput('table', 'lastRow', this);
 };
 updateTableListeners();
 
-const tableEmptyRow = `<tr><td><input type="text" class="form-control"></td><td><input type="text" class="form-control"></td><td><input type="text" class="form-control"></td><td><input type="text" class="form-control"></td></tr>`
+const tableEmptyRow = `
+<tr>
+  <td>
+    <input type="text" class="form-control">
+  </td>
+  <td>
+    <input type="text" class="form-control">
+  </td>
+</tr>`;
 
 
 /**
  * Run by processInput() when the inputs are updated.
  *
  * @param {string} field - The field that was updated.
- * @param {*} params - Extra params
+ * @param {*} [params] - Extra params
  */
 function updatePreview(field, ...params) {
   var value = document.getElementById(field).value;
@@ -24,24 +32,27 @@ function updatePreview(field, ...params) {
     }
   }
 
-  var operatorName = document.getElementById('operatorNameInput').value;
   var deviceName = document.getElementById('deviceNameInput').value;
   var barcodePrefix = document.getElementById('barcodePrefixInput').value;
-  var barcodeStart = parseInt(document.getElementById('barcodeStartInput').value) || undefined;
-  var barcodeEnd = parseInt(document.getElementById('barcodeEndInput').value) || undefined;
-  var retestPeriod = parseInt(document.getElementById('retestPeriodInput').value) || undefined;
+  var barcodeStart = parseInt(document.getElementById('barcodeStartInput').value);
+  var barcodeEnd = parseInt(document.getElementById('barcodeEndInput').value);
 
-  if (operatorName == '' &&
-      deviceName == '' &&
+  if (!Number.isInteger(barcodeStart)) {
+    barcodeStart = undefined;
+  }
+  if (!Number.isInteger(barcodeEnd)) {
+    barcodeEnd = undefined;
+  }
+
+  if (deviceName == '' &&
       barcodePrefix == '' &&
       barcodeStart == '' &&
-      barcodeEnd == '' &&
-      retestPeriod == '') {
+      barcodeEnd == '') {
     clearTable();
   } else if (barcodeStart != undefined && barcodeEnd != undefined && barcodeStart > barcodeEnd) {
-    updateTable(deviceName, generateBarcodes(barcodeStart, barcodeEnd, barcodePrefix), retestPeriod || 12, operatorName);
+    updateTable(deviceName, generateBarcodes(barcodeStart, barcodeEnd, barcodePrefix));
   } else {
-    updateTable(deviceName, generateBarcodes(barcodeEnd, barcodeStart, barcodePrefix), retestPeriod || 12, operatorName);
+    updateTable(deviceName, generateBarcodes(barcodeEnd, barcodeStart, barcodePrefix));
   }
 }
 
@@ -64,14 +75,6 @@ function checkTable(table) {
     return false;
   }
 
-  // Operator name check
-  for (const name of table.operatorNames) {
-    if (name.length < 1) {
-      alert('Please enter an operator name for all rows');
-      return false;
-    }
-  }
-
   return true;
 }
 
@@ -83,11 +86,11 @@ function checkTable(table) {
  * @param {number} retestPeriod
  * @param {string} operatorName
  */
-function updateTable(deviceName, barcodes, retestPeriod, operatorName) {
-  var previewTableBody = '<tr><th>Device Name</th><th>Barcode</th><th>Retest Period</th><th>Operator Name</th></tr>';
+function updateTable(deviceName, barcodes) {
+  var previewTableBody = '<tr><th>Device Name</th><th>Barcode</th></tr>';
 
   for (let i = 0; i < barcodes.length; i++) {
-    previewTableBody += `<tr><td><input type="text" class="form-control" value="${deviceName}"></td><td><input type="text" class="form-control" value="${barcodes[i]}"></td><td><input type="text" class="form-control" value="${retestPeriod || 12}"></td><td><input type="text" class="form-control" value="${operatorName}"></td></tr>`;
+    previewTableBody += `<tr><td><input type="text" class="form-control" value="${deviceName}"></td><td><input type="text" class="form-control" value="${barcodes[i]}"></td></tr>`;
   }
 
   // add an empty row to the end
@@ -109,29 +112,21 @@ function readTable(whiteOnBlack) {
 
   let deviceNames = [];
   let barcodes = [];
-  let retestPeriods = [];
-  let operatorNames = [];
 
   if (whiteOnBlack) {
     deviceNames.push('leader');
     barcodes.push('leader');
-    retestPeriods.push(0);
-    operatorNames.push('leader');
   }
 
   // Skip the header row, and last empty row
   for (let i = 1; i < rows.length-1; i++) {
     deviceNames.push(rows[i].querySelectorAll('td')[0].querySelector('input').value);
     barcodes.push(rows[i].querySelectorAll('td')[1].querySelector('input').value);
-    retestPeriods.push(rows[i].querySelectorAll('td')[2].querySelector('input').value);
-    operatorNames.push(rows[i].querySelectorAll('td')[3].querySelector('input').value);
   }
 
   return {
     deviceNames: deviceNames,
-    barcodes: barcodes,
-    retestPeriods: retestPeriods,
-    operatorNames: operatorNames
+    barcodes: barcodes
   };
 }
 
@@ -140,18 +135,16 @@ function readTable(whiteOnBlack) {
  *
  */
 function clearTable() {
-  document.getElementById('operatorNameInput').value = '';
   document.getElementById('deviceNameInput').value = '';
   document.getElementById('barcodePrefixInput').value = '';
-  document.getElementById('retestPeriodInput').value = '';
   document.getElementById('barcodeStartInput').value = '';
   document.getElementById('barcodeEndInput').value = '';
 
-  updateTable('', [], '', '')
+  updateTable('', []);
 }
 
 /**
- * Called by the print button
+ * Called by the print buttons
  *
  * @param {boolean} whiteOnBlack - True to print white on black, false to print black on white
  * @param {boolean} [dbOnly] - True to only update the database
@@ -161,7 +154,7 @@ function print(whiteOnBlack, dbOnly) {
   let table = readTable(whiteOnBlack);
 
   if (checkTable(table)) {
-    sendForPrint(table, 'stockTag', labelVariantValue, whiteOnBlack, dbOnly)
+    sendForPrint(table, 'stockTag', selectedLabelVariant, whiteOnBlack, dbOnly)
   } else {
     return false;
   }
