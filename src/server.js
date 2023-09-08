@@ -287,20 +287,32 @@ function generateInverses() {
                 layout: {}
               };
 
-              for (const match of data.matchAll(/(?<=<Setup [^>]*)(?<key>\S+)="(?<value>\S+)"(?=.*>)/gms)) {
+              // Find the interesting lines
+              const setupLineMatch = data.match(/<Setup.*/);
+              const layoutLineMatch = data.match(/<Layout.*/);
+
+              // Extract the properties
+              const setupPropertyMatches = setupLineMatch[0].matchAll(/(?<key>\S+)="(?<value>\S+)"/g);
+              const layoutPropertyMatches = layoutLineMatch[0].matchAll(/(?<key>\S+)="(?<value>\S+)"/g);
+
+              // Save them to a variable
+              for (const match of setupPropertyMatches) {
                 label.setup[match.groups.key] = match.groups.value;
               }
-
-              for (const match of data.matchAll(/(?<=<Layout [^>]*)(?<key>\S+)="(?<value>\S+)"(?=.*>)/gms)) {
+              for (const match of layoutPropertyMatches) {
                 label.layout[match.groups.key] = match.groups.value;
               }
 
               const mediaWidth          = label.setup.LabelWidth;
               const mediaHeight         = label.setup.LabelLength;
+
+              // Margins are stored in 1/8 millimeters, for some reason
               const leftMargin          = (label.setup.LeftMargin||0)   /8;
               const rightMargin         = (label.layout.RightMargin||0) /8;
-              const topMargin           = (label.setup.TopMargin||0)    /-8; // TODO: IDK What's going on with this
-              const bottomMargin        = (label.layout.BottomMargin||0)/8;
+              // these two are weird (https://github.com/non-bin/GoLabel-Automator/wiki/GoLabel-II-Weirdness#page-setup-margins)
+              const topMargin           = (label.setup.TopMargin||0)    /-8;
+              const bottomMargin        = ((label.layout.BottomMargin||0)/8)-topMargin;
+
               const horizontalGap       = (label.layout.HorGap||0);
               const verticalGap         = (label.layout.VerGap||0);
               const horizontalDivisions = (label.layout.HorAcross||1);
