@@ -40,7 +40,7 @@ function loading(enabled, spinnerID) {
  */
 function processInput(field, ...params) {
   if (field == 'labelSelector') {
-    labelVariantValue = params[0];
+    selectedLabelVariant = params[0];
 
     // Set which label is now selected
     const options = document.getElementsByClassName('labelSelectorItems');
@@ -48,8 +48,8 @@ function processInput(field, ...params) {
       const element = options[i];
       element.classList.remove('active');
     };
-    document.getElementById('labelSelector'+labelVariantValue).classList.add('active');
-    document.getElementById('labelSelectorDropdown').innerText = labelVariantValue;
+    document.getElementById('labelSelector'+selectedLabelVariant).classList.add('active');
+    document.getElementById('labelSelectorDropdown').innerText = selectedLabelVariant;
 
   } else if (field == 'table') {
     if (params[0] == 'lastRow') {
@@ -86,18 +86,18 @@ function generateBarcodes(barcodeEnd, barcodeStart, barcodePrefix, leader) {
   var quantity;
 
   // If only a starting number is provided, set the end to the start
-  if (barcodeStart != undefined && barcodeEnd == undefined) {
+  if (barcodeStart !== undefined && barcodeEnd === undefined) {
     barcodeEnd = barcodeStart;
   }
 
   // If no start is provided, then end represents the quantity
-  if (barcodeStart == undefined) {
+  if (barcodeStart === undefined) {
     quantity = barcodeEnd || 1; // Default to 1
   } else { // Calculate the quantity as you would expect
     quantity = barcodeEnd - barcodeStart + 1;
   }
 
-  if (barcodeStart == undefined) {
+  if (barcodeStart === undefined) {
     // If no start is provided, then generate a list of barcodes using only the prefix
     barcodes = Array(quantity).fill(barcodePrefix);
   } else {

@@ -31,15 +31,6 @@
 
   <div class="container mt-3">
     <div class="input">
-      <div class="mb-3">
-        <div class="input-group">
-          <span class="input-group-text" id="operatorNameLabel">Operator Name</span>
-          <input id="operatorNameInput" type="text" class="form-control" oninput="processInput('operatorNameInput')"
-            placeholder="Alice Jacka" aria-label="Operator Name" aria-describedby="operatorNameLabel">
-        </div>
-        <small id="operatorNameHelp" class="form-text text-muted">Your name, or the person testing</small>
-      </div>
-
       <div class="input-group mb-3">
         <span class="input-group-text" id="deviceNameLabel">Equipment Name</span>
         <input id="deviceNameInput" type="text" class="form-control" oninput="processInput('deviceNameInput')"
@@ -53,15 +44,6 @@
             placeholder="H4UPQUAD-" aria-label="Barcode Prefix" aria-describedby="barcodePrefixLabel">
         </div>
         <small id="barcodePrefixHelp" class="form-text text-muted">Include a "-" at the end if using numbers, eg "ABC-" -> ABC-1 ABC-2</small>
-      </div>
-
-      <div class="mb-3">
-        <div class="input-group">
-          <span class="input-group-text" id="retestPeriodLabel">Retest Period</span>
-          <input id="retestPeriodInput" type="number" class="form-control" oninput="processInput('retestPeriodInput')"
-            placeholder="12" aria-label="Retest Period" aria-describedby="retestPeriodLabel">
-        </div>
-        <small id="retestPeriodHelp" class="form-text text-muted">In months, leave blank for 12</small>
       </div>
 
       <div class="mb-3">
@@ -109,20 +91,8 @@
           <th>
             Barcode
           </th>
-          <th>
-            Retest Period
-          </th>
-          <th>
-            Operator Name
-          </th>
         </tr>
         <tr>
-          <td>
-            <input type="text" class="form-control">
-          </td>
-          <td>
-            <input type="text" class="form-control">
-          </td>
           <td>
             <input type="text" class="form-control">
           </td>

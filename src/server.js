@@ -46,7 +46,7 @@ const server = http.createServer(function (req, res) {
         req.on('end', () => {
           let data = JSON.parse(body);
 
-          let template = sanitize(data.template, ['testTag', 'assetTag']);
+          let template = sanitize(data.template, ['testTag', 'stockTag']);
           let variant = sanitize(data.variant, ['small', 'large', 'dbOnly']);
 
           createDB(template, data.values, () => {
@@ -185,6 +185,14 @@ function createDB(template, values, callback) {
       }
       break;
 
+    case 'stockTag':
+      header = 'NAME,ID\n';
+
+      for (let i = 0; i < values.barcodes.length; i++) {
+        csv += `${values.deviceNames[i]},${values.barcodes[i]}\n`;
+      }
+      break;
+
     default:
       logError(`No template found for ${template}`);
       return false;
@@ -214,6 +222,8 @@ function print(template, variant, whiteOnBlack, callback, testOnly) {
   if (testOnly) { // Just make sure the program is installed
     command = `"${config.golabelPath}" -v`; // This doesn't actually do anything, even output the version. Stupid program.
   }
+
+  log(command);
 
   log(`Printing ${templateFile} ${whiteOnBlack ? 'inverses' : ''}`);
   child_process.exec(command, function(error, stdout, stderr) {
