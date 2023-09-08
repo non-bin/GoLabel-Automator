@@ -6,110 +6,83 @@ updateTableListeners();
 
 const tableEmptyRow = `<tr><td><input type="text" class="form-control"></td><td><input type="text" class="form-control"></td><td><input type="text" class="form-control"></td><td><input type="text" class="form-control"></td></tr>`
 
-function processInput(field, ...params) {
-  if (field == 'labelSelector') {
-    labelSelectorValue = params[0];
 
-    const options = document.getElementsByClassName('labelSelectorItems');
-    for (let i = 0; i < options.length; i++) {
-      const element = options[i];
-      element.classList.remove('active');
-    };
-    document.getElementById('labelSelector'+labelSelectorValue).classList.add('active');
-    document.getElementById('labelSelectorDropdown').innerText = labelSelectorValue;
-  } else if (field == 'table') {
-    if (params[0] == 'lastRow') {
-      const rowInputs = params[1].parentElement.parentElement.querySelectorAll('input');
+/**
+ * Run by processInput() when the inputs are updated.
+ *
+ * @param {string} field - The field that was updated.
+ * @param {*} params - Extra params
+ */
+function updatePreview(field, ...params) {
+  var value = document.getElementById(field).value;
 
-      for (const input of rowInputs) {
-        if (input.value != '') {
-          document.querySelector('#previewTable tbody').appendChild(document.createElement('tr')).innerHTML = tableEmptyRow;
-          updateTableListeners();
-        }
-      }
-    }
-  } else {
-    var value = document.getElementById(field).value;
-
-    if (field == 'barcodeStartInput') {
-      if (value == '') {
-        document.getElementById('barcodeEndLabel').innerText = 'Quantity';
-      } else {
-        document.getElementById('barcodeEndLabel').innerText = 'Barcode Number End';
-      }
-    }
-
-    var operatorName = document.getElementById('operatorNameInput').value;
-    var deviceName = document.getElementById('deviceNameInput').value;
-    var barcodePrefix = document.getElementById('barcodePrefixInput').value;
-    var barcodeStart = document.getElementById('barcodeStartInput').value;
-    var barcodeEnd = document.getElementById('barcodeEndInput').value;
-    var retestPeriod = document.getElementById('retestPeriodInput').value;
-
-    if (operatorName == '' &&
-        deviceName == '' &&
-        barcodePrefix == '' &&
-        barcodeStart == '' &&
-        barcodeEnd == '' &&
-        retestPeriod == '') {
-      clearTable();
-      return;
-    }
-
-    if (barcodeStart < barcodeEnd) {
-      updateTable(deviceName, generateBarcodes(barcodePrefix, barcodeStart, barcodeEnd), retestPeriod || 12, operatorName);
+  if (field == 'barcodeStartInput') {
+    if (value == '') {
+      document.getElementById('barcodeEndLabel').innerText = 'Quantity';
     } else {
-      updateTable(deviceName, generateBarcodes(barcodePrefix, barcodeEnd, barcodeStart), retestPeriod || 12, operatorName);
+      document.getElementById('barcodeEndLabel').innerText = 'Barcode Number End';
     }
+  }
+
+  var operatorName = document.getElementById('operatorNameInput').value;
+  var deviceName = document.getElementById('deviceNameInput').value;
+  var barcodePrefix = document.getElementById('barcodePrefixInput').value;
+  var barcodeStart = parseInt(document.getElementById('barcodeStartInput').value) || undefined;
+  var barcodeEnd = parseInt(document.getElementById('barcodeEndInput').value) || undefined;
+  var retestPeriod = parseInt(document.getElementById('retestPeriodInput').value) || undefined;
+
+  if (operatorName == '' &&
+      deviceName == '' &&
+      barcodePrefix == '' &&
+      barcodeStart == '' &&
+      barcodeEnd == '' &&
+      retestPeriod == '') {
+    clearTable();
+  } else if (barcodeStart != undefined && barcodeEnd != undefined && barcodeStart > barcodeEnd) {
+    updateTable(deviceName, generateBarcodes(barcodeStart, barcodeEnd, barcodePrefix), retestPeriod || 12, operatorName);
+  } else {
+    updateTable(deviceName, generateBarcodes(barcodeEnd, barcodeStart, barcodePrefix), retestPeriod || 12, operatorName);
   }
 }
 
-function print(whiteOnBlack, dbOnly) {
-  let table = readTable(whiteOnBlack);
-  if (table == 'MISSING_OPERATOR_NAME') {
-    alert('Please enter an operator name for all rows');
+/**
+ * Check if the table is valid.
+ *
+ * @param {*} table - The table to check.
+ * @return {*} True if the table is valid, false otherwise.
+ */
+function checkTable(table) {
+  // Empty check
+  let length = 0;
+  for (const key in table) {
+    if (Object.hasOwnProperty.call(table, key)) {
+      length += table[key].length;
+    }
+  }
+  if (length < 1) {
+    alert('Please enter some data');
     return false;
   }
 
-  if (dbOnly) {
-    sendForPrint(table, 'testTag', 'dbOnly');
-  } else {
-    sendForPrint(table, 'testTag', labelSelectorValue, whiteOnBlack);
-  }
-}
-
-function generateBarcodes(barcodePrefix, barcodeStart, barcodeEnd, leader) {
-  var barcodes = [];
-  var quantity;
-
-  barcodeStart = parseInt(barcodeStart);
-  barcodeEnd = parseInt(barcodeEnd);
-
-  if (!isNaN(barcodeStart) && isNaN(barcodeEnd)) {
-    barcodeEnd = barcodeStart;
-  }
-  if (isNaN(barcodeStart)) {
-    quantity = barcodeEnd || 1;
-  } else {
-    quantity = barcodeEnd - barcodeStart + 1;
-  }
-
-  if (isNaN(barcodeStart)) {
-    barcodes = Array(quantity).fill(barcodePrefix);
-  } else {
-    for (var i = 0; i < quantity; i++) {
-      barcodes.push(barcodePrefix + (barcodeStart + i));
+  // Operator name check
+  for (const name of table.operatorNames) {
+    if (name.length < 1) {
+      alert('Please enter an operator name for all rows');
+      return false;
     }
   }
 
-  if (leader) {
-    // Add leader to the start of the barcode array
-    barcodes.unshift('leader');
-  }
-
-  return barcodes;
+  return true;
 }
 
+/**
+ * Update the preview table.
+ *
+ * @param {string} deviceName
+ * @param {string[]} barcodes
+ * @param {number} retestPeriod
+ * @param {string} operatorName
+ */
 function updateTable(deviceName, barcodes, retestPeriod, operatorName) {
   var previewTableBody = '<tr><th>Device Name</th><th>Barcode</th><th>Retest Period</th><th>Operator Name</th></tr>';
 
@@ -124,40 +97,13 @@ function updateTable(deviceName, barcodes, retestPeriod, operatorName) {
   updateTableListeners();
 }
 
-function sendForPrint(values, template, variant, whiteOnBlack) {
-  let data = JSON.stringify({
-    variant: variant,
-    values: values,
-    template: template,
-    whiteOnBlack: whiteOnBlack
-  });
 
-  loading(true);
-
-  var printPromise = fetch('/api/print', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: data
-  });
-
-  console.log(data);
-
-  console.log('Sent');
-
-  printPromise.then(function (response) {
-    loading(false);
-    var responseText = response.text();
-    console.log(responseText);
-    return responseText;
-  }, function (error) {
-    loading(false);
-
-    console.error(error.message);
-  });
-}
-
+/**
+ * Read data from the preview table.
+ *
+ * @param {boolean} [whiteOnBlack] - True to add a leader to the start of the arrays
+ * @return {*}  An object containing the data from the table
+ */
 function readTable(whiteOnBlack) {
   let rows = document.querySelectorAll('#previewTable tr');
 
@@ -178,12 +124,7 @@ function readTable(whiteOnBlack) {
     deviceNames.push(rows[i].querySelectorAll('td')[0].querySelector('input').value);
     barcodes.push(rows[i].querySelectorAll('td')[1].querySelector('input').value);
     retestPeriods.push(rows[i].querySelectorAll('td')[2].querySelector('input').value);
-
-    let operatorName = rows[i].querySelectorAll('td')[3].querySelector('input').value;
-    if (operatorName.length == 0) {
-      return 'MISSING_OPERATOR_NAME';
-    }
-    operatorNames.push(operatorName);
+    operatorNames.push(rows[i].querySelectorAll('td')[3].querySelector('input').value);
   }
 
   return {
@@ -194,20 +135,11 @@ function readTable(whiteOnBlack) {
   };
 }
 
-function updateTableListeners() {
-  var inputs = document.querySelectorAll('#previewTable tr input');
-  for (const input of inputs) {
-    input.removeEventListener('input', tableListener);
-  }
-
-  var lastRowInputs = document.querySelectorAll('#previewTable tr:last-child input');
-  for (const input of lastRowInputs) {
-    input.addEventListener('input', tableListener);
-  }
-}
-
+/**
+ * Clear the inputs and regenerate an empty table
+ *
+ */
 function clearTable() {
-  console.log('Clearing');
   document.getElementById('operatorNameInput').value = '';
   document.getElementById('deviceNameInput').value = '';
   document.getElementById('barcodePrefixInput').value = '';
