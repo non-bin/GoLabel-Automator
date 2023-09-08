@@ -68,8 +68,6 @@ function processInput(field, ...params) {
   }
 }
 
-
-
 /**
  * Generate a list of barcodes from the given parameters
  *

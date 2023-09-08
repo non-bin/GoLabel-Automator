@@ -40,9 +40,19 @@ function updatePreview(field, ...params) {
   var operatorName = document.getElementById('operatorNameInput').value;
   var deviceName = document.getElementById('deviceNameInput').value;
   var barcodePrefix = document.getElementById('barcodePrefixInput').value;
-  var barcodeStart = parseInt(document.getElementById('barcodeStartInput').value) || undefined;
-  var barcodeEnd = parseInt(document.getElementById('barcodeEndInput').value) || undefined;
-  var retestPeriod = parseInt(document.getElementById('retestPeriodInput').value) || undefined;
+  var barcodeStart = parseInt(document.getElementById('barcodeStartInput').value);
+  var barcodeEnd = parseInt(document.getElementById('barcodeEndInput').value);
+  var retestPeriod = parseInt(document.getElementById('retestPeriodInput').value);
+
+  if (!Number.isInteger(barcodeStart)) {
+    barcodeStart = undefined;
+  }
+  if (!Number.isInteger(barcodeEnd)) {
+    barcodeEnd = undefined;
+  }
+  if (!Number.isInteger(retestPeriod)) {
+    retestPeriod = undefined;
+  }
 
   if (operatorName == '' &&
       deviceName == '' &&
