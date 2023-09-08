@@ -74,10 +74,14 @@ const server = http.createServer(function (req, res) {
       }
     } else if (parsedUrl.pathname == '/api/printingEnabled') {
       if (req.method === 'POST') {
-        config.printingEnabled = body == 'true' ? true : false;
+        req.on('end', () => {
+          config.printingEnabled = body == 'true' ? true : false;
 
-        res.statusCode = 200;
-        res.end(`All Good :)`);
+          log(`Printing enabled set to ${config.printingEnabled}`);
+
+          res.statusCode = 200;
+          res.end(config.printingEnabled.toString());
+        });
       } else if (req.method === 'GET') {
         res.statusCode = 200;
         res.end(`${config.printingEnabled}`);
