@@ -40,7 +40,7 @@ function loading(enabled, spinnerID) {
  */
 function processInput(field, ...params) {
   if (field == 'labelSelector') {
-    labelSelectorValue = params[0];
+    labelVariantValue = params[0];
 
     // Set which label is now selected
     const options = document.getElementsByClassName('labelSelectorItems');
@@ -48,8 +48,8 @@ function processInput(field, ...params) {
       const element = options[i];
       element.classList.remove('active');
     };
-    document.getElementById('labelSelector'+labelSelectorValue).classList.add('active');
-    document.getElementById('labelSelectorDropdown').innerText = labelSelectorValue;
+    document.getElementById('labelSelector'+labelVariantValue).classList.add('active');
+    document.getElementById('labelSelectorDropdown').innerText = labelVariantValue;
 
   } else if (field == 'table') {
     if (params[0] == 'lastRow') {
@@ -68,29 +68,7 @@ function processInput(field, ...params) {
   }
 }
 
-/**
- * Send the table to the server for printing
- *
- * @param {boolean} whiteOnBlack - True to print white on black, false to print black on white
- * @param {boolean} [dbOnly] - True to only update the database
- * @param {function} [checkTable] - A function to check if the table is valid
- * @return {boolean} True if the command was sent, false otherwise
- */
-function print(whiteOnBlack, dbOnly) {
-  let table = readTable(whiteOnBlack);
 
-  if (checkTable(table)) {
-    if (dbOnly) {
-      sendForPrint(table, 'testTag', 'dbOnly');
-    } else {
-      sendForPrint(table, 'testTag', labelSelectorValue, whiteOnBlack);
-    }
-  } else {
-    return false;
-  }
-
-  return true;
-}
 
 /**
  * Generate a list of barcodes from the given parameters
@@ -141,11 +119,16 @@ function generateBarcodes(barcodeEnd, barcodeStart, barcodePrefix, leader) {
  * Send a request to the server to print the given values
  *
  * @param {*} values - The object of values to print
- * @param {*} template - Which template to use
- * @param {*} variant - Which template variant to use
- * @param {*} whiteOnBlack - True to print white on black, false to print black on white
+ * @param {string} template - Which template to use
+ * @param {string} variant - Which template variant to use
+ * @param {boolean} [whiteOnBlack] - True to print white on black, false to print black on white
+ * @param {boolean} [dbOnly] - True to only update the database, false to print
  */
-function sendForPrint(values, template, variant, whiteOnBlack) {
+function sendForPrint(values, template, variant, whiteOnBlack, dbOnly) {
+  if (dbOnly) {
+    variant = 'dbOnly';
+  }
+
   let data = JSON.stringify({
     variant: variant,
     values: values,

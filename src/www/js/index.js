@@ -1,4 +1,4 @@
-var labelSelectorValue = 'Large';
+var labelVariantValue = 'Large';
 const tableListener = function () {
   processInput('table', 'lastRow', this);
 };
@@ -148,4 +148,23 @@ function clearTable() {
   document.getElementById('barcodeEndInput').value = '';
 
   updateTable('', [], '', '')
+}
+
+/**
+ * Called by the print button
+ *
+ * @param {boolean} whiteOnBlack - True to print white on black, false to print black on white
+ * @param {boolean} [dbOnly] - True to only update the database
+ * @return {boolean} True if the command was sent, false otherwise
+ */
+function print(whiteOnBlack, dbOnly) {
+  let table = readTable(whiteOnBlack);
+
+  if (checkTable(table)) {
+    sendForPrint(table, 'testTag', labelVariantValue, whiteOnBlack, dbOnly)
+  } else {
+    return false;
+  }
+
+  return true;
 }
