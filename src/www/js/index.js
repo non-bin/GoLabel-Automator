@@ -124,7 +124,6 @@ function updateTable(deviceName, barcodes, retestPeriod, operatorName) {
 /**
  * Read data from the preview table.
  *
- * @param {boolean} [whiteOnBlack] - True to add a leader to the start of the arrays
  * @return {*}  An object containing the data from the table
  */
 function readTable(whiteOnBlack) {
@@ -134,13 +133,6 @@ function readTable(whiteOnBlack) {
   let barcodes = [];
   let retestPeriods = [];
   let operatorNames = [];
-
-  if (whiteOnBlack) {
-    deviceNames.push('leader');
-    barcodes.push('leader');
-    retestPeriods.push(0);
-    operatorNames.push('leader');
-  }
 
   // Skip the header row, and last empty row
   for (let i = 1; i < rows.length-1; i++) {

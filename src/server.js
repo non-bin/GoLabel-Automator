@@ -11,11 +11,14 @@ const ESC_RESET = '\x1b[0m';
 
 const port = parseInt(process.argv[2] || config.defaultPort);
 
-print(null, null, null, ()=>{}, true); // Test if the GoLabel is installed
+var labelInfo = {};
+
+print(null, null, ()=>{}, true); // Test if the GoLabel is installed
 
 const server = http.createServer(function (req, res) {
   const parsedUrl = url.parse(req.url);
 
+  // Collect POST data
   if (req.method === 'POST') {
     var body = '';
     req.on('data', function (data) {
@@ -28,6 +31,7 @@ const server = http.createServer(function (req, res) {
     });
   }
 
+  // API endpoints
   if (parsedUrl.pathname.startsWith('/api')) {
     if (parsedUrl.pathname == '/api/regenerateInverses') {
       if (req.method === 'POST') {
@@ -49,14 +53,21 @@ const server = http.createServer(function (req, res) {
           let template = sanitize(data.template, ['testTag', 'stockTag']);
           let variant = sanitize(data.variant, ['small', 'large', 'dbOnly']);
 
-          createDB(template, data.values, () => {
+          let templateFile = `${template}_${variant}.ezpx`;
+
+          let leaderCount = 0;
+          if (data.whiteOnBlack) {
+            leaderCount = labelInfo[templateFile].horizontalDivisions;
+          }
+
+          createDB(template, data.values, leaderCount, () => {
             if (variant === 'dbOnly') {
               log(`Saved ${template} db only`);
 
               res.statusCode = 200;
               res.end(`All Good :)`);
             } else {
-              print(template, variant, data.whiteOnBlack, (err) => {
+              print(templateFile, data.whiteOnBlack, (err) => {
                 if (err) {
                   logError('Error printing:');
                   logError(err);
@@ -93,7 +104,7 @@ const server = http.createServer(function (req, res) {
       res.statusCode = 404;
       res.end(`API endpoint ${parsedUrl.pathname} not found!`);
     }
-  } else {
+  } else { // Serve static files
     // extract URL path
     let pathname = `./src/www/${parsedUrl.pathname}`;
     // based on the URL path, extract the file extension. e.g. .js, .doc, ...
@@ -172,9 +183,19 @@ server.on('listening', () => {
   printAddresses(port);
 });
 
-function createDB(template, values, callback) {
+function createDB(template, values, leaderCount, callback) {
   var header = '';
   var csv = '';
+
+  if (leaderCount) {
+    for (const key in values) {
+      if (Object.hasOwnProperty.call(values, key)) {
+        for (let i = 0; i < leaderCount; i++) {
+          values[key].unshift('leader');
+        }
+      }
+    }
+  }
 
   switch (template) {
     case 'testTag':
@@ -210,14 +231,12 @@ function createDB(template, values, callback) {
   return;
 }
 
-function print(template, variant, whiteOnBlack, callback, testOnly) {
+function print(templateFile, whiteOnBlack, callback, testOnly) {
   if (!config.printingEnabled) {
     testOnly = true;
   }
 
-  let templateFile = `${template}_${variant}`;
-
-  let command = `"${config.golabelPath}" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}.ezpx" -db ".\\tmp\\db.csv"`;
+  let command = `"${config.golabelPath}" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}" -db ".\\tmp\\db.csv"`;
 
   if (testOnly) { // Just make sure the program is installed
     command = `"${config.golabelPath}" -v`; // This doesn't actually do anything, even output the version. Stupid program.
@@ -250,6 +269,7 @@ function print(template, variant, whiteOnBlack, callback, testOnly) {
 generateInverses();
 function generateInverses() {
   log('Generating inverses');
+  labelInfo = {};
 
   fs.rm('./tmp/inverses/', {recursive: true, force: true}, (err) => {
     if (err) {
@@ -303,28 +323,31 @@ function generateInverses() {
                 label.layout[match.groups.key] = match.groups.value;
               }
 
-              const mediaWidth          = label.setup.LabelWidth;
-              const mediaHeight         = label.setup.LabelLength;
+              // Save info for later
+              labelInfo[entry.name] = {};
+
+              labelInfo[entry.name].mediaWidth          = parseInt(label.setup.LabelWidth);
+              labelInfo[entry.name].mediaHeight         = parseInt(label.setup.LabelLength);
 
               // Margins are stored in 1/8 millimeters, for some reason
-              const leftMargin          = (label.setup.LeftMargin||0)   /8;
-              const rightMargin         = (label.layout.RightMargin||0) /8;
+              labelInfo[entry.name].leftMargin          = parseInt((label.setup.LeftMargin||0)   /8);
+              labelInfo[entry.name].rightMargin         = parseInt((label.layout.RightMargin||0) /8);
               // these two are weird (https://github.com/non-bin/GoLabel-Automator/wiki/GoLabel-II-Weirdness#page-setup-margins)
-              const topMargin           = (label.setup.TopMargin||0)    /-8;
-              const bottomMargin        = ((label.layout.BottomMargin||0)/8)-topMargin;
+              labelInfo[entry.name].topMargin           = parseInt((label.setup.TopMargin||0)    /-8);
+              labelInfo[entry.name].bottomMargin        = parseInt(((label.layout.BottomMargin||0)/8)-labelInfo[entry.name].topMargin);
 
-              const horizontalGap       = (label.layout.HorGap||0);
-              const verticalGap         = (label.layout.VerGap||0);
-              const horizontalDivisions = (label.layout.HorAcross||1);
-              const verticalDivisions   = (label.layout.VerAcross||1);
+              labelInfo[entry.name].horizontalGap       = parseInt(label.layout.HorGap||0);
+              labelInfo[entry.name].verticalGap         = parseInt(label.layout.VerGap||0);
+              labelInfo[entry.name].horizontalDivisions = parseInt(label.layout.HorAcross||1);
+              labelInfo[entry.name].verticalDivisions   = parseInt(label.layout.VerAcross||1);
 
-              if (mediaWidth === undefined || mediaHeight === undefined) {
+              if (labelInfo[entry.name].mediaWidth === undefined || labelInfo[entry.name].mediaHeight === undefined) {
                 logError(`ERROR: While generating inverse for ${entry.name} (missing media width or length)`);
                 throw(new Error());
               }
 
-              const inverseMaskWidth = (mediaWidth-leftMargin-rightMargin-horizontalGap*(horizontalDivisions-1))/horizontalDivisions*8;
-              const inverseMashHeight = (mediaHeight-topMargin-bottomMargin-verticalGap*(verticalDivisions-1))/verticalDivisions*8;
+              const inverseMaskWidth = (labelInfo[entry.name].mediaWidth-labelInfo[entry.name].leftMargin-labelInfo[entry.name].rightMargin-labelInfo[entry.name].horizontalGap*(labelInfo[entry.name].horizontalDivisions-1))/labelInfo[entry.name].horizontalDivisions*8;
+              const inverseMashHeight = (labelInfo[entry.name].mediaHeight-labelInfo[entry.name].topMargin-labelInfo[entry.name].bottomMargin-labelInfo[entry.name].verticalGap*(labelInfo[entry.name].verticalDivisions-1))/labelInfo[entry.name].verticalDivisions*8;
 
               var newData = data.replace('</qlabel>',`
                 <GraphicShape xsi:type="Line" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" Alignment="Left" AlignPointX="0" AlignPointY="0">

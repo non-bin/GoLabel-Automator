@@ -104,19 +104,13 @@ function updateTable(deviceName, barcodes) {
 /**
  * Read data from the preview table.
  *
- * @param {boolean} [whiteOnBlack] - True to add a leader to the start of the arrays
  * @return {*}  An object containing the data from the table
  */
-function readTable(whiteOnBlack) {
+function readTable() {
   let rows = document.querySelectorAll('#previewTable tr');
 
   let deviceNames = [];
   let barcodes = [];
-
-  if (whiteOnBlack) {
-    deviceNames.push('leader');
-    barcodes.push('leader');
-  }
 
   // Skip the header row, and last empty row
   for (let i = 1; i < rows.length-1; i++) {

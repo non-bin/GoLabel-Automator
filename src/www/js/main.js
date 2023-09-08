@@ -74,10 +74,9 @@ function processInput(field, ...params) {
  * @param {number} barcodeEnd - The last barcode number, or the quantity if barcodeStart is undefined
  * @param {number} [barcodeStart] - The first barcode number, or undefined to use barcodeEnd as a quantity
  * @param {string} [barcodePrefix] - A string to put before the number
- * @param {bool} [leader=false] - Add a leader to the start of the array
  * @return {*}
  */
-function generateBarcodes(barcodeEnd, barcodeStart, barcodePrefix, leader) {
+function generateBarcodes(barcodeEnd, barcodeStart, barcodePrefix) {
   barcodePrefix = barcodePrefix || '';
 
   var barcodes = [];
@@ -103,11 +102,6 @@ function generateBarcodes(barcodeEnd, barcodeStart, barcodePrefix, leader) {
     for (var i = 0; i < quantity; i++) {
       barcodes.push(barcodePrefix + (barcodeStart + i));
     }
-  }
-
-  if (leader) {
-    // Add leader to the start of the barcode array
-    barcodes.unshift('leader');
   }
 
   return barcodes;
