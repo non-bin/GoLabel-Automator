@@ -4,5 +4,6 @@
   "inverseSettings": {
     "speed": 2,
     "darkness": 1
-  }
+  },
+  "printingEnabled": true
 }

@@ -161,7 +161,7 @@ function print(whiteOnBlack, dbOnly) {
   let table = readTable(whiteOnBlack);
 
   if (checkTable(table)) {
-    sendForPrint(table, 'testTag', labelVariantValue, whiteOnBlack, dbOnly)
+    sendForPrint(table, 'stockTag', labelVariantValue, whiteOnBlack, dbOnly)
   } else {
     return false;
   }

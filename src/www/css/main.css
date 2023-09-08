@@ -14,7 +14,7 @@ button.btn-light {
   border-width: thin;
 }
 
-[data-bs-theme=dark] button:not([class*="btn-primary"], [class*="btn-secondary"], [class*="btn-success"], [class*="btn-danger"], [class*="btn-warning"], [class*="btn-info"], [class*="btn-light"], [class*="btn-dark"], [class*="btn-link"]) {
+[data-bs-theme=dark] button.btn-fix {
   border: var(--bs-light);
   border-style: solid;
   border-width: thin;
@@ -22,7 +22,7 @@ button.btn-light {
   --bs-btn-hover-border-color: #424649;
 }
 
-[data-bs-theme=light] button:not([class*="btn-primary"], [class*="btn-secondary"], [class*="btn-success"], [class*="btn-danger"], [class*="btn-warning"], [class*="btn-info"], [class*="btn-light"], [class*="btn-dark"], [class*="btn-link"]) {
+[data-bs-theme=light] button.btn-fix {
   border: var(--bs-dark);
   border-style: solid;
   border-width: thin;

@@ -1,9 +1,5 @@
 # GoLabel-Automator
 
-## Issues
-
-- [ ] Inverse labels that aren't 45x100mm print incorrectly (Inverse generation uses a fixed size invert object)
-
 ## Getting Started
 
 Download the latest release from [https://github.com/non-bin/GoLabel-Automator/releases](https://github.com/non-bin/GoLabel-Automator/releases)
@@ -63,3 +59,21 @@ Label has lines through it | Turn down `inverseSettings.speed`
 ## Testing
 
 Only tested on a GoDex RT200 printer
+
+## Licence
+
+  Automate label printing from templates, with GoLabel II
+  Copyright (C) 2023  Alice Jacka
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.

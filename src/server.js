@@ -11,7 +11,7 @@ const ESC_RESET = '\x1b[0m';
 
 const port = parseInt(process.argv[2] || config.defaultPort);
 
-print(null, null, null, true); // Test if the GoLabel is installed
+print(null, null, null, ()=>{}, true); // Test if the GoLabel is installed
 
 const server = http.createServer(function (req, res) {
   const parsedUrl = url.parse(req.url);
@@ -26,35 +26,73 @@ const server = http.createServer(function (req, res) {
       if (body.length > 1e6)
       req.socket.destroy();
     });
+  }
 
-    req.on('end', function () {
-      if (parsedUrl.pathname.startsWith('/api')) {
-        if (parsedUrl.pathname.startsWith('/api/regenerateInverses')) {
+  if (parsedUrl.pathname.startsWith('/api')) {
+    if (parsedUrl.pathname == '/api/regenerateInverses') {
+      if (req.method === 'POST') {
+        req.on('end', () => {
           generateInverses();
 
           res.statusCode = 200;
           res.end(`All Good :)`);
-        } else if (parsedUrl.pathname.startsWith('/api/print')) {
+        });
+      } else {
+        res.statusCode = 405; // Method not allowed
+        res.end(`Method ${req.method} not allowed!`);
+      }
+    } else if (parsedUrl.pathname == '/api/print') {
+      if (req.method === 'POST') {
+        req.on('end', () => {
           let data = JSON.parse(body);
 
           let template = sanitize(data.template, ['testTag', 'assetTag']);
           let variant = sanitize(data.variant, ['small', 'large', 'dbOnly']);
 
-          createDB(template, data.values);
-          if (variant === 'dbOnly') {
-            log(`Saved ${template} db only`);
-          } else {
-            print(template, variant, data.whiteOnBlack);
-          }
+          createDB(template, data.values, () => {
+            if (variant === 'dbOnly') {
+              log(`Saved ${template} db only`);
+
+              res.statusCode = 200;
+              res.end(`All Good :)`);
+            } else {
+              print(template, variant, data.whiteOnBlack, (err) => {
+                if (err) {
+                  logError('Error printing:');
+                  logError(err);
+                } else {
+                  res.statusCode = 200;
+                  res.end(`All Good :)`);
+                }
+              });
+            }
+          });
+        });
+      } else {
+        res.statusCode = 405; // Method not allowed
+        res.end(`Method ${req.method} not allowed!`);
+      }
+    } else if (parsedUrl.pathname == '/api/printingEnabled') {
+      if (req.method === 'POST') {
+        req.on('end', () => {
+          config.printingEnabled = body == 'true' ? true : false;
+
+          log(`Printing enabled set to ${config.printingEnabled}`);
 
           res.statusCode = 200;
-          res.end(`All Good :)`);
-        }
-
-        log(`${req.method} ${req.url} ${res.statusCode}`);
-        return;
+          res.end(config.printingEnabled.toString());
+        });
+      } else if (req.method === 'GET') {
+        res.statusCode = 200;
+        res.end(`${config.printingEnabled}`);
+      } else {
+        res.statusCode = 405; // Method not allowed
+        res.end(`Method ${req.method} not allowed!`);
       }
-    });
+    } else {
+      res.statusCode = 404;
+      res.end(`API endpoint ${parsedUrl.pathname} not found!`);
+    }
   } else {
     // extract URL path
     let pathname = `./src/www/${parsedUrl.pathname}`;
@@ -87,24 +125,38 @@ const server = http.createServer(function (req, res) {
       }
 
       // if is a directory search for index file matching the extension
-      if (fs.statSync(pathname).isDirectory()) pathname += '/index' + ext;
-
-      // read file from file system
-      fs.readFile(pathname, function(err, data){
-        if(err){
+      fs.stat(pathname, function(err, stat) {
+        if(err) {
           res.statusCode = 500;
           res.end(`Error getting the file: ${err}.`);
-          log(`${req.method} ${req.url} ${res.statusCode}`);
-        } else {
-          // if the file is found, set Content-type and send data
-          res.setHeader('Content-type', docTypeMap[ext] || 'text/plain' );
-          res.end(data);
-          log(`${req.method} ${req.url} ${res.statusCode}`);
+          logError(err);
+          return;
         }
+
+
+        if (stat.isDirectory()) pathname += '/index' + ext;
+
+        // read file from file system
+        fs.readFile(pathname, function(err, data){
+          if(err){
+            res.statusCode = 500;
+            res.end(`Error getting the file: ${err}.`);
+            log(`${req.method} ${req.url} ${res.statusCode}`);
+          } else {
+            // if the file is found, set Content-type and send data
+            res.setHeader('Content-type', docTypeMap[ext] || 'text/plain' );
+            res.end(data);
+            log(`${req.method} ${req.url} ${res.statusCode}`);
+          }
+        });
       });
     });
   }
+
+  log(`${req.method} ${req.url} ${res.statusCode}`);
+  return;
 });
+
 server.listen(port);
 server.on('error', (e) => {
   if (e.code === 'EADDRINUSE') {
@@ -121,11 +173,12 @@ server.on('listening', () => {
 });
 
 function createDB(template, values, callback) {
+  var header = '';
   var csv = '';
 
   switch (template) {
     case 'testTag':
-      csv += 'NAME,ID,RETEST,OPERATOR\n';
+      header = 'NAME,ID,RETEST,OPERATOR\n';
 
       for (let i = 0; i < values.barcodes.length; i++) {
         csv += `${values.deviceNames[i]},${values.barcodes[i]},${values.retestPeriods[i]},${values.operatorNames[i]}\n`;
@@ -137,10 +190,23 @@ function createDB(template, values, callback) {
       return false;
   }
 
-  fs.writeFileSync(`./tmp/db.csv`, csv);
+  fs.writeFile(`./tmp/db.csv`, header+csv, callback);
+  fs.writeFile(`./history.csv`, csv, {flag: 'a'}, (err) => {
+    if (err) {
+      logError('Error writing new history entry:');
+      logError(err);
+      return;
+    }
+  });
+
+  return;
 }
 
-function print(template, variant, whiteOnBlack, testOnly) {
+function print(template, variant, whiteOnBlack, callback, testOnly) {
+  if (!config.printingEnabled) {
+    testOnly = true;
+  }
+
   let templateFile = `${template}_${variant}`;
 
   let command = `"${config.golabelPath}" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}.ezpx" -db ".\\tmp\\db.csv"`;
@@ -150,7 +216,7 @@ function print(template, variant, whiteOnBlack, testOnly) {
   }
 
   log(`Printing ${templateFile} ${whiteOnBlack ? 'inverses' : ''}`);
-  child_process.exec(command, (error, stdout, stderr) => {
+  child_process.exec(command, function(error, stdout, stderr) {
     if (error) {
       if (error.message.indexOf('is not recognized as an internal or external command') != -1) {
         logError('ERROR: Either GoLabel II is not installed, or the path in config.json is incorrect');
@@ -161,8 +227,14 @@ function print(template, variant, whiteOnBlack, testOnly) {
       process.exit(1);
     }
 
-    log('Done printing');
-  });
+    if (testOnly) {
+      log('Test print successful');
+    } else {
+      log('Done printing');
+    }
+
+    callback(error);
+  }.bind({callback: callback}));
 }
 
 generateInverses();
