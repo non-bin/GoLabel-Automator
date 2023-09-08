@@ -30,6 +30,13 @@ function sendPrintingEnabledStatus(enabled) {
   }).then(function (response) {
     if (response.ok) {
       console.log('Printing enabled status updated');
+      response.text().then(function (responseText) {
+        setPrintingEnabledStatus(responseText === 'true');
+      }, function (error) {
+        console.error(error.message);
+        getPrintingEnabledStatus();
+        alert('Printing enabled status update failed');
+      });
     } else {
       console.error('Printing enabled status update failed');
       getPrintingEnabledStatus();
@@ -51,13 +58,7 @@ function getPrintingEnabledStatus() {
     response.text().then(function (responseText) {
       console.log(responseText);
 
-      if (responseText === 'true') {
-        document.getElementById('enablePrinting').checked = true;
-      } else if (responseText === 'false') {
-        document.getElementById('disablePrinting').checked = true;
-      } else {
-        console.error('Invalid response from server');
-      }
+      setPrintingEnabledStatus(responseText === 'true');
 
       loading(false);
       return;
@@ -73,4 +74,12 @@ function getPrintingEnabledStatus() {
     loading(false);
     return;
   });
+}
+
+function setPrintingEnabledStatus(enabled) {
+  if (enabled) {
+    document.getElementById('enablePrinting').checked = true;
+  } else {
+    document.getElementById('disablePrinting').checked = true;
+  }
 }
