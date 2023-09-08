@@ -44,9 +44,23 @@ function processInput(field, ...params) {
     var barcodePrefix = document.getElementById('barcodePrefixInput').value;
     var barcodeStart = document.getElementById('barcodeStartInput').value;
     var barcodeEnd = document.getElementById('barcodeEndInput').value;
-    var retestPeriod = document.getElementById('retestPeriodInput').value || 12;
+    var retestPeriod = document.getElementById('retestPeriodInput').value;
 
-    updateTable(deviceName, generateBarcodes(barcodePrefix, barcodeStart, barcodeEnd), retestPeriod, operatorName);
+    if (operatorName == '' &&
+        deviceName == '' &&
+        barcodePrefix == '' &&
+        barcodeStart == '' &&
+        barcodeEnd == '' &&
+        retestPeriod == '') {
+      clearTable();
+      return;
+    }
+
+    if (barcodeStart < barcodeEnd) {
+      updateTable(deviceName, generateBarcodes(barcodePrefix, barcodeStart, barcodeEnd), retestPeriod || 12, operatorName);
+    } else {
+      updateTable(deviceName, generateBarcodes(barcodePrefix, barcodeEnd, barcodeStart), retestPeriod || 12, operatorName);
+    }
   }
 }
 
@@ -184,12 +198,22 @@ function updateTableListeners() {
   var inputs = document.querySelectorAll('#previewTable tr input');
   for (const input of inputs) {
     input.removeEventListener('input', tableListener);
-    console.log(input);
   }
 
   var lastRowInputs = document.querySelectorAll('#previewTable tr:last-child input');
   for (const input of lastRowInputs) {
     input.addEventListener('input', tableListener);
-    console.log(input);
   }
+}
+
+function clearTable() {
+  console.log('Clearing');
+  document.getElementById('operatorNameInput').value = '';
+  document.getElementById('deviceNameInput').value = '';
+  document.getElementById('barcodePrefixInput').value = '';
+  document.getElementById('retestPeriodInput').value = '';
+  document.getElementById('barcodeStartInput').value = '';
+  document.getElementById('barcodeEndInput').value = '';
+
+  updateTable('', [], '', '')
 }

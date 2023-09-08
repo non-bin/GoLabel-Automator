@@ -81,16 +81,17 @@
       </div>
 
       <span class="mt-5">
-        <button type="button" class="btnPrintBoW btn" onclick="print(false, true)" aria-label="Save Database Only">Save DB</button>
+        <button type="button" class="btn-fix btnPrintBoW btn" onclick="print(false, true)" aria-label="Save Database Only">Save DB</button>
         <button type="button" class="btnPrintBoW btn btn-light" onclick="print(false)" aria-label="Print black on white">Print</button>
-        <button type="button" class="btnPrintWoB btn btn-dark" onclick="print(true)" aria-label="Print white on black">Print</button>
+        <button type="button" class="btn-fix btnPrintWoB btn btn-dark" onclick="print(true)" aria-label="Print white on black">Print</button>
         <span class="dropdown">
-          <button class="btn dropdown-toggle" type="button" id="labelSelectorDropdown" data-bs-toggle="dropdown" aria-expanded="false">Large</button>
+          <button class="btn-fix btn dropdown-toggle" type="button" id="labelSelectorDropdown" data-bs-toggle="dropdown" aria-expanded="false">Large</button>
           <ul class="dropdown-menu" aria-labelledby="labelSelectorDropdown">
             <li><a class="dropdown-item labelSelectorItems active" id="labelSelectorLarge" href="#" onclick="processInput('labelSelector', 'Large')">Large</a></li>
             <li><a class="dropdown-item labelSelectorItems" id="labelSelectorSmall" href="#" onclick="processInput('labelSelector', 'Small')">Small</a></li>
           </ul>
         </span>
+        <button type="button" class="btnPrintWoB btn btn-outline-warning" aria-label="Clear all fields" onclick="clearTable()">Clear</button>
         <div class="spinner-border align-middle d-none" id="loadingSpinner" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
@@ -131,8 +132,8 @@
     </div>
   </div>
 
-  <script src="js/index.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/index.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>

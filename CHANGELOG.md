@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Program now waits for printing to finish before returning success to client
+- If barcode start and end are swapped, the program will now swap them back
 
 ## [1.1.1] - 2023-8-11
 
