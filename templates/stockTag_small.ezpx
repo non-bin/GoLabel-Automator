@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PrintJob xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SampleData />
   <GraphicMode>false</GraphicMode>
   <FormatVersion>1</FormatVersion>
   <QLabelSDKVersion>1.5.8346.25091</QLabelSDKVersion>
-  <GoLabelZoomFactor>1.26</GoLabelZoomFactor>
+  <GoLabelZoomFactor>1.16</GoLabelZoomFactor>
   <Label>
     <Scale>
       <ComName>COM1</ComName>
@@ -525,7 +524,7 @@
     </VariableFormat>
     <GroupList />
     <qlabel>
-      <GraphicShape xsi:type="GdiWindowTextBox" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="10.7539673" Y="134.047653" Alignment="Center" AlignPointX="10.7539673" AlignPointY="134.047653" FontScript="Default" AutoFontResize="true" FontCmd="Arial,5&#xD;&#xA;" LineSpacing="Single" bSpaceCropping="false" LineHeight="15" Multiple="10" DotBeforePara="0" DotAfterPara="0" FontWidth="11" TextSpace="0" BoundingAlignment="Bottom">
+      <GraphicShape xsi:type="GdiWindowTextBox" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="8.753967" Y="138.047653" Alignment="Center" AlignPointX="8.753967" AlignPointY="144.047653" FontScript="Default" AutoFontResize="true" FontCmd="Arial,5&#xD;&#xA;" LineSpacing="Single" bSpaceCropping="false" LineHeight="15" Multiple="10" DotBeforePara="0" DotAfterPara="0" FontWidth="11" TextSpace="0" BoundingAlignment="Bottom">
         <qHitOnCircumferance>false</qHitOnCircumferance>
         <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
@@ -548,7 +547,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>158.492065</BoundRectWidth>
-        <DispData>H4UPQUAD-9</DispData>
+        <DispData>RCFHD10-4</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F01</Data>
         <ItemInfoList>
@@ -560,21 +559,21 @@
         <BoundRectHeight>16</BoundRectHeight>
         <BoundRect>
           <Location>
-            <X>10.7539673</X>
-            <Y>134.047653</Y>
+            <X>8.753967</X>
+            <Y>138.047653</Y>
           </Location>
           <Size>
             <Width>158.492065</Width>
             <Height>16</Height>
           </Size>
-          <X>10.7539673</X>
-          <Y>134.047653</Y>
+          <X>8.753967</X>
+          <Y>138.047653</Y>
           <Width>158.492065</Width>
           <Height>16</Height>
         </BoundRect>
         <BTrueType>true</BTrueType>
       </GraphicShape>
-      <GraphicShape xsi:type="QRCode" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="52.5" Y="60.1208534" Alignment="Center" AlignPointX="52.5" AlignPointY="60.1208534" FontScript="Default" bSingleLine="false" CaptionWidth="150" bGS1="false" CaptionAlignment="None" FontCmd="Arial,11&#xD;&#xA;" Mode="Auto" Type="2" ErrorCorrectionLevel="77" QrcodeVersion="2" Mask="8" Multiple="3" IsUTF8="true" CodePage="65001">
+      <GraphicShape xsi:type="QRCode" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="50.5" Y="60.9829178" Alignment="Center" AlignPointX="50.5" AlignPointY="60.9829178" FontScript="Default" bSingleLine="false" CaptionWidth="150" bGS1="false" CaptionAlignment="None" FontCmd="Arial,11&#xD;&#xA;" Mode="Auto" Type="2" ErrorCorrectionLevel="77" QrcodeVersion="2" Mask="8" Multiple="3" IsUTF8="true" CodePage="65001">
         <qHitOnCircumferance>false</qHitOnCircumferance>
         <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
@@ -597,7 +596,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>75</BoundRectWidth>
-        <DispData>H4UPQUAD-9</DispData>
+        <DispData>RCFHD10-4</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F01</Data>
         <ItemInfoList>
@@ -609,15 +608,15 @@
         <BoundRectHeight>75</BoundRectHeight>
         <BoundRect>
           <Location>
-            <X>52.5</X>
-            <Y>60.1208534</Y>
+            <X>50.5</X>
+            <Y>60.9829178</Y>
           </Location>
           <Size>
             <Width>75</Width>
             <Height>75</Height>
           </Size>
-          <X>52.5</X>
-          <Y>60.1208534</Y>
+          <X>50.5</X>
+          <Y>60.9829178</Y>
           <Width>75</Width>
           <Height>75</Height>
         </BoundRect>
@@ -647,7 +646,7 @@
           <BoundRectWidth>100.1</BoundRectWidth>
           <DispData>1234</DispData>
           <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
-          <Data>H4UPQUAD-9</Data>
+          <Data>RCFHD10-4</Data>
           <ItemInfoList />
           <BoundRectHeight>100.3</BoundRectHeight>
           <BoundRect>
@@ -670,7 +669,7 @@
         </MultiLineCaption>
         <bWrapBarCodeWidth>false</bWrapBarCodeWidth>
       </GraphicShape>
-      <GraphicShape xsi:type="GdiWindowTextBox" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="3.69841" Y="11.1111135" Alignment="Center" AlignPointX="3.69841" AlignPointY="11.1111135" FontScript="Default" AutoFontResize="false" FontCmd="Arial,5&#xD;&#xA;" LineSpacing="Single" bSpaceCropping="false" LineHeight="17" Multiple="10" DotBeforePara="0" DotAfterPara="0" FontWidth="9" TextSpace="0" BoundingAlignment="Center">
+      <GraphicShape xsi:type="GdiWindowTextBox" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="1.69841" Y="4.5" Alignment="Center" AlignPointX="1.69841" AlignPointY="7.5" FontScript="Default" AutoFontResize="false" FontCmd="Arial,5&#xD;&#xA;" LineSpacing="Single" bSpaceCropping="false" LineHeight="17" Multiple="10" DotBeforePara="0" DotAfterPara="0" FontWidth="9" TextSpace="0" BoundingAlignment="Center">
         <qHitOnCircumferance>false</qHitOnCircumferance>
         <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
@@ -693,7 +692,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>172.60318</BoundRectWidth>
-        <DispData>Legend H4 IP Upquad</DispData>
+        <DispData>HD10-A Speaker</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F00</Data>
         <ItemInfoList>
@@ -702,20 +701,20 @@
             <ItemData>^F00</ItemData>
           </Item>
         </ItemInfoList>
-        <BoundRectHeight>46</BoundRectHeight>
+        <BoundRectHeight>55.84483</BoundRectHeight>
         <BoundRect>
           <Location>
-            <X>3.69841</X>
-            <Y>11.1111135</Y>
+            <X>1.69841</X>
+            <Y>4.5</Y>
           </Location>
           <Size>
             <Width>172.60318</Width>
-            <Height>46</Height>
+            <Height>55.84483</Height>
           </Size>
-          <X>3.69841</X>
-          <Y>11.1111135</Y>
+          <X>1.69841</X>
+          <Y>4.5</Y>
           <Width>172.60318</Width>
-          <Height>46</Height>
+          <Height>55.84483</Height>
         </BoundRect>
         <BTrueType>true</BTrueType>
       </GraphicShape>
@@ -733,13 +732,13 @@
     <Password>zhsTbm6nT9o+RQurpwH5Hw==</Password>
     <EncryptPwd>true</EncryptPwd>
     <DatabaseNoHeader>false</DatabaseNoHeader>
-    <ServerName>VerbatimMode</ServerName>
+    <ServerName />
     <IntegratedSecurity>false</IntegratedSecurity>
     <RowIndex>0</RowIndex>
   </Label>
-  <Setup bInfinityPrint="false" LabelLength="100" LabelWidth="45" LeftMargin="0" TopMargin="0" LabelType="0" GapLength="3" FeedLength="0" ZSign="45" BlackMark="0" Position="0" Speed="3" Copy="1" bCopyDataBase="false" CopyField="^F02" Stripper="0" LabelsPerCut="0" DoubleCut_Enable="false" DoubleCut_OffsetLen="0" DoubleCut_FirstCutMode="1" Rotate180="255" Stop="12" Darkness="8" Number="1" bCutDataBase="false" bBatchCut="false" bNumberDataBase="false" NumberField="None" PageDirection="Portrait" PrintMode="1" PowerRFID="0" LengthRFID="-1" RetryRFID="1" DrawMode="0">
-    <Layout Shape="2" AcrossType="TopToButtom" PageDirection="Portrait" HorAcross="2" VerAcross="5" HorGap="0" VerGap="0" HorAcrossMode1="1" VerAcrossMode1="1" LabelMode="0" HorGapMode1="0" VerGapMode1="0" BottomMargin="0" RightMargin="0" />
-    <Description>Test Tag
+  <Setup bInfinityPrint="false" LabelLength="100" LabelWidth="45" LeftMargin="0" TopMargin="-12" LabelType="0" GapLength="3" FeedLength="0" ZSign="45" BlackMark="0" Position="0" Speed="3" Copy="1" bCopyDataBase="false" CopyField="^F02" Stripper="0" LabelsPerCut="0" DoubleCut_Enable="false" DoubleCut_OffsetLen="0" DoubleCut_FirstCutMode="1" Rotate180="255" Stop="12" Darkness="8" Number="1" bCutDataBase="false" bBatchCut="false" bNumberDataBase="false" NumberField="None" PageDirection="Portrait" PrintMode="1" PowerRFID="0" LengthRFID="-1" RetryRFID="1" DrawMode="0">
+    <Layout Shape="2" AcrossType="LeftToRight" PageDirection="Portrait" HorAcross="2" VerAcross="5" HorGap="0" VerGap="0" HorAcrossMode1="1" VerAcrossMode1="1" LabelMode="0" HorGapMode1="0" VerGapMode1="0" BottomMargin="21" RightMargin="7" />
+    <Description>&#x0;
 Lang:(en-US) OS:Microsoft Windows NT 10.0.19045.0(Win32NT)</Description>
     <UnitType>Mm</UnitType>
     <Dpi>203</Dpi>
