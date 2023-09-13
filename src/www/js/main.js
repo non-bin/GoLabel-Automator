@@ -145,7 +145,6 @@ function sendForPrint(values, template, variant, whiteOnBlack, dbOnly) {
   printPromise.then(function (response) {
     loading(false);
     var responseText = response.text();
-    console.log(responseText);
     return responseText;
   }, function (error) {
     loading(false);

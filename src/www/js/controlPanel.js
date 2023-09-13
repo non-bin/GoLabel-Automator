@@ -11,7 +11,6 @@ function regenerateInverses() {
   printPromise.then(function (response) {
     loading(false);
     var responseText = response.text();
-    console.log(responseText);
     return responseText;
   }, function (error) {
     loading(false);
@@ -56,8 +55,6 @@ function getPrintingEnabledStatus() {
     method: 'GET'
   }).then(function (response) {
     response.text().then(function (responseText) {
-      console.log(responseText);
-
       setPrintingEnabledStatus(responseText === 'true');
 
       loading(false);
