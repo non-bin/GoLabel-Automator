@@ -1,9 +1,25 @@
-var selectedLabelVariant = 'Large';
-const tableListener = function () {
-  processInput('table', 'lastRow', this);
-};
-updateTableListeners();
+/**
+ * Automate label printing from templates, with GoLabel II
+ * Common functions for all web pages
+ * Copyright (C) 2023  Alice Jacka
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+**/
 
+var selectedLabelVariant = 'Large'; // Default label variant
+
+// The empty row to add to the end of the table, when needed
 const tableEmptyRow = `
 <tr>
   <td>
@@ -126,7 +142,6 @@ function readTable() {
 
 /**
  * Clear the inputs and regenerate an empty table
- *
  */
 function clearTable() {
   document.getElementById('deviceNameInput').value = '';

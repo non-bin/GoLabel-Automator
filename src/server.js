@@ -1,3 +1,20 @@
+/**
+ * Automate label printing from templates, with GoLabel II
+ * Copyright (C) 2023  Alice Jacka
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 const http          = require('http');
 const url           = require('url');
 const fs            = require('fs');
@@ -6,15 +23,15 @@ const child_process = require('child_process');
 const os            = require('os');
 const config        = require('../config.json');
 
-const ESC_RED = '\x1b[91m';
-const ESC_RESET = '\x1b[0m';
-
+// Command line args
 const port = parseInt(process.argv[2] || config.defaultPort);
 const DEBUG_LEVEL = parseInt(process.argv[3] || config.debugLevel);
 
+// Stores info about the available labels
 var labelInfo = {};
 
-print(null, null, ()=>{}, true); // Test if the GoLabel is installed
+// Test if the GoLabel is installed
+print(null, null, null, true);
 
 const server = http.createServer(function (req, res) {
   const parsedUrl = url.parse(req.url);
@@ -51,6 +68,7 @@ const server = http.createServer(function (req, res) {
         req.on('end', () => {
           let data = JSON.parse(body);
 
+          // Allowed values
           let template = sanitize(data.template, ['testTag', 'stockTag']);
           let variant = sanitize(data.variant, ['small', 'large', 'dbOnly']);
 
@@ -143,7 +161,7 @@ const server = http.createServer(function (req, res) {
           return;
         }
 
-
+        // Serve the index file if it's a directory
         if (stat.isDirectory()) pathname += '/index' + ext;
 
         // read file from file system
@@ -183,9 +201,22 @@ server.on('listening', () => {
   printAddresses(port);
 });
 
+/**
+ * Create a csv database file
+ *
+ * @param {string} template - The template name
+ * @param {*} values - The values to put in the database
+ * @param {number} [leaderCount] - The number of leaders to add to the start
+ * @param {function} [callback]
+ * @return {boolean} - False if an error occurred
+ */
 function createDB(template, values, leaderCount, callback) {
   var header = '';
   var csv = '';
+
+  if (typeof callback !== 'function') {
+    callback = () => {};
+  }
 
   if (leaderCount) {
     for (const key in values) {
@@ -231,7 +262,19 @@ function createDB(template, values, leaderCount, callback) {
   return;
 }
 
+/**
+ * Send a request to Golabel II to print the given template
+ *
+ * @param {*} templateFile - The template file to print
+ * @param {*} [whiteOnBlack] - True to print white on black, false to print black on white
+ * @param {function} [callback]
+ * @param {*} [testOnly] - True to just test if the program is installed
+ */
 function print(templateFile, whiteOnBlack, callback, testOnly) {
+  if (typeof callback !== 'function') {
+    callback = () => {};
+  }
+
   if (!config.printingEnabled) {
     testOnly = true;
   }
@@ -270,6 +313,9 @@ function print(templateFile, whiteOnBlack, callback, testOnly) {
 }
 
 generateInverses();
+/**
+ * Generate inverses for all the templates
+ */
 function generateInverses() {
   log('Generating inverses');
   labelInfo = {};
@@ -387,7 +433,16 @@ function generateInverses() {
   });
 }
 
+/**
+ * Print all the IP addresses the server is listening on
+ *
+ * @param {number} [port] - The port the server is listening on
+ */
 function printAddresses(port) {
+  if (typeof port !== 'number') {
+    port = 80;
+  }
+
   // https://stackoverflow.com/a/8440736/10805855
   const nets = os.networkInterfaces();
   const results = Object.create(null); // Or just '{}', an empty object
@@ -424,31 +479,20 @@ function printAddresses(port) {
   log(output);
 }
 
-// Helper functions:
-
-JSON.safeStringify = (obj, indent = 2) => {
-  let cache = [];
-  const retVal = JSON.stringify(
-    obj,
-    (key, value) =>
-      typeof value === "object" && value !== null
-        ? cache.includes(value)
-          ? undefined // Duplicate reference found, discard key
-          : cache.push(value) && value // Store value in our collection
-        : value,
-    indent
-  );
-  cache = null;
-  return retVal;
-};
-
+/**
+ * Sanitize a string to make sure it's in a list of allowed values
+ *
+ * @param {string} input - The input to sanitize
+ * @param {array<string>} options - The list of allowed values
+ * @return {string} - The sanitized string, or undefined if it's not in the list of allowed values
+ */
 function sanitize(input, options) {
   if (typeof input != 'string') {
     return undefined;
   }
 
   for (let i = 0; i < options.length; i++) {
-    if (options[i].toLowerCase() == input.toLowerCase()) {
+    if (options[i] === input) {
       return options[i];
     }
   }
@@ -456,6 +500,14 @@ function sanitize(input, options) {
   return undefined;
 }
 
+const ESC_RED = '\x1b[91m';
+const ESC_RESET = '\x1b[0m';
+
+/**
+ * Log a message to the console
+ *
+ * @param {*} message
+ */
 function log(message) {
   if (DEBUG_LEVEL < 10) {
     console.log(message);
@@ -464,6 +516,11 @@ function log(message) {
   }
 }
 
+/**
+ * Log an error to the console
+ *
+ * @param {*} message
+ */
 function logError(message) {
   if (DEBUG_LEVEL < 10) {
     console.log(`${ESC_RED}${message}${ESC_RESET}`);
@@ -472,10 +529,16 @@ function logError(message) {
   }
 }
 
+/**
+ * @return {error}  An error object
+ */
 function getErrorObject(){
   try { throw Error('') } catch(err) { return err; }
 }
 
+/**
+ * @return {string} The name of the function that called this function, and it's location
+ */
 function getCaller() {
   const err = getErrorObject();
   const stack = err.stack.split("\n");

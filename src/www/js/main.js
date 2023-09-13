@@ -153,9 +153,13 @@ function sendForPrint(values, template, variant, whiteOnBlack, dbOnly) {
   });
 }
 
+// Function to run when an input is made to the last row of the table
+const tableListener = function () {
+  processInput('table', 'lastRow', this);
+};
+updateTableListeners();
 /**
  * Remove all listeners from the table, then add them to the last row
- *
  */
 function updateTableListeners() {
   var inputs = document.querySelectorAll('#previewTable tr input');
@@ -242,6 +246,8 @@ function updateTableListeners() {
       .forEach(toggle => {
         toggle.addEventListener('click', () => {
           let theme = toggle.getAttribute('data-bs-theme-value')
+
+          // Added this to allow for a toggle button
           if (theme == 'toggle') {
             theme = (getStoredTheme() == 'light') ? 'dark' : 'light';
           }

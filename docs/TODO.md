@@ -7,3 +7,5 @@ Some way to add multiple lists together and print them all at once. This would r
 ## Issues
 
 - No way to remove empty rows
+- fs.exists() is deprecated
+- variable scoping

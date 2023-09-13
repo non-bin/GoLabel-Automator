@@ -1,3 +1,25 @@
+/**
+ * Automate label printing from templates, with GoLabel II
+ * Common functions for all web pages
+ * Copyright (C) 2023  Alice Jacka
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+**/
+
+/**
+ * Send a request to the server to regenerate the inverse files
+ */
 function regenerateInverses() {
   loading(true);
 
@@ -19,6 +41,12 @@ function regenerateInverses() {
   });
 }
 
+/**
+ * Send a request to the server to change the printing enabled status
+ * If an error occurs, request the current status from the server
+ *
+ * @param {*} enabled
+ */
 function sendPrintingEnabledStatus(enabled) {
   fetch('/api/printingEnabled', {
     method: 'POST',
@@ -49,6 +77,10 @@ function sendPrintingEnabledStatus(enabled) {
 }
 
 getPrintingEnabledStatus();
+/**
+ * Send a request to the server to get the current printing enabled status and update the page
+ *
+ */
 function getPrintingEnabledStatus() {
   loading(true);
   fetch('/api/printingEnabled', {
@@ -73,6 +105,11 @@ function getPrintingEnabledStatus() {
   });
 }
 
+/**
+ * Update the printing enabled status on the page
+ *
+ * @param {*} enabled
+ */
 function setPrintingEnabledStatus(enabled) {
   if (enabled) {
     document.getElementById('enablePrinting').checked = true;
