@@ -525,7 +525,7 @@
     </VariableFormat>
     <GroupList />
     <qlabel>
-      <GraphicShape xsi:type="Image" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="192.145157" Y="137.804626" Alignment="Center" AlignPointX="192.145157" AlignPointY="137.804626" FontScript="Default" FixedRatio="true">
+      <GraphicShape xsi:type="Image" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="199.145157" Y="138.804626" Alignment="Center" AlignPointX="199.145157" AlignPointY="138.804626" FontScript="Default" FixedRatio="true">
         <qHitOnCircumferance>false</qHitOnCircumferance>
         <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
@@ -555,15 +555,15 @@
         <BoundRectHeight>107.555283</BoundRectHeight>
         <BoundRect>
           <Location>
-            <X>192.145157</X>
-            <Y>137.804626</Y>
+            <X>199.145157</X>
+            <Y>138.804626</Y>
           </Location>
           <Size>
             <Width>107.854858</Width>
             <Height>107.555283</Height>
           </Size>
-          <X>192.145157</X>
-          <Y>137.804626</Y>
+          <X>199.145157</X>
+          <Y>138.804626</Y>
           <Width>107.854858</Width>
           <Height>107.555283</Height>
         </BoundRect>
@@ -577,7 +577,7 @@
         <Angle>0</Angle>
         <Binverse>false</Binverse>
       </GraphicShape>
-      <GraphicShape xsi:type="GdiWindowTextBox" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="8.482757" Y="68.60396" Alignment="Center" AlignPointX="8.482757" AlignPointY="68.60396" FontScript="Default" AutoFontResize="false" FontCmd="Arial,8&#xD;&#xA;" LineSpacing="Single" bSpaceCropping="false" LineHeight="27" Multiple="10" DotBeforePara="0" DotAfterPara="0" FontWidth="11" TextSpace="0" BoundingAlignment="Center">
+      <GraphicShape xsi:type="GdiWindowTextBox" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="15.4827566" Y="69.60396" Alignment="Center" AlignPointX="8.482757" AlignPointY="68.60396" FontScript="Default" AutoFontResize="false" FontCmd="Arial,8&#xD;&#xA;" LineSpacing="Single" bSpaceCropping="false" LineHeight="27" Multiple="10" DotBeforePara="0" DotAfterPara="0" FontWidth="11" TextSpace="0" BoundingAlignment="Center">
         <qHitOnCircumferance>false</qHitOnCircumferance>
         <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
@@ -600,7 +600,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>323.0345</BoundRectWidth>
-        <DispData>Short LED Pixel Bars</DispData>
+        <DispData>a</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F00</Data>
         <ItemInfoList>
@@ -612,21 +612,21 @@
         <BoundRectHeight>65.8788</BoundRectHeight>
         <BoundRect>
           <Location>
-            <X>8.482757</X>
-            <Y>68.60396</Y>
+            <X>15.4827566</X>
+            <Y>69.60396</Y>
           </Location>
           <Size>
             <Width>323.0345</Width>
             <Height>65.8788</Height>
           </Size>
-          <X>8.482757</X>
-          <Y>68.60396</Y>
+          <X>15.4827566</X>
+          <Y>69.60396</Y>
           <Width>323.0345</Width>
           <Height>65.8788</Height>
         </BoundRect>
         <BTrueType>true</BTrueType>
       </GraphicShape>
-      <GraphicShape xsi:type="QRCode" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="48.30459" Y="137.512939" Alignment="Left" AlignPointX="48.30459" AlignPointY="137.512939" FontScript="Default" bSingleLine="false" CaptionWidth="150" bGS1="false" CaptionAlignment="BottomAndCenter" FontCmd="Arial,12&#xD;&#xA;" Mode="Auto" Type="2" ErrorCorrectionLevel="77" QrcodeVersion="2" Mask="8" Multiple="4" IsUTF8="true" CodePage="65001">
+      <GraphicShape xsi:type="QRCode" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="55.30459" Y="138.512939" Alignment="Left" AlignPointX="55.30459" AlignPointY="138.512939" FontScript="Default" bSingleLine="false" CaptionWidth="150" bGS1="false" CaptionAlignment="BottomAndCenter" FontCmd="Arial,12&#xD;&#xA;" Mode="Auto" Type="2" ErrorCorrectionLevel="77" QrcodeVersion="2" Mask="8" Multiple="4" IsUTF8="true" CodePage="65001">
         <qHitOnCircumferance>false</qHitOnCircumferance>
         <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
@@ -649,7 +649,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>100</BoundRectWidth>
-        <DispData>LEDBARSH</DispData>
+        <DispData>a</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F01</Data>
         <ItemInfoList>
@@ -661,15 +661,15 @@
         <BoundRectHeight>118</BoundRectHeight>
         <BoundRect>
           <Location>
-            <X>48.30459</X>
-            <Y>137.512939</Y>
+            <X>55.30459</X>
+            <Y>138.512939</Y>
           </Location>
           <Size>
             <Width>100</Width>
             <Height>118</Height>
           </Size>
-          <X>48.30459</X>
-          <Y>137.512939</Y>
+          <X>55.30459</X>
+          <Y>138.512939</Y>
           <Width>100</Width>
           <Height>118</Height>
         </BoundRect>
@@ -699,7 +699,7 @@
           <BoundRectWidth>100.1</BoundRectWidth>
           <DispData>1234</DispData>
           <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
-          <Data>LEDBARSH</Data>
+          <Data>a</Data>
           <ItemInfoList />
           <BoundRectHeight>100.3</BoundRectHeight>
           <BoundRect>
@@ -722,7 +722,7 @@
         </MultiLineCaption>
         <bWrapBarCodeWidth>false</bWrapBarCodeWidth>
       </GraphicShape>
-      <GraphicShape xsi:type="Text" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="25.9430523" Y="45.477562" Alignment="Left" AlignPointX="25.9430523" AlignPointY="45.477562" FontScript="Default" FontCmd="Microsoft Sans Serif,12&#xD;&#xA;" FontType="BuiltIn_Bitmap_Font" TextSpace="0" Encoding="Default" FontId="B" FontHeight="1" FontWidth="1" IsInverse="false" IsUTF8="true" IsCheckDigit="false" UsePrinterClock="true">
+      <GraphicShape xsi:type="Text" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="32.9430542" Y="46.477562" Alignment="Left" AlignPointX="32.9430542" AlignPointY="46.477562" FontScript="Default" FontCmd="Microsoft Sans Serif,12&#xD;&#xA;" FontType="BuiltIn_Bitmap_Font" TextSpace="0" Encoding="Default" FontId="B" FontHeight="1" FontWidth="1" IsInverse="false" IsUTF8="true" IsCheckDigit="false" UsePrinterClock="true">
         <qHitOnCircumferance>false</qHitOnCircumferance>
         <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
@@ -758,22 +758,22 @@
         <BoundRectHeight>24.578125</BoundRectHeight>
         <BoundRect>
           <Location>
-            <X>25.9430523</X>
-            <Y>45.477562</Y>
+            <X>32.9430542</X>
+            <Y>46.477562</Y>
           </Location>
           <Size>
             <Width>122.27832</Width>
             <Height>24.578125</Height>
           </Size>
-          <X>25.9430523</X>
-          <Y>45.477562</Y>
+          <X>32.9430542</X>
+          <Y>46.477562</Y>
           <Width>122.27832</Width>
           <Height>24.578125</Height>
         </BoundRect>
         <NormalRatio>true</NormalRatio>
         <BTrueType>true</BTrueType>
       </GraphicShape>
-      <GraphicShape xsi:type="Text" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="25.6992035" Y="23.24479" Alignment="Left" AlignPointX="25.6992035" AlignPointY="23.24479" FontScript="Default" FontCmd="Microsoft Sans Serif,12&#xD;&#xA;" FontType="BuiltIn_Bitmap_Font" TextSpace="0" Encoding="Default" FontId="B" FontHeight="1" FontWidth="1" IsInverse="false" IsUTF8="true" IsCheckDigit="false" UsePrinterClock="true">
+      <GraphicShape xsi:type="Text" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="32.6992035" Y="24.24479" Alignment="Left" AlignPointX="32.6992035" AlignPointY="24.24479" FontScript="Default" FontCmd="Microsoft Sans Serif,12&#xD;&#xA;" FontType="BuiltIn_Bitmap_Font" TextSpace="0" Encoding="Default" FontId="B" FontHeight="1" FontWidth="1" IsInverse="false" IsUTF8="true" IsCheckDigit="false" UsePrinterClock="true">
         <qHitOnCircumferance>false</qHitOnCircumferance>
         <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
@@ -809,22 +809,22 @@
         <BoundRectHeight>24.578125</BoundRectHeight>
         <BoundRect>
           <Location>
-            <X>25.6992035</X>
-            <Y>23.24479</Y>
+            <X>32.6992035</X>
+            <Y>24.24479</Y>
           </Location>
           <Size>
             <Width>101.481445</Width>
             <Height>24.578125</Height>
           </Size>
-          <X>25.6992035</X>
-          <Y>23.24479</Y>
+          <X>32.6992035</X>
+          <Y>24.24479</Y>
           <Width>101.481445</Width>
           <Height>24.578125</Height>
         </BoundRect>
         <NormalRatio>true</NormalRatio>
         <BTrueType>true</BTrueType>
       </GraphicShape>
-      <GraphicShape xsi:type="Text" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="148.12764" Y="44.66078" Alignment="Left" AlignPointX="148.12764" AlignPointY="44.66078" FontScript="Default" FontCmd="Microsoft Sans Serif,12&#xD;&#xA;" FontType="BuiltIn_Bitmap_Font" TextSpace="0" Encoding="Default" FontId="B" FontHeight="1" FontWidth="1" IsInverse="false" IsUTF8="true" IsCheckDigit="false" UsePrinterClock="true">
+      <GraphicShape xsi:type="Text" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="155.12764" Y="45.66078" Alignment="Left" AlignPointX="155.12764" AlignPointY="45.66078" FontScript="Default" FontCmd="Microsoft Sans Serif,12&#xD;&#xA;" FontType="BuiltIn_Bitmap_Font" TextSpace="0" Encoding="Default" FontId="B" FontHeight="1" FontWidth="1" IsInverse="false" IsUTF8="true" IsCheckDigit="false" UsePrinterClock="true">
         <qHitOnCircumferance>false</qHitOnCircumferance>
         <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
@@ -847,30 +847,30 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <DateFormat>me.dd.y4</DateFormat>
-        <BoundRectWidth>167.578125</BoundRectWidth>
-        <DispData>Aug.09.2023M12</DispData>
+        <BoundRectWidth>155.342773</BoundRectWidth>
+        <DispData>Sep.13.2023M2</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^D+M^F02</Data>
         <ItemInfoList />
         <BoundRectHeight>24.578125</BoundRectHeight>
         <BoundRect>
           <Location>
-            <X>148.12764</X>
-            <Y>44.66078</Y>
+            <X>155.12764</X>
+            <Y>45.66078</Y>
           </Location>
           <Size>
-            <Width>167.578125</Width>
+            <Width>155.342773</Width>
             <Height>24.578125</Height>
           </Size>
-          <X>148.12764</X>
-          <Y>44.66078</Y>
-          <Width>167.578125</Width>
+          <X>155.12764</X>
+          <Y>45.66078</Y>
+          <Width>155.342773</Width>
           <Height>24.578125</Height>
         </BoundRect>
         <NormalRatio>true</NormalRatio>
         <BTrueType>true</BTrueType>
       </GraphicShape>
-      <GraphicShape xsi:type="Text" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="149.781677" Y="23.5755348" Alignment="Left" AlignPointX="149.781677" AlignPointY="23.5755348" FontScript="Default" FontCmd="Microsoft Sans Serif,12&#xD;&#xA;" FontType="BuiltIn_Bitmap_Font" TextSpace="0" Encoding="Default" FontId="B" FontHeight="1" FontWidth="1" IsInverse="false" IsUTF8="true" IsCheckDigit="false" UsePrinterClock="true">
+      <GraphicShape xsi:type="Text" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="156.781677" Y="24.5755348" Alignment="Left" AlignPointX="156.781677" AlignPointY="24.5755348" FontScript="Default" FontCmd="Microsoft Sans Serif,12&#xD;&#xA;" FontType="BuiltIn_Bitmap_Font" TextSpace="0" Encoding="Default" FontId="B" FontHeight="1" FontWidth="1" IsInverse="false" IsUTF8="true" IsCheckDigit="false" UsePrinterClock="true">
         <qHitOnCircumferance>false</qHitOnCircumferance>
         <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
@@ -894,7 +894,7 @@
         <Prompt>None</Prompt>
         <DateFormat>me.dd.y4</DateFormat>
         <BoundRectWidth>124.78125</BoundRectWidth>
-        <DispData>Aug.09.2023</DispData>
+        <DispData>Sep.13.2023</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^D</Data>
         <ItemInfoList>
@@ -906,22 +906,22 @@
         <BoundRectHeight>24.578125</BoundRectHeight>
         <BoundRect>
           <Location>
-            <X>149.781677</X>
-            <Y>23.5755348</Y>
+            <X>156.781677</X>
+            <Y>24.5755348</Y>
           </Location>
           <Size>
             <Width>124.78125</Width>
             <Height>24.578125</Height>
           </Size>
-          <X>149.781677</X>
-          <Y>23.5755348</Y>
+          <X>156.781677</X>
+          <Y>24.5755348</Y>
           <Width>124.78125</Width>
           <Height>24.578125</Height>
         </BoundRect>
         <NormalRatio>true</NormalRatio>
         <BTrueType>true</BTrueType>
       </GraphicShape>
-      <GraphicShape xsi:type="Text" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="26.0389137" Y="1.85281086" Alignment="Left" AlignPointX="26.0389137" AlignPointY="1.85281086" FontScript="Default" FontCmd="Microsoft Sans Serif,12&#xD;&#xA;" FontType="BuiltIn_Bitmap_Font" TextSpace="0" Encoding="Default" FontId="B" FontHeight="1" FontWidth="1" IsInverse="false" IsUTF8="true" IsCheckDigit="false" UsePrinterClock="true">
+      <GraphicShape xsi:type="Text" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="33.0389137" Y="2.85281086" Alignment="Left" AlignPointX="33.0389137" AlignPointY="2.85281086" FontScript="Default" FontCmd="Microsoft Sans Serif,12&#xD;&#xA;" FontType="BuiltIn_Bitmap_Font" TextSpace="0" Encoding="Default" FontId="B" FontHeight="1" FontWidth="1" IsInverse="false" IsUTF8="true" IsCheckDigit="false" UsePrinterClock="true">
         <qHitOnCircumferance>false</qHitOnCircumferance>
         <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
@@ -956,15 +956,15 @@
         <BoundRectHeight>24.578125</BoundRectHeight>
         <BoundRect>
           <Location>
-            <X>26.0389137</X>
-            <Y>1.85281086</Y>
+            <X>33.0389137</X>
+            <Y>2.85281086</Y>
           </Location>
           <Size>
             <Width>264.0752</Width>
             <Height>24.578125</Height>
           </Size>
-          <X>26.0389137</X>
-          <Y>1.85281086</Y>
+          <X>33.0389137</X>
+          <Y>2.85281086</Y>
           <Width>264.0752</Width>
           <Height>24.578125</Height>
         </BoundRect>
@@ -977,7 +977,7 @@
     <DateFormat>y2-me-dd</DateFormat>
     <TimeFormat>h:m:s</TimeFormat>
     <DataBaseFormat>Text_CommaDelimited</DataBaseFormat>
-    <DataBaseFilePath>.\db.csv</DataBaseFilePath>
+    <DataBaseFilePath>C:\Users\alice\repos\GoLabel-Automator\tmp\db.csv</DataBaseFilePath>
     <DataBaseSelection>SELECT  * from `db#csv` ;</DataBaseSelection>
     <Delimiter>Delimited(,)</Delimiter>
     <CharacterSet>1252</CharacterSet>
@@ -987,9 +987,9 @@
     <DatabaseNoHeader>false</DatabaseNoHeader>
     <ServerName />
     <IntegratedSecurity>false</IntegratedSecurity>
-    <RowIndex>0</RowIndex>
+    <RowIndex>1</RowIndex>
   </Label>
-  <Setup bInfinityPrint="false" LabelLength="99.5" LabelWidth="43" LeftMargin="0" TopMargin="0" LabelType="0" GapLength="3" FeedLength="0" ZSign="45" BlackMark="0" Position="0" Speed="3" Copy="1" bCopyDataBase="false" CopyField="^F03" Stripper="0" LabelsPerCut="0" DoubleCut_Enable="false" DoubleCut_OffsetLen="0" DoubleCut_FirstCutMode="1" Rotate180="255" Stop="13" Darkness="10" Number="1" bCutDataBase="false" bBatchCut="false" bNumberDataBase="false" NumberField="None" PageDirection="Portrait" PrintMode="0" PowerRFID="0" LengthRFID="-1" RetryRFID="1" DrawMode="0">
+  <Setup bInfinityPrint="false" LabelLength="99" LabelWidth="45" LeftMargin="0" TopMargin="0" LabelType="0" GapLength="3" FeedLength="0" ZSign="45" BlackMark="0" Position="0" Speed="3" Copy="1" bCopyDataBase="false" CopyField="^F02" Stripper="0" LabelsPerCut="0" DoubleCut_Enable="false" DoubleCut_OffsetLen="0" DoubleCut_FirstCutMode="1" Rotate180="255" Stop="13" Darkness="10" Number="1" bCutDataBase="false" bBatchCut="false" bNumberDataBase="false" NumberField="None" PageDirection="Portrait" PrintMode="0" PowerRFID="0" LengthRFID="-1" RetryRFID="1" DrawMode="0">
     <Layout Shape="2" AcrossType="LeftToRight" PageDirection="Portrait" HorAcross="1" VerAcross="3" HorGap="0" VerGap="0" HorAcrossMode1="1" VerAcrossMode1="1" LabelMode="0" HorGapMode1="0" VerGapMode1="0" BottomMargin="0" RightMargin="0" />
     <Description>&#x0;
 Lang:(en-US) OS:Microsoft Windows NT 10.0.19045.0(Win32NT)</Description>

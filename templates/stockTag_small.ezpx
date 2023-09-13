@@ -547,7 +547,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>158.492065</BoundRectWidth>
-        <DispData>RCFHD10-4</DispData>
+        <DispData>a</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F01</Data>
         <ItemInfoList>
@@ -596,7 +596,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>75</BoundRectWidth>
-        <DispData>RCFHD10-4</DispData>
+        <DispData>a</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F01</Data>
         <ItemInfoList>
@@ -646,7 +646,7 @@
           <BoundRectWidth>100.1</BoundRectWidth>
           <DispData>1234</DispData>
           <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
-          <Data>RCFHD10-4</Data>
+          <Data>a</Data>
           <ItemInfoList />
           <BoundRectHeight>100.3</BoundRectHeight>
           <BoundRect>
@@ -692,7 +692,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>172.60318</BoundRectWidth>
-        <DispData>HD10-A Speaker</DispData>
+        <DispData>a</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F00</Data>
         <ItemInfoList>
@@ -724,7 +724,7 @@
     <DateFormat>y2-me-dd</DateFormat>
     <TimeFormat>h:m:s</TimeFormat>
     <DataBaseFormat>Text_CommaDelimited</DataBaseFormat>
-    <DataBaseFilePath>.\tmp\db.csv</DataBaseFilePath>
+    <DataBaseFilePath>C:\Users\alice\repos\GoLabel-Automator\tmp\db.csv</DataBaseFilePath>
     <DataBaseSelection>SELECT  * from `db#csv` ;</DataBaseSelection>
     <Delimiter>Delimited(,)</Delimiter>
     <CharacterSet>1252</CharacterSet>
@@ -734,9 +734,9 @@
     <DatabaseNoHeader>false</DatabaseNoHeader>
     <ServerName />
     <IntegratedSecurity>false</IntegratedSecurity>
-    <RowIndex>0</RowIndex>
+    <RowIndex>1</RowIndex>
   </Label>
-  <Setup bInfinityPrint="false" LabelLength="100" LabelWidth="45" LeftMargin="0" TopMargin="-12" LabelType="0" GapLength="3" FeedLength="0" ZSign="45" BlackMark="0" Position="0" Speed="3" Copy="1" bCopyDataBase="false" CopyField="^F02" Stripper="0" LabelsPerCut="0" DoubleCut_Enable="false" DoubleCut_OffsetLen="0" DoubleCut_FirstCutMode="1" Rotate180="255" Stop="12" Darkness="8" Number="1" bCutDataBase="false" bBatchCut="false" bNumberDataBase="false" NumberField="None" PageDirection="Portrait" PrintMode="1" PowerRFID="0" LengthRFID="-1" RetryRFID="1" DrawMode="0">
+  <Setup bInfinityPrint="false" LabelLength="100" LabelWidth="45" LeftMargin="0" TopMargin="-12" LabelType="0" GapLength="3" FeedLength="0" ZSign="45" BlackMark="0" Position="0" Speed="3" Copy="1" bCopyDataBase="false" CopyField="^F02" Stripper="0" LabelsPerCut="0" DoubleCut_Enable="false" DoubleCut_OffsetLen="0" DoubleCut_FirstCutMode="1" Rotate180="255" Stop="13" Darkness="8" Number="1" bCutDataBase="false" bBatchCut="false" bNumberDataBase="false" NumberField="None" PageDirection="Portrait" PrintMode="1" PowerRFID="0" LengthRFID="-1" RetryRFID="1" DrawMode="0">
     <Layout Shape="2" AcrossType="LeftToRight" PageDirection="Portrait" HorAcross="2" VerAcross="5" HorGap="0" VerGap="0" HorAcrossMode1="1" VerAcrossMode1="1" LabelMode="0" HorGapMode1="0" VerGapMode1="0" BottomMargin="21" RightMargin="7" />
     <Description>&#x0;
 Lang:(en-US) OS:Microsoft Windows NT 10.0.19045.0(Win32NT)</Description>
