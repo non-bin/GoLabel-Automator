@@ -2,7 +2,8 @@
 
 ## Getting Started
 
-Download the latest release from [https://github.com/non-bin/GoLabel-Automator/releases](https://github.com/non-bin/GoLabel-Automator/releases)
+Download the latest release from [https://github.com/non-bin/GoLabel-Automator/releases](https://github.com/non-bin/GoLabel-Automator/releases)  
+Or clone the beta version using `git clone https://github.com/non-bin/GoLabel-Automator`
 
 Install the prerequisites:
 
