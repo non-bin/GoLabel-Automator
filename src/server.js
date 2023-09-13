@@ -72,7 +72,13 @@ const server = http.createServer(function (req, res) {
 
           // Allowed values
           let template = sanitize(data.template, ['testTag', 'stockTag']);
-          let variant = sanitize(data.variant, ['small', 'large', 'dbOnly']);
+          let variant = sanitize(data.variant, ['Small', 'Large', 'dbOnly']);
+
+          if (template === undefined || variant === undefined) {
+            res.statusCode = 400; // Bad request
+            res.end(`Bad request!`);
+            return;
+          }
 
           let templateFile = `${template}_${variant}.ezpx`;
 

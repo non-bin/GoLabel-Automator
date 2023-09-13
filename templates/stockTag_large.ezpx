@@ -547,7 +547,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>326</BoundRectWidth>
-        <DispData>a</DispData>
+        <DispData> </DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F01</Data>
         <ItemInfoList>
@@ -596,7 +596,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>100</BoundRectWidth>
-        <DispData>a</DispData>
+        <DispData> </DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F01</Data>
         <ItemInfoList>
@@ -646,7 +646,7 @@
           <BoundRectWidth>100.1</BoundRectWidth>
           <DispData>1234</DispData>
           <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
-          <Data>a</Data>
+          <Data> </Data>
           <ItemInfoList />
           <BoundRectHeight>100.3</BoundRectHeight>
           <BoundRect>
@@ -792,7 +792,7 @@
         <P4 />
         <DataField>None</DataField>
         <Prompt>None</Prompt>
-        <BoundRectWidth>260</BoundRectWidth>
+        <BoundRectWidth>2600</BoundRectWidth>
         <DispData>Pro Light and Sound
 Ph: 9579 2332
 prolightandsound.com.au</DispData>
@@ -808,20 +808,20 @@ Ph: 9579 2332
 prolightandsound.com.au</ItemData>
           </Item>
         </ItemInfoList>
-        <BoundRectHeight>79</BoundRectHeight>
+        <BoundRectHeight>790</BoundRectHeight>
         <BoundRect>
           <Location>
             <X>94.78203</X>
             <Y>6.593977</Y>
           </Location>
           <Size>
-            <Width>260</Width>
-            <Height>79</Height>
+            <Width>2600</Width>
+            <Height>790</Height>
           </Size>
           <X>94.78203</X>
           <Y>6.593977</Y>
-          <Width>260</Width>
-          <Height>79</Height>
+          <Width>2600</Width>
+          <Height>790</Height>
         </BoundRect>
         <BTrueType>true</BTrueType>
         <Angle>0</Angle>
@@ -833,7 +833,7 @@ prolightandsound.com.au</ItemData>
     <DateFormat>y2-me-dd</DateFormat>
     <TimeFormat>h:m:s</TimeFormat>
     <DataBaseFormat>Text_CommaDelimited</DataBaseFormat>
-    <DataBaseFilePath>C:\Users\alice\repos\GoLabel-Automator\tmp\db.csv</DataBaseFilePath>
+    <DataBaseFilePath>.\tmp\db.csv</DataBaseFilePath>
     <DataBaseSelection>SELECT  * from `db#csv` ;</DataBaseSelection>
     <Delimiter>Delimited(,)</Delimiter>
     <CharacterSet>1252</CharacterSet>
@@ -843,7 +843,7 @@ prolightandsound.com.au</ItemData>
     <DatabaseNoHeader>false</DatabaseNoHeader>
     <ServerName />
     <IntegratedSecurity>false</IntegratedSecurity>
-    <RowIndex>1</RowIndex>
+    <RowIndex>0</RowIndex>
   </Label>
   <Setup bInfinityPrint="false" LabelLength="100" LabelWidth="46" LeftMargin="0" TopMargin="0" LabelType="0" GapLength="3" FeedLength="0" ZSign="45" BlackMark="0" Position="0" Speed="3" Copy="1" bCopyDataBase="false" CopyField="^F04" Stripper="0" LabelsPerCut="0" DoubleCut_Enable="false" DoubleCut_OffsetLen="0" DoubleCut_FirstCutMode="1" Rotate180="255" Stop="13" Darkness="8" Number="1" bCutDataBase="false" bBatchCut="false" bNumberDataBase="false" NumberField="None" PageDirection="Portrait" PrintMode="1" PowerRFID="0" LengthRFID="-1" RetryRFID="1" DrawMode="0">
     <Layout Shape="2" AcrossType="LeftToRight" PageDirection="Portrait" HorAcross="1" VerAcross="2" HorGap="0" VerGap="0" HorAcrossMode1="1" VerAcrossMode1="1" LabelMode="0" HorGapMode1="0" VerGapMode1="0" BottomMargin="0" RightMargin="0" />
