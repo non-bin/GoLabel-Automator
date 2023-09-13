@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Title of the cmd window running the server, is now "Golabel Automator"
+- Debug Level setting
+
+### Changed
+
+- Reduced the amount of output sent to the terminal
 
 ## [1.2.0] - 2023-9-8
 
