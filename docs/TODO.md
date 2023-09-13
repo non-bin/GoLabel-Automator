@@ -10,3 +10,4 @@ Some way to add multiple lists together and print them all at once. This would r
 
 - No way to remove empty rows
 - fs.exists() is deprecated
+- the page flashes white on load

@@ -53,3 +53,7 @@ button.btn-light {
   left: unset;
   right: -1px;
 }
+
+table {
+  vertical-align: middle !important;
+}

@@ -29,6 +29,9 @@ const tableEmptyRow = `
   <td>
     <input type="text" class="form-control">
   </td>
+  <td>
+    <button type="button" class="btn-close" aria-label="Remove Row" disabled onclick="processInput('table', 'removeRow', this)"></button>
+  </td>
 </tr>`;
 
 
@@ -104,10 +107,26 @@ function checkTable(table) {
  * @param {string} operatorName
  */
 function updateTable(deviceName, barcodes) {
-  let previewTableBody = '<tr><th>Device Name</th><th>Barcode</th></tr>';
+  let previewTableBody = `
+  <tr>
+    <th>Device Name</th>
+    <th>Barcode</th>
+    <th></th>
+  </tr>`;
 
   for (let i = 0; i < barcodes.length; i++) {
-    previewTableBody += `<tr><td><input type="text" class="form-control" value="${deviceName}"></td><td><input type="text" class="form-control" value="${barcodes[i]}"></td></tr>`;
+    previewTableBody += `
+    <tr>
+      <td>
+        <input type="text" class="form-control" value="${deviceName}">
+      </td>
+      <td>
+        <input type="text" class="form-control" value="${barcodes[i]}">
+      </td>
+      <td>
+        <button type="button" class="btn-close" aria-label="Remove Row" onclick="processInput('table', 'removeRow', this)"></button>
+      </td>
+    </tr>`;
   }
 
   // add an empty row to the end

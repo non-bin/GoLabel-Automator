@@ -55,16 +55,20 @@ function processInput(field, ...params) {
   } else if (field == 'table') {
     if (params[0] == 'lastRow') {
       // If the last fow is not empty, add a new empty row
-      const rowInputs = params[1].parentElement.parentElement.querySelectorAll('input');
+      const row = params[1].parentElement.parentElement;
+      const rowInputs = row.querySelectorAll('input');
       for (const input of rowInputs) {
         if (input.value != '') {
+          row.querySelector('button.btn-close').disabled = false;
           document.querySelector('#previewTable tbody').appendChild(document.createElement('tr')).innerHTML = tableEmptyRow;
           updateTableListeners();
         }
       }
+    } else if (params[0] == 'removeRow') {
+      const row = params[1].parentElement.parentElement;
+      row.remove();
     }
   } else {
-    // Run the page's updatePreview() function
     updatePreview(field, ...params);
   }
 }
