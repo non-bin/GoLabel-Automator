@@ -12,7 +12,10 @@
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}\\src\\server.js",
-      "args": ["8080"]
+      "args": [
+        "8080", // Port
+        "0"     // Debug level
+      ]
     }
   ]
 }

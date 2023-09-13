@@ -10,6 +10,7 @@ const ESC_RED = '\x1b[91m';
 const ESC_RESET = '\x1b[0m';
 
 const port = parseInt(process.argv[2] || config.defaultPort);
+const DEBUG_LEVEL = parseInt(process.argv[3] || config.debugLevel);
 
 var labelInfo = {};
 
@@ -130,8 +131,6 @@ const server = http.createServer(function (req, res) {
         // if the file is not found, return 404
         res.statusCode = 404;
         res.end(`File ${pathname} not found!`);
-
-        log(`${req.method} ${req.url} ${res.statusCode}`);
         return;
       }
 
@@ -152,19 +151,20 @@ const server = http.createServer(function (req, res) {
           if(err){
             res.statusCode = 500;
             res.end(`Error getting the file: ${err}.`);
-            log(`${req.method} ${req.url} ${res.statusCode}`);
           } else {
             // if the file is found, set Content-type and send data
             res.setHeader('Content-type', docTypeMap[ext] || 'text/plain' );
             res.end(data);
-            log(`${req.method} ${req.url} ${res.statusCode}`);
           }
         });
       });
     });
   }
 
-  log(`${req.method} ${req.url} ${res.statusCode}`);
+  if (DEBUG_LEVEL > 0) {
+    log(`${req.method} ${req.url} ${res.statusCode}`);
+  }
+
   return;
 });
 
@@ -242,9 +242,12 @@ function print(templateFile, whiteOnBlack, callback, testOnly) {
     command = `"${config.golabelPath}" -v`; // This doesn't actually do anything, even output the version. Stupid program.
   }
 
-  log(command);
+  if (testOnly) {
+    log(`Testing GoLabel II installation`);
+  } else {
+    log(`Printing ${templateFile} ${whiteOnBlack ? 'inverses' : ''}`);
+  }
 
-  log(`Printing ${templateFile} ${whiteOnBlack ? 'inverses' : ''}`);
   child_process.exec(command, function(error, stdout, stderr) {
     if (error) {
       if (error.message.indexOf('is not recognized as an internal or external command') != -1) {
@@ -454,9 +457,31 @@ function sanitize(input, options) {
 }
 
 function log(message) {
-  console.log(message);
+  if (DEBUG_LEVEL < 10) {
+    console.log(message);
+  } else {
+    console.log(`${message} (at ${getCaller()})`);
+  }
 }
 
 function logError(message) {
-  console.error(`${ESC_RED}${message}${ESC_RESET}`);
+  if (DEBUG_LEVEL < 10) {
+    console.log(`${ESC_RED}${message}${ESC_RESET}`);
+  } else {
+    console.log(`${ESC_RED}${message}${ESC_RESET} (at ${getCaller()})`);
+  }
+}
+
+function getErrorObject(){
+  try { throw Error('') } catch(err) { return err; }
+}
+
+function getCaller() {
+  const err = getErrorObject();
+  const stack = err.stack.split("\n");
+  const caller_line = stack[4];
+  const index = caller_line.indexOf("at ");
+  const clean = caller_line.slice(index+3, caller_line.length);
+
+  return clean;
 }
