@@ -15,6 +15,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+'use strict';
+
 const http          = require('http');
 const url           = require('url');
 const fs            = require('fs');
@@ -37,8 +39,8 @@ const server = http.createServer(function (req, res) {
   const parsedUrl = url.parse(req.url);
 
   // Collect POST data
+  let body = '';
   if (req.method === 'POST') {
-    var body = '';
     req.on('data', function (data) {
       body += data;
 
@@ -211,8 +213,8 @@ server.on('listening', () => {
  * @return {boolean} - False if an error occurred
  */
 function createDB(template, values, leaderCount, callback) {
-  var header = '';
-  var csv = '';
+  let header = '';
+  let csv = '';
 
   if (typeof callback !== 'function') {
     callback = () => {};
@@ -398,7 +400,7 @@ function generateInverses() {
               const inverseMaskWidth = (labelInfo[entry.name].mediaWidth-labelInfo[entry.name].leftMargin-labelInfo[entry.name].rightMargin-labelInfo[entry.name].horizontalGap*(labelInfo[entry.name].horizontalDivisions-1))/labelInfo[entry.name].horizontalDivisions*8;
               const inverseMashHeight = (labelInfo[entry.name].mediaHeight-labelInfo[entry.name].topMargin-labelInfo[entry.name].bottomMargin-labelInfo[entry.name].verticalGap*(labelInfo[entry.name].verticalDivisions-1))/labelInfo[entry.name].verticalDivisions*8;
 
-              var newData = data.replace('</qlabel>',`
+              let newData = data.replace('</qlabel>',`
                 <GraphicShape xsi:type="Line" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" Alignment="Left" AlignPointX="0" AlignPointY="0">
                   <qHitOnCircumferance>false</qHitOnCircumferance>
                   <Selected>false</Selected>
@@ -462,9 +464,9 @@ function printAddresses(port) {
 
   let output = '';
 
-  for (const interface in results) {
-    if (Object.hasOwnProperty.call(results, interface)) {
-      const ip = results[interface];
+  for (const interfaceName in results) {
+    if (Object.hasOwnProperty.call(results, interfaceName)) {
+      const ip = results[interfaceName];
       // don't print port if it's 80
       output += `http://${ip}${port == 80 ? '' : `:${port}`}/\n`;
     }

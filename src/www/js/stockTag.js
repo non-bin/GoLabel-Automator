@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 **/
+'use strict';
 
 var selectedLabelVariant = 'Large'; // Default label variant
 
@@ -38,7 +39,7 @@ const tableEmptyRow = `
  * @param {*} [params] - Extra params
  */
 function updatePreview(field, ...params) {
-  var value = document.getElementById(field).value;
+  let value = document.getElementById(field).value;
 
   if (field == 'barcodeStartInput') {
     if (value == '') {
@@ -48,10 +49,10 @@ function updatePreview(field, ...params) {
     }
   }
 
-  var deviceName = document.getElementById('deviceNameInput').value;
-  var barcodePrefix = document.getElementById('barcodePrefixInput').value;
-  var barcodeStart = parseInt(document.getElementById('barcodeStartInput').value);
-  var barcodeEnd = parseInt(document.getElementById('barcodeEndInput').value);
+  let deviceName = document.getElementById('deviceNameInput').value;
+  let barcodePrefix = document.getElementById('barcodePrefixInput').value;
+  let barcodeStart = parseInt(document.getElementById('barcodeStartInput').value);
+  let barcodeEnd = parseInt(document.getElementById('barcodeEndInput').value);
 
   if (!Number.isInteger(barcodeStart)) {
     barcodeStart = undefined;
@@ -103,7 +104,7 @@ function checkTable(table) {
  * @param {string} operatorName
  */
 function updateTable(deviceName, barcodes) {
-  var previewTableBody = '<tr><th>Device Name</th><th>Barcode</th></tr>';
+  let previewTableBody = '<tr><th>Device Name</th><th>Barcode</th></tr>';
 
   for (let i = 0; i < barcodes.length; i++) {
     previewTableBody += `<tr><td><input type="text" class="form-control" value="${deviceName}"></td><td><input type="text" class="form-control" value="${barcodes[i]}"></td></tr>`;

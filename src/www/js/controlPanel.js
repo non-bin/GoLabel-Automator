@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 **/
+'use strict';
 
 /**
  * Send a request to the server to regenerate the inverse files
@@ -23,7 +24,7 @@
 function regenerateInverses() {
   loading(true);
 
-  var printPromise = fetch('/api/regenerateInverses', {
+  let printPromise = fetch('/api/regenerateInverses', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -32,8 +33,7 @@ function regenerateInverses() {
 
   printPromise.then(function (response) {
     loading(false);
-    var responseText = response.text();
-    return responseText;
+    return response.text();
   }, function (error) {
     loading(false);
 

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 **/
+'use strict';
 
 var selectedLabelVariant = 'Large'; // Default label variant
 
@@ -43,7 +44,7 @@ const tableEmptyRow = `
  * @param {*} [params] - Extra params
  */
 function updatePreview(field, ...params) {
-  var value = document.getElementById(field).value;
+  let value = document.getElementById(field).value;
 
   if (field == 'barcodeStartInput') {
     if (value == '') {
@@ -53,12 +54,12 @@ function updatePreview(field, ...params) {
     }
   }
 
-  var operatorName = document.getElementById('operatorNameInput').value;
-  var deviceName = document.getElementById('deviceNameInput').value;
-  var barcodePrefix = document.getElementById('barcodePrefixInput').value;
-  var barcodeStart = parseInt(document.getElementById('barcodeStartInput').value);
-  var barcodeEnd = parseInt(document.getElementById('barcodeEndInput').value);
-  var retestPeriod = parseInt(document.getElementById('retestPeriodInput').value);
+  let operatorName = document.getElementById('operatorNameInput').value;
+  let deviceName = document.getElementById('deviceNameInput').value;
+  let barcodePrefix = document.getElementById('barcodePrefixInput').value;
+  let barcodeStart = parseInt(document.getElementById('barcodeStartInput').value);
+  let barcodeEnd = parseInt(document.getElementById('barcodeEndInput').value);
+  let retestPeriod = parseInt(document.getElementById('retestPeriodInput').value);
 
   if (!Number.isInteger(barcodeStart)) {
     barcodeStart = undefined;
@@ -123,7 +124,7 @@ function checkTable(table) {
  * @param {string} operatorName
  */
 function updateTable(deviceName, barcodes, retestPeriod, operatorName) {
-  var previewTableBody = '<tr><th>Device Name</th><th>Barcode</th><th>Retest Period</th><th>Operator Name</th></tr>';
+  let previewTableBody = '<tr><th>Device Name</th><th>Barcode</th><th>Retest Period</th><th>Operator Name</th></tr>';
 
   for (let i = 0; i < barcodes.length; i++) {
     previewTableBody += `<tr><td><input type="text" class="form-control" value="${deviceName}"></td><td><input type="text" class="form-control" value="${barcodes[i]}"></td><td><input type="text" class="form-control" value="${retestPeriod || 12}"></td><td><input type="text" class="form-control" value="${operatorName}"></td></tr>`;

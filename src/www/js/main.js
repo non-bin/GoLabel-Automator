@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+'use strict';
 
 /**
  * Enable or disable the loading spinner
@@ -79,8 +80,8 @@ function processInput(field, ...params) {
 function generateBarcodes(barcodeEnd, barcodeStart, barcodePrefix) {
   barcodePrefix = barcodePrefix || '';
 
-  var barcodes = [];
-  var quantity;
+  let barcodes = [];
+  let quantity;
 
   // If only a starting number is provided, set the end to the start
   if (barcodeStart !== undefined && barcodeEnd === undefined) {
@@ -99,7 +100,7 @@ function generateBarcodes(barcodeEnd, barcodeStart, barcodePrefix) {
     barcodes = Array(quantity).fill(barcodePrefix);
   } else {
     // Generate a list of barcodes using the prefix and incrementing numbers
-    for (var i = 0; i < quantity; i++) {
+    for (let i = 0; i < quantity; i++) {
       barcodes.push(barcodePrefix + (barcodeStart + i));
     }
   }
@@ -130,7 +131,7 @@ function sendForPrint(values, template, variant, whiteOnBlack, dbOnly) {
 
   loading(true);
 
-  var printPromise = fetch('/api/print', {
+  let printPromise = fetch('/api/print', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -144,8 +145,7 @@ function sendForPrint(values, template, variant, whiteOnBlack, dbOnly) {
 
   printPromise.then(function (response) {
     loading(false);
-    var responseText = response.text();
-    return responseText;
+    return response.text();
   }, function (error) {
     loading(false);
 
@@ -162,12 +162,12 @@ updateTableListeners();
  * Remove all listeners from the table, then add them to the last row
  */
 function updateTableListeners() {
-  var inputs = document.querySelectorAll('#previewTable tr input');
+  let inputs = document.querySelectorAll('#previewTable tr input');
   for (const input of inputs) {
     input.removeEventListener('input', tableListener);
   }
 
-  var lastRowInputs = document.querySelectorAll('#previewTable tr:last-child input');
+  let lastRowInputs = document.querySelectorAll('#previewTable tr:last-child input');
   for (const input of lastRowInputs) {
     input.addEventListener('input', tableListener);
   }
@@ -178,7 +178,6 @@ function updateTableListeners() {
  * Copyright 2011-2023 The Bootstrap Authors
  * Licensed under the Creative Commons Attribution 3.0 Unported License.
  */
-
 (() => {
   'use strict'
 
