@@ -44,23 +44,23 @@
           <input id="barcodePrefixInput" type="text" class="form-control" oninput="processInput('barcodePrefixInput')"
             placeholder="H4UPQUAD-" aria-label="Barcode Prefix" aria-describedby="barcodePrefixLabel">
         </div>
-        <small id="barcodePrefixHelp" class="form-text text-muted">Include a "-" at the end if using numbers, eg "ABC-" -> ABC-1 ABC-2</small>
+        <small id="barcodePrefixHelp" class="form-text text-muted">Included at the start of the barcode, eg "ABC-" -> ABC-1 ABC-2</small>
       </div>
 
       <div class="mb-3">
         <div class="input-group">
           <span class="input-group-text" id="barcodeStartLabel">Barcode Number Start</span>
           <input id="barcodeStartInput" type="number" class="form-control" oninput="processInput('barcodeStartInput')"
-            placeholder="3" aria-label="Barcode Number Start" aria-describedby="barcodeStartLabel">
+            placeholder="" aria-label="Barcode Number Start" aria-describedby="barcodeStartLabel">
         </div>
-        <small id="barcodeStartHelp" class="form-text text-muted">Leave blank to start at 1</small>
+        <small id="barcodeStartHelp" class="form-text text-muted">Leave blank to just use the prefix</small>
       </div>
 
       <div class="mb-3">
         <div class="input-group">
           <span class="input-group-text" id="barcodeEndLabel">Quantity</span>
           <input id="barcodeEndInput" type="number" class="form-control" oninput="processInput('barcodeEndInput')"
-            placeholder="10" aria-label="Quantity" aria-describedby="barcodeEndLabel">
+            placeholder="1" aria-label="Quantity" aria-describedby="barcodeEndLabel">
         </div>
         <small id="barcodeEndHelp" class="form-text text-muted">Leave blank for just 1</small>
       </div>
