@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reduced the amount of output sent to the terminal
 - Improved input hints
 
+### Fixed
+
+- All arguments are now passed through the batch script to the server
+
 ## [1.2.0] - 2023-9-8
 
 ### Added
