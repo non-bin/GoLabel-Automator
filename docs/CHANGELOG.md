@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - We now 'use strict'
 - Use `const` and `let` instead of `var` where possible
 
+### Fixed
+
+- Screen no longer flashes white on load
+
 ## [1.2.2] - 2023-9-13
 
 ### Fixed

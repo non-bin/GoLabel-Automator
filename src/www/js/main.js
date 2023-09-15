@@ -172,7 +172,10 @@ function sendForPrint(values, template, variant, whiteOnBlack, dbOnly, tableName
 const tableListener = function () {
   processInput('table', 'lastRow', this);
 };
-updateTableListeners();
+
+document.addEventListener('DOMContentLoaded', function () {
+  updateTableListeners();
+});
 /**
  * Remove all listeners from the table, then add them to the last row
  */
