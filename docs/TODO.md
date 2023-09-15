@@ -2,6 +2,8 @@
 
 ## Batch import
 
+## Better terminal output
+
 ## Wiki
 
 ## Issues
