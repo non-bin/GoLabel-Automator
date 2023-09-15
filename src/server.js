@@ -17,37 +17,36 @@
 */
 'use strict';
 
-const http          = require('http');
-const url           = require('url');
-const fs            = require('fs');
-const path          = require('path');
-const child_process = require('child_process');
-const os            = require('os');
-const config        = require('../config.json');
+const http = require('http');
+const url = require('url');
+const fs = require('fs');
+const path = require('path');
+const childProcess = require('child_process');
+const os = require('os');
+const config = require('../config.json');
+
+const HTTP_PORT = 80;
 
 // Command line args
-const port = parseInt(process.argv[2] || config.defaultPort);
+const port = parseInt(process.argv[2] || config.defaultPort || HTTP_PORT);
 const DEBUG_LEVEL = parseInt(process.argv[3] || config.debugLevel);
 
 // Stores info about the available labels
-var labelInfo = {};
+let labelInfo = {};
 
-// Test if the GoLabel is installed
-print(null, null, null, true);
-
-const server = http.createServer(function (req, res) {
+const server = http.createServer((req, res) => {
   const parsedUrl = url.parse(req.url);
 
   // Collect POST data
   let body = '';
   if (req.method === 'POST') {
-    req.on('data', function (data) {
+    req.on('data', (data) => {
       body += data;
 
       // Too much POST data, kill the connection!
-      // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
-      if (body.length > 1e6)
-      req.socket.destroy();
+      const ONE_MB = 1e6;
+      if (body.length > ONE_MB)
+        req.socket.destroy();
     });
   }
 
@@ -59,7 +58,7 @@ const server = http.createServer(function (req, res) {
           generateInverses();
 
           res.statusCode = 200;
-          res.end(`All Good :)`);
+          res.end('All Good :)');
         });
       } else {
         res.statusCode = 405; // Method not allowed
@@ -68,19 +67,19 @@ const server = http.createServer(function (req, res) {
     } else if (parsedUrl.pathname == '/api/print') {
       if (req.method === 'POST') {
         req.on('end', () => {
-          let data = JSON.parse(body);
+          const data = JSON.parse(body);
 
           // Allowed values
-          let template = sanitize(data.template, ['testTag', 'stockTag']);
-          let variant = sanitize(data.variant, ['small', 'large', 'dbOnly']);
+          const template = sanitize(data.template, ['testTag', 'stockTag']);
+          const variant = sanitize(data.variant, ['small', 'large', 'dbOnly']);
 
           if (template === undefined || variant === undefined) {
             res.statusCode = 400; // Bad request
-            res.end(`Bad request!`);
+            res.end('Bad request!');
             return;
           }
 
-          let templateFile = `${template}_${variant}.ezpx`;
+          const templateFile = `${template}_${variant}.ezpx`;
 
           let leaderCount = 0;
           if (data.whiteOnBlack) {
@@ -92,7 +91,7 @@ const server = http.createServer(function (req, res) {
               log(`Saved ${template} db only`);
 
               res.statusCode = 200;
-              res.end(`All Good :)`);
+              res.end('All Good :)');
             } else {
               print(templateFile, data.whiteOnBlack, (err) => {
                 if (err) {
@@ -100,7 +99,7 @@ const server = http.createServer(function (req, res) {
                   logError(err);
                 } else {
                   res.statusCode = 200;
-                  res.end(`All Good :)`);
+                  res.end('All Good :)');
                 }
               });
             }
@@ -113,7 +112,7 @@ const server = http.createServer(function (req, res) {
     } else if (parsedUrl.pathname == '/api/printingEnabled') {
       if (req.method === 'POST') {
         req.on('end', () => {
-          config.printingEnabled = body == 'true' ? true : false;
+          config.printingEnabled = body == 'true';
 
           log(`Printing enabled set to ${config.printingEnabled}`);
 
@@ -132,11 +131,11 @@ const server = http.createServer(function (req, res) {
       res.end(`API endpoint ${parsedUrl.pathname} not found!`);
     }
   } else { // Serve static files
-    // extract URL path
+    // Extract URL path
     let pathname = `./src/www/${parsedUrl.pathname}`;
-    // based on the URL path, extract the file extension. e.g. .js, .doc, ...
-    const ext = path.parse(pathname).ext || ".html";
-    // maps file extension to MIME type
+    // Based on the URL path, extract the file extension. e.g. .js, .doc, ...
+    const ext = path.parse(pathname).ext || '.html';
+    // Maps file extension to MIME type
     const docTypeMap = {
       '.ico': 'image/x-icon',
       '.html': 'text/html',
@@ -152,17 +151,17 @@ const server = http.createServer(function (req, res) {
       '.doc': 'application/msword'
     };
 
-    fs.exists(pathname, function (exist) {
-      if(!exist) {
-        // if the file is not found, return 404
+    fs.exists(pathname, (exist) => {
+      if (!exist) {
+        // If the file is not found, return 404
         res.statusCode = 404;
         res.end(`File ${pathname} not found!`);
         return;
       }
 
-      // if is a directory search for index file matching the extension
-      fs.stat(pathname, function(err, stat) {
-        if(err) {
+      // If is a directory search for index file matching the extension
+      fs.stat(pathname, (err, stat) => {
+        if (err) {
           res.statusCode = 500;
           res.end(`Error getting the file: ${err}.`);
           logError(err);
@@ -172,14 +171,14 @@ const server = http.createServer(function (req, res) {
         // Serve the index file if it's a directory
         if (stat.isDirectory()) pathname += '/index' + ext;
 
-        // read file from file system
-        fs.readFile(pathname, function(err, data){
-          if(err){
+        // Read file from file system
+        fs.readFile(pathname, (err, data) => {
+          if (err) {
             res.statusCode = 500;
             res.end(`Error getting the file: ${err}.`);
           } else {
-            // if the file is found, set Content-type and send data
-            res.setHeader('Content-type', docTypeMap[ext] || 'text/plain' );
+            // If the file is found, set Content-type and send data
+            res.setHeader('Content-type', docTypeMap[ext] || 'text/plain');
             res.end(data);
           }
         });
@@ -191,7 +190,6 @@ const server = http.createServer(function (req, res) {
     log(`${req.method} ${req.url} ${res.statusCode}`);
   }
 
-  return;
 });
 
 server.listen(port);
@@ -205,7 +203,7 @@ server.on('error', (e) => {
   process.exit(1);
 });
 server.on('listening', () => {
-  log(`Server started, listening on:`);
+  log('Server started, listening on:');
   printAddresses(port);
 });
 
@@ -258,16 +256,15 @@ function createDB(template, values, leaderCount, callback) {
       return false;
   }
 
-  fs.writeFile(`./tmp/db.csv`, header+csv, callback);
-  fs.writeFile(`./history.csv`, csv, {flag: 'a'}, (err) => {
+  fs.writeFile('./tmp/db.csv', header + csv, callback);
+  fs.writeFile('./history.csv', csv, { flag: 'a' }, (err) => {
     if (err) {
       logError('Error writing new history entry:');
       logError(err);
-      return;
+
     }
   });
 
-  return;
 }
 
 /**
@@ -287,21 +284,22 @@ function print(templateFile, whiteOnBlack, callback, testOnly) {
     testOnly = true;
   }
 
-  let command = `"${config.golabelPath}" -f ".\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}" -db ".\\tmp\\db.csv"`;
+  const templatePath = `.\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}`;
+  let command = `"${config.golabelPath}" -f ".\\${templatePath}" -db ".\\tmp\\db.csv"`;
 
   if (testOnly) { // Just make sure the program is installed
-    command = `"${config.golabelPath}" -v`; // This doesn't actually do anything, even output the version. Stupid program.
+    command = `"${config.golabelPath}" -v`; // This doesn't actually do anything. Stupid program.
   }
 
   if (testOnly) {
-    log(`Testing GoLabel II installation`);
+    log('Testing GoLabel II installation');
   } else {
     log(`Printing ${templateFile} ${whiteOnBlack ? 'inverses' : ''}`);
   }
 
-  child_process.exec(command, function(error, stdout, stderr) {
+  childProcess.exec(command, ((error) => {
     if (error) {
-      if (error.message.indexOf('is not recognized as an internal or external command') != -1) {
+      if (error.message.contains('is not recognized as an internal or external command')) {
         logError('ERROR: Either GoLabel II is not installed, or the path in config.json is incorrect');
       } else {
         logError(error);
@@ -317,7 +315,7 @@ function print(templateFile, whiteOnBlack, callback, testOnly) {
     }
 
     callback(error);
-  }.bind({callback: callback}));
+  }).bind({ callback: callback }));
 }
 
 generateInverses();
@@ -328,25 +326,25 @@ function generateInverses() {
   log('Generating inverses');
   labelInfo = {};
 
-  fs.rm('./tmp/inverses/', {recursive: true, force: true}, (err) => {
+  fs.rm('./tmp/inverses/', { recursive: true, force: true }, (err) => {
     if (err) {
       logError(err);
       return;
     }
 
     // Create inverses directory recursively
-    fs.mkdir('./tmp/inverses/', {recursive: true}, (err) => {
+    fs.mkdir('./tmp/inverses/', { recursive: true }, (err) => {
       if (err) {
         logError(err);
         return;
       }
-      fs.readdir('./templates', {withFileTypes: true}, (err, entries) => {
+      fs.readdir('./templates', { withFileTypes: true }, (err, entries) => {
         if (err) {
           logError(err);
           return;
         }
 
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isFile()) {
             if (!entry.name.endsWith('.ezpx')) {
               log(`Skipping ${entry.name} (not an ezpx file)`);
@@ -359,7 +357,7 @@ function generateInverses() {
                 return;
               }
 
-              let label = {
+              const label = {
                 setup: {},
                 layout: {}
               };
@@ -383,31 +381,41 @@ function generateInverses() {
               // Save info for later
               labelInfo[entry.name] = {};
 
-              labelInfo[entry.name].mediaWidth          = parseInt(label.setup.LabelWidth);
-              labelInfo[entry.name].mediaHeight         = parseInt(label.setup.LabelLength);
+              labelInfo[entry.name].mediaWidth = parseInt(label.setup.LabelWidth);
+              labelInfo[entry.name].mediaHeight = parseInt(label.setup.LabelLength);
 
-              // Margins are stored in 1/8 millimeters, for some reason
-              labelInfo[entry.name].leftMargin          = parseInt((label.setup.LeftMargin||0)   /8);
-              labelInfo[entry.name].rightMargin         = parseInt((label.layout.RightMargin||0) /8);
-              // these two are weird (https://github.com/non-bin/GoLabel-Automator/wiki/GoLabel-II-Weirdness#page-setup-margins)
-              labelInfo[entry.name].topMargin           = parseInt((label.setup.TopMargin||0)    /-8);
-              labelInfo[entry.name].bottomMargin        = parseInt(((label.layout.BottomMargin||0)/8)-labelInfo[entry.name].topMargin);
+              const CONVERSION_FACTOR = 8;
+              labelInfo[entry.name].leftMargin = parseInt((label.setup.LeftMargin || 0) / CONVERSION_FACTOR);
+              labelInfo[entry.name].rightMargin = parseInt((label.layout.RightMargin || 0) / CONVERSION_FACTOR);
 
-              labelInfo[entry.name].horizontalGap       = parseInt(label.layout.HorGap||0);
-              labelInfo[entry.name].verticalGap         = parseInt(label.layout.VerGap||0);
-              labelInfo[entry.name].horizontalDivisions = parseInt(label.layout.HorAcross||1);
-              labelInfo[entry.name].verticalDivisions   = parseInt(label.layout.VerAcross||1);
+              // These two are weird (https://github.com/non-bin/GoLabel-Automator/wiki/GoLabel-II-Weirdness#page-setup-margins)
+              labelInfo[entry.name].topMargin = parseInt((label.setup.TopMargin || 0) / -1 * CONVERSION_FACTOR);
+              labelInfo[entry.name].bottomMargin = parseInt(
+                ((label.layout.BottomMargin || 0) / CONVERSION_FACTOR) - labelInfo[entry.name].topMargin
+              );
+
+              labelInfo[entry.name].horizontalGap = parseInt(label.layout.HorGap || 0);
+              labelInfo[entry.name].verticalGap = parseInt(label.layout.VerGap || 0);
+              labelInfo[entry.name].horizontalDivisions = parseInt(label.layout.HorAcross || 1);
+              labelInfo[entry.name].verticalDivisions = parseInt(label.layout.VerAcross || 1);
 
               if (labelInfo[entry.name].mediaWidth === undefined || labelInfo[entry.name].mediaHeight === undefined) {
                 logError(`ERROR: While generating inverse for ${entry.name} (missing media width or length)`);
-                throw(new Error());
+                throw new Error();
               }
 
-              const inverseMaskWidth = (labelInfo[entry.name].mediaWidth-labelInfo[entry.name].leftMargin-labelInfo[entry.name].rightMargin-labelInfo[entry.name].horizontalGap*(labelInfo[entry.name].horizontalDivisions-1))/labelInfo[entry.name].horizontalDivisions*8;
-              const inverseMashHeight = (labelInfo[entry.name].mediaHeight-labelInfo[entry.name].topMargin-labelInfo[entry.name].bottomMargin-labelInfo[entry.name].verticalGap*(labelInfo[entry.name].verticalDivisions-1))/labelInfo[entry.name].verticalDivisions*8;
+              const inverseMaskWidth = (labelInfo[entry.name].mediaWidth
+                - labelInfo[entry.name].leftMargin - labelInfo[entry.name].rightMargin
+                - labelInfo[entry.name].horizontalGap * (labelInfo[entry.name].horizontalDivisions - 1)
+              ) / labelInfo[entry.name].horizontalDivisions * CONVERSION_FACTOR;
+              const inverseMashHeight = (labelInfo[entry.name].mediaHeight
+                - labelInfo[entry.name].topMargin - labelInfo[entry.name].bottomMargin
+                - labelInfo[entry.name].verticalGap * (labelInfo[entry.name].verticalDivisions - 1)
+              ) / labelInfo[entry.name].verticalDivisions * CONVERSION_FACTOR;
 
-              let newData = data.replace('</qlabel>',`
-                <GraphicShape xsi:type="Line" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" Alignment="Left" AlignPointX="0" AlignPointY="0">
+              const newData = data.replace('</qlabel>', `
+                <GraphicShape xsi:type="Line" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false"
+                bStroke="true" bFill="true" Direction="Angle0" Alignment="Left" AlignPointX="0" AlignPointY="0">
                   <qHitOnCircumferance>false</qHitOnCircumferance>
                   <Selected>false</Selected>
                   <iBackground_color>4294967295</iBackground_color>
@@ -422,10 +430,13 @@ function generateInverses() {
                   <Operation>101</Operation>
                   <Width>${inverseMaskWidth}</Width>
                 </GraphicShape>
-              </qlabel>
-              `).replace(/(<Setup.*Speed=")\d+(.*Darkness=")\d+(.*)/, `$1${config.inverseSettings.speed}$2${config.inverseSettings.darkness}$3` )
+              </qlabel>`)
+                .replace(
+                  /(<Setup.*Speed=")\d+(.*Darkness=")\d+(.*)/,
+                  `$1${config.inverseSettings.speed}$2${config.inverseSettings.darkness}$3`
+                );
 
-              fs.writeFile(`./tmp/inverses/${entry.name}`, newData, {flag: 'wx'}, (err) => {
+              fs.writeFile(`./tmp/inverses/${entry.name}`, newData, { flag: 'wx' }, (err) => {
                 if (err) {
                   logError(err);
                   return;
@@ -448,7 +459,7 @@ function generateInverses() {
  */
 function printAddresses(port) {
   if (typeof port !== 'number') {
-    port = 80;
+    port = HTTP_PORT;
   }
 
   // https://stackoverflow.com/a/8440736/10805855
@@ -458,7 +469,7 @@ function printAddresses(port) {
     for (const net of nets[name]) {
       // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
       // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
-      const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4
+      const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4;
       if (net.family === familyV4Value && !net.internal) {
         if (!results[name]) {
           results[name] = [];
@@ -473,15 +484,15 @@ function printAddresses(port) {
   for (const interfaceName in results) {
     if (Object.hasOwnProperty.call(results, interfaceName)) {
       const ip = results[interfaceName];
-      // don't print port if it's 80
-      output += `http://${ip}${port == 80 ? '' : `:${port}`}/\n`;
+      // Don't print port if it's 80
+      output += `http://${ip}${port == HTTP_PORT ? '' : `:${port}`}/\n`;
     }
   }
 
-  output += `http://localhost${port == 80 ? '' : `:${port}`}/`;
+  output += `http://localhost${port == HTTP_PORT ? '' : `:${port}`}/`;
 
   if (output == '') {
-    output += `No other addresses found, are you connected to a network?`;
+    output += 'No other addresses found, are you connected to a network?';
   }
 
   log(output);
@@ -540,8 +551,8 @@ function logError(message) {
 /**
  * @return {error}  An error object
  */
-function getErrorObject(){
-  try { throw Error('') } catch(err) { return err; }
+function getErrorObject() {
+  try { throw Error(''); } catch (err) { return err; }
 }
 
 /**
@@ -549,10 +560,13 @@ function getErrorObject(){
  */
 function getCaller() {
   const err = getErrorObject();
-  const stack = err.stack.split("\n");
-  const caller_line = stack[4];
-  const index = caller_line.indexOf("at ");
-  const clean = caller_line.slice(index+3, caller_line.length);
+  const stack = err.stack.split('\n');
+  const callerLine = stack[4];
+  const index = callerLine.indexOf('at ');
+  const clean = callerLine.slice(index + 3, callerLine.length);
 
   return clean;
 }
+
+// Test if the GoLabel is installed
+print(null, null, null, true);

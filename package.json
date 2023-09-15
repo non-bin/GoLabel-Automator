@@ -1,0 +1,25 @@
+{
+  "name": "golabel-automator",
+  "version": "1.0.0",
+  "description": "Download the latest release from [https://github.com/non-bin/GoLabel-Automator/releases](https://github.com/non-bin/GoLabel-Automator/releases)  \r Or clone the beta version using `git clone https://github.com/non-bin/GoLabel-Automator`",
+  "main": "src/server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/non-bin/GoLabel-Automator.git"
+  },
+  "author": "Alice Jacka",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/non-bin/GoLabel-Automator/issues"
+  },
+  "homepage": "https://github.com/non-bin/GoLabel-Automator#readme",
+  "devDependencies": {
+    "eslint": "^8.49.0"
+  }
+}
