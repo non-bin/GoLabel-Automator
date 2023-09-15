@@ -18,7 +18,11 @@
 **/
 'use strict';
 
-var selectedLabelVariant = 'Large'; // Default label variant
+var selectedLabelVariant = // Default label variant
+{
+  single: 'Large',
+  batch: 'Large'
+};
 
 // The empty row to add to the end of the table, when needed
 const tableEmptyRow = `
@@ -127,17 +131,20 @@ function checkTable(table) {
  * @param {string} operatorName
  */
 function updateTable(deviceName, barcodes, retestPeriod, operatorName) {
-  let previewTableBody = `
-  <tr>
-    <th>Device Name</th>
-    <th>Barcode</th>
-    <th>Retest Period</th>
-    <th>Operator Name</th>
-    <th></th>
-  </tr>`;
+  let previewTable = `
+  <thead>
+    <tr>
+      <th>Device Name</th>
+      <th>Barcode</th>
+      <th>Retest Period</th>
+      <th>Operator Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>`;
 
   for (let i = 0; i < barcodes.length; i++) {
-    previewTableBody += `
+    previewTable += `
     <tr>
       <td>
         <input type="text" class="form-control" value="${deviceName}">
@@ -158,28 +165,28 @@ function updateTable(deviceName, barcodes, retestPeriod, operatorName) {
   }
 
   // add an empty row to the end
-  previewTableBody += tableEmptyRow;
-  document.getElementById('previewTable').innerHTML = previewTableBody;
+  previewTable += tableEmptyRow + '</tbody>';
+  document.querySelector('.single .preview .table').innerHTML = previewTable;
 
   updateTableListeners();
 }
 
-
 /**
  * Read data from the preview table.
  *
+ * @param {string} tableName - Which table to read (ie. preview or batch)
  * @return {*}  An object containing the data from the table
  */
-function readTable(whiteOnBlack) {
-  let rows = document.querySelectorAll('#previewTable tr');
+function readTable(tableName) {
+  let rows = document.querySelectorAll(`.${tableName} .preview .table tbody tr`);
 
   let deviceNames = [];
   let barcodes = [];
   let retestPeriods = [];
   let operatorNames = [];
 
-  // Skip the header row, and last empty row
-  for (let i = 1; i < rows.length-1; i++) {
+  // Skip the last empty row
+  for (let i = 0; i < rows.length-1; i++) {
     deviceNames.push(rows[i].querySelectorAll('td')[0].querySelector('input').value);
     barcodes.push(rows[i].querySelectorAll('td')[1].querySelector('input').value);
     retestPeriods.push(rows[i].querySelectorAll('td')[2].querySelector('input').value);
@@ -196,33 +203,76 @@ function readTable(whiteOnBlack) {
 
 /**
  * Clear the inputs and regenerate an empty table
+ *
+ * @param {string} tableName - Which table to clear (ie. single or batch)
  */
-function clearTable() {
-  document.getElementById('operatorNameInput').value = '';
-  document.getElementById('deviceNameInput').value = '';
-  document.getElementById('barcodePrefixInput').value = '';
-  document.getElementById('retestPeriodInput').value = '';
-  document.getElementById('barcodeStartInput').value = '';
-  document.getElementById('barcodeEndInput').value = '';
+function clearTable(tableName) {
+  if (tableName == 'single') {
+    document.getElementById('operatorNameInput').value = '';
+    document.getElementById('deviceNameInput').value = '';
+    document.getElementById('barcodePrefixInput').value = '';
+    document.getElementById('retestPeriodInput').value = '';
+    document.getElementById('barcodeStartInput').value = '';
+    document.getElementById('barcodeEndInput').value = '';
 
-  updateTable('', [], '', '')
+    updateTable('', [], '', '')
+  } else if (tableName == 'batch') {
+    document.querySelector('.batch .preview .table tbody').innerHTML = tableEmptyRow;
+    document.querySelector('.batch').style.display = 'none';
+  }
 }
 
 /**
  * Called by the print buttons
  *
+ * @param {string} tableName - Which table to print (ie. single or batch)
  * @param {boolean} whiteOnBlack - True to print white on black, false to print black on white
  * @param {boolean} [dbOnly] - True to only update the database
  * @return {boolean} True if the command was sent, false otherwise
  */
-function print(whiteOnBlack, dbOnly) {
-  let table = readTable(whiteOnBlack);
+function print(tableName, whiteOnBlack, dbOnly) {
+  let table = readTable(tableName);
 
   if (checkTable(table)) {
-    sendForPrint(table, 'testTag', selectedLabelVariant, whiteOnBlack, dbOnly)
+    sendForPrint(table, 'testTag', selectedLabelVariant[tableName], whiteOnBlack, dbOnly)
   } else {
     return false;
   }
 
   return true;
+}
+
+/**
+ * Add all rows from the single table, to the batch table
+ */
+function addToBatch() {
+  const data = readTable('single');
+  const batchTBody = document.querySelector('.batch .table tbody');
+
+  for (let i = 0; i < data.barcodes.length; i++) {
+    const newRow = document.createElement('tr')
+    newRow.innerHTML = `
+    <tr>
+      <td>
+        <input type="text" class="form-control" value="${data.deviceNames[i]}">
+      </td>
+      <td>
+        <input type="text" class="form-control" value="${data.barcodes[i]}">
+      </td>
+      <td>
+        <input type="text" class="form-control" value="${data.retestPeriods[i]}">
+      </td>
+      <td>
+        <input type="text" class="form-control" value="${data.operatorNames[i]}">
+      </td>
+      <td>
+        <button type="button" class="btn-close" aria-label="Remove Row" onclick="processInput('table', 'removeRow', this)"></button>
+      </td>
+    </tr>`
+    batchTBody.prepend(newRow);
+  }
+
+  if (data.barcodes.length > 0) {
+    document.querySelector('.batch').style.display = 'block';
+  }
 }

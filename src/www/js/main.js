@@ -41,16 +41,18 @@ function loading(enabled, spinnerID) {
  */
 function processInput(field, ...params) {
   if (field == 'labelSelector') {
-    selectedLabelVariant = params[0];
+    let tableName = params[0]
+    selectedLabelVariant[tableName] = params[1].toLowerCase() == 'small' ? 'Small' : 'Large';
 
     // Set which label is now selected
-    const options = document.getElementsByClassName('labelSelectorItems');
+    const options = document.querySelectorAll(`.${tableName} .labelSelectorItems`);
     for (let i = 0; i < options.length; i++) {
       const element = options[i];
       element.classList.remove('active');
     };
-    document.getElementById('labelSelector'+selectedLabelVariant).classList.add('active');
-    document.getElementById('labelSelectorDropdown').innerText = selectedLabelVariant;
+
+    document.querySelector(`.${tableName} .labelSelector${selectedLabelVariant[tableName]}`).classList.add('active');
+    document.querySelector(`.${tableName} .labelSelectorDropdownButton`).innerText = selectedLabelVariant[tableName];
 
   } else if (field == 'table') {
     if (params[0] == 'lastRow') {
@@ -60,12 +62,17 @@ function processInput(field, ...params) {
       for (const input of rowInputs) {
         if (input.value != '') {
           row.querySelector('button.btn-close').disabled = false;
-          document.querySelector('#previewTable tbody').appendChild(document.createElement('tr')).innerHTML = tableEmptyRow;
+          row.parentElement.appendChild(document.createElement('tr')).innerHTML = tableEmptyRow;
           updateTableListeners();
         }
       }
     } else if (params[0] == 'removeRow') {
       const row = params[1].parentElement.parentElement;
+      const sectionContainer = row.parentElement.parentElement.parentElement.parentElement;
+
+      if (sectionContainer.classList.contains('batch') && row.parentElement.childElementCount <= 2) {
+        sectionContainer.style.display = 'none';
+      }
       row.remove();
     }
   } else {
@@ -157,7 +164,10 @@ function sendForPrint(values, template, variant, whiteOnBlack, dbOnly) {
   });
 }
 
-// Function to run when an input is made to the last row of the table
+
+/**
+ * Added as an input listener to the inputs of the last row of the table
+ */
 const tableListener = function () {
   processInput('table', 'lastRow', this);
 };
@@ -166,12 +176,12 @@ updateTableListeners();
  * Remove all listeners from the table, then add them to the last row
  */
 function updateTableListeners() {
-  let inputs = document.querySelectorAll('#previewTable tr input');
+  let inputs = document.querySelectorAll('.preview .table tbody tr input');
   for (const input of inputs) {
     input.removeEventListener('input', tableListener);
   }
 
-  let lastRowInputs = document.querySelectorAll('#previewTable tr:last-child input');
+  let lastRowInputs = document.querySelectorAll('.preview .table tbody tr:last-child input');
   for (const input of lastRowInputs) {
     input.addEventListener('input', tableListener);
   }
