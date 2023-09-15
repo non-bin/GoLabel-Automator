@@ -127,8 +127,9 @@ function generateBarcodes(barcodeEnd, barcodeStart, barcodePrefix) {
  * @param {string} variant - Which template variant to use
  * @param {boolean} [whiteOnBlack] - True to print white on black, false to print black on white
  * @param {boolean} [dbOnly] - True to only update the database, false to print
+ * @param {string} [tableName] - The name of the table to print (used for the loading spinner)
  */
-function sendForPrint(values, template, variant, whiteOnBlack, dbOnly) {
+function sendForPrint(values, template, variant, whiteOnBlack, dbOnly, tableName) {
   if (dbOnly) {
     variant = 'dbOnly';
   }
@@ -140,7 +141,7 @@ function sendForPrint(values, template, variant, whiteOnBlack, dbOnly) {
     whiteOnBlack: whiteOnBlack
   });
 
-  loading(true);
+  loading(true, tableName == 'batch' ? 'batchLoadingSpinner' : 'loadingSpinner');
 
   let printPromise = fetch('/api/print', {
     method: 'POST',
@@ -155,10 +156,10 @@ function sendForPrint(values, template, variant, whiteOnBlack, dbOnly) {
   console.log('Sent');
 
   printPromise.then(function (response) {
-    loading(false);
+    loading(false, tableName == 'batch' ? 'batchLoadingSpinner' : 'loadingSpinner');
     return response.text();
   }, function (error) {
-    loading(false);
+    loading(false, tableName == 'batch' ? 'batchLoadingSpinner' : 'loadingSpinner');
 
     console.error(error.message);
   });

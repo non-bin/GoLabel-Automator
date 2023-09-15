@@ -234,7 +234,7 @@ function print(tableName, whiteOnBlack, dbOnly) {
   let table = readTable(tableName);
 
   if (checkTable(table)) {
-    sendForPrint(table, 'testTag', selectedLabelVariant[tableName], whiteOnBlack, dbOnly)
+    sendForPrint(table, 'testTag', selectedLabelVariant[tableName], whiteOnBlack, dbOnly, tableName);
   } else {
     return false;
   }
