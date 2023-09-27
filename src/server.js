@@ -26,6 +26,8 @@ const os = require('os');
 const config = require('../config.json');
 
 const HTTP_PORT = 80;
+const ESC_RED = '\x1b[91m';
+const ESC_RESET = '\x1b[0m';
 
 // Command line args
 const port = parseInt(process.argv[2] || config.defaultPort || HTTP_PORT);
@@ -33,6 +35,10 @@ const DEBUG_LEVEL = parseInt(process.argv[3] || config.debugLevel);
 
 // Stores info about the available labels
 let labelInfo = {};
+
+if (os.platform() != 'win32') {
+  logError('TESTING ONLY: GoLabel II is only available on Windows');
+}
 
 const server = http.createServer((req, res) => {
   const parsedUrl = url.parse(req.url);
@@ -297,25 +303,29 @@ function print(templateFile, whiteOnBlack, callback, testOnly) {
     log(`Printing ${templateFile} ${whiteOnBlack ? 'inverses' : ''}`);
   }
 
-  childProcess.exec(command, ((error) => {
-    if (error) {
-      if (error.message.contains('is not recognized as an internal or external command')) {
-        logError('ERROR: Either GoLabel II is not installed, or the path in config.json is incorrect');
-      } else {
-        logError(error);
+  if (os.platform() == 'win32') {
+    childProcess.exec(command, ((error) => {
+      if (error) {
+        if (error.message.includes('is not recognized as an internal or external command')) {
+          logError('ERROR: Either GoLabel II is not installed, or the path in config.json is incorrect');
+        } else {
+          logError(error);
+        }
+
+        process.exit(1);
       }
 
-      process.exit(1);
-    }
+      if (testOnly) {
+        log('Test print successful');
+      } else {
+        log('Done printing');
+      }
 
-    if (testOnly) {
-      log('Test print successful');
-    } else {
-      log('Done printing');
-    }
-
-    callback(error);
-  }).bind({ callback: callback }));
+      callback(error);
+    }).bind({ callback: callback }));
+  } else {
+    logError(`> ${command}`);
+  }
 }
 
 generateInverses();
@@ -518,9 +528,6 @@ function sanitize(input, options) {
 
   return undefined;
 }
-
-const ESC_RED = '\x1b[91m';
-const ESC_RESET = '\x1b[0m';
 
 /**
  * Log a message to the console

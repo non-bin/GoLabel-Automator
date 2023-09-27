@@ -70,7 +70,7 @@ function processInput(field, ...params) {
       const row = params[1].parentElement.parentElement;
       const sectionContainer = row.parentElement.parentElement.parentElement.parentElement;
 
-      if (sectionContainer.classList.contains('batch') && row.parentElement.childElementCount <= 2) {
+      if (sectionContainer.classList.includes('batch') && row.parentElement.childElementCount <= 2) {
         sectionContainer.style.display = 'none';
       }
       row.remove();
