@@ -115,6 +115,7 @@ const server = http.createServer((req, res) => {
         res.statusCode = 405; // Method not allowed
         res.end(`Method ${req.method} not allowed!`);
       }
+
     } else if (parsedUrl.pathname == '/api/printingEnabled') {
       if (req.method === 'POST') {
         req.on('end', () => {
@@ -325,6 +326,7 @@ function print(templateFile, whiteOnBlack, callback, testOnly) {
     }).bind({ callback: callback }));
   } else {
     logError(`> ${command}`);
+    callback();
   }
 }
 
