@@ -307,7 +307,8 @@ function print(templateFile, whiteOnBlack, callback, testOnly) {
   if (os.platform() == 'win32') {
     childProcess.exec(command, ((error) => {
       if (error) {
-        if (error.message.includes('is not recognized as an internal or external command')) {
+        if (error.message.includes('is not recognized as an internal or external command')
+            || error.message.includes('The system cannot find the')) {
           logError('ERROR: Either GoLabel II is not installed, or the path in config.json is incorrect');
         } else {
           logError(error);
