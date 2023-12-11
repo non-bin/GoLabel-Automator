@@ -12,7 +12,8 @@ Install the prerequisites:
 
 Run the application:
 
-- Run `run.bat` to start the application  
+- Run `run.bat` to start the application
+- If SmartScreen pops up, press `More Info` then `Run Anyway` 
 - Connect to the server at at the address shown on the output window, either on the same machine or on a different machine on the same network
 
 ## Configuration
