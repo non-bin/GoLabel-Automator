@@ -47,19 +47,9 @@ function processRPProdList(event) {
   reader.readAsText(input.files[0]);
 };
 
-async function writeFile(contents) {
-  const handle = await window.showSaveFilePicker({
-    types: [
-      {
-        description: 'CSV',
-        accept: {
-          'text/csv': ['.csv'],
-        },
-      },
-    ],
-  });
-
-  const writable = await handle.createWritable();
-  await writable.write(contents);
-  await writable.close();
+function writeFile(contents) {
+  var pom = document.createElement('a');
+  pom.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(contents));
+  pom.setAttribute('download', 'Product Listing.csv');
+  pom.click();
 }
