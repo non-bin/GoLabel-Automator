@@ -14,7 +14,8 @@
       "program": "${workspaceFolder}/src/server.js",
       "args": [
         "8080", // Port
-        "0"     // Debug level
+        "0",    // Debug level
+        "false" // Don't use golabel
       ]
     },
     {

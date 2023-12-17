@@ -24,6 +24,7 @@ const path = require('path');
 const childProcess = require('child_process');
 const os = require('os');
 const config = require('../config.json');
+const isTruthy = (val) => val && !['false', '0', ''].includes(val.toString().trim().toLowerCase())
 
 const HTTP_PORT = 80;
 const ESC_RED = '\x1b[91m';
@@ -32,12 +33,14 @@ const ESC_RESET = '\x1b[0m';
 // Command line args
 const port = parseInt(process.argv[2] || config.defaultPort || HTTP_PORT);
 const DEBUG_LEVEL = parseInt(process.argv[3] || config.debugLevel);
+var DONT_USE_GOLABEL = isTruthy(process.argv[4]);
 
 // Stores info about the available labels
 let labelInfo = {};
 
-if (os.platform() != 'win32') {
-  logError('TESTING ONLY: GoLabel II is only available on Windows');
+if (os.platform() != 'win32' || DONT_USE_GOLABEL) {
+  DONT_USE_GOLABEL = true;
+  logError('TESTING ONLY: Not using GoLabel II (GoLabel II is only available on Windows)');
 }
 
 const server = http.createServer((req, res) => {
@@ -304,7 +307,10 @@ function print(templateFile, whiteOnBlack, callback, testOnly) {
     log(`Printing ${templateFile} ${whiteOnBlack ? 'inverses' : ''}`);
   }
 
-  if (os.platform() == 'win32') {
+  if (DONT_USE_GOLABEL) {
+    logError(`> ${command}`);
+    callback();
+  } else {
     childProcess.exec(command, ((error) => {
       if (error) {
         if (error.message.includes('is not recognized as an internal or external command')
@@ -326,9 +332,6 @@ function print(templateFile, whiteOnBlack, callback, testOnly) {
 
       callback(error);
     }).bind({ callback: callback }));
-  } else {
-    logError(`> ${command}`);
-    callback();
   }
 }
 
