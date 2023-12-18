@@ -354,3 +354,23 @@ function updateTableListeners() {
       })
   })
 })()
+
+/**
+ * Escape a string for use in HTML
+ * From https://www.30secondsofcode.org/js/s/escape-html/
+ *
+ * @param {String} str Dirty string
+ * @return {String} Safe string
+ */
+function escapeHTML(str) {
+  return str.replace(/[&<>'"]/g,
+    tag =>
+      ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+      }[tag] || tag)
+  );
+}

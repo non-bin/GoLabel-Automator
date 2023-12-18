@@ -17,12 +17,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated placeholders and hover hints
 - Hid the Save DB button
-- Improved the output produced by the RentalPoint 3 Product Listing Report formatter
+- Add tester name to small test tag template
+- RentalPoint 3 Product Listing Report formatter
+  - File picker now only shows CSV files
+  - Now works when using a browser on a different computer than the server
 
 ### Fixed
 
 - Row delete buttons now work
-- RentalPoint 3 Product Listing Report formatter now works when using a browser on a different computer than the server
+- Fields including a double quote (") are now handled correctly
 
 ### Development
 

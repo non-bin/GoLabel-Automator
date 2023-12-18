@@ -56,8 +56,8 @@ function updatePreview(field, ...params) {
     }
   }
 
-  let deviceName = document.getElementById('deviceNameInput').value;
-  let barcodePrefix = document.getElementById('barcodePrefixInput').value;
+  let deviceName = escapeHTML(document.getElementById('deviceNameInput').value);
+  let barcodePrefix = escapeHTML(document.getElementById('barcodePrefixInput').value);
   let barcodeStart = parseInt(document.getElementById('barcodeStartInput').value);
   let barcodeEnd = parseInt(document.getElementById('barcodeEndInput').value);
 
