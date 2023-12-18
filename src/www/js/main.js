@@ -234,8 +234,10 @@ const tableEnterListener = function (e) {
     const nextRow = cell.parentElement.nextElementSibling;
     if (nextRow) {
       const nextCell = nextRow.children[colNum];
+      const nextInput = nextCell.querySelector('input');
 
-      nextCell.querySelector('input').focus();
+      nextInput.focus();
+      nextInput.select();
     }
   }
 }
