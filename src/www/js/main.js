@@ -188,12 +188,14 @@ var splitModal;
 function printSplit(split) {
   const options = window.printOptionsStore;
 
+  let splitSize = document.getElementById('splitSize').value;
+
   if (split) {
     let splitValues = {};
     console.log(options.values);
     for (const key in options.values) {
       if (Object.hasOwnProperty.call(options.values, key)) {
-        splitValues[key] = options.values[key].splice(0, 20);
+        splitValues[key] = options.values[key].splice(0, splitSize);
       }
     }
 

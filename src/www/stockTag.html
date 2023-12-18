@@ -199,14 +199,19 @@
         </div>
         <div class="modal-body">
           Printing more than 20 inverse labels at once can cause text to become unreadable. Would you like to automatically split up this job?<br>
-          Click "Split" to print a batch of 20, wait a few seconds for the printer to cool down, then click again to print the next batch. <br>
+          Click "Split" to print a batch of the specified size, wait a few seconds for the printer to cool down, then click again to print the next batch. <br>
           Click "Print All At Once" to print all remaining labels at once.<br>
           <br>
           Remaining labels: <span id="splitRemaining"></span>
         </div>
         <div class="modal-footer">
           <button type="button" onclick="printSplit(false)" class="btn btn-secondary" data-bs-dismiss="modal">Print All At Once</button>
-          <button type="button" onclick="printSplit(true)" class="btn btn-primary">Split</button>
+          <div class="col-sm-3 col-sm-offset-3">
+            <div class="input-group">
+              <input type="number" id="splitSize" class="form-control" title="Quantity" aria-describedby="splitButton" value="20">
+              <button class="btn btn-primary" type="button" onclick="printSplit(true)" id="splitButton">Split</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
