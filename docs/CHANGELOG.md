@@ -5,6 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- The WiKi is no longer empty!
+- Large white on black print jobs are now split into batches, to prevent the printer head from overheating
+- Pressing Enter, Up, or Down now moves one cell down in the preview table, allowing for batch barcode scanning
+
+### Changed
+
+- Updated placeholders and hover hints
+- Hid the Save DB button
+- Improved the output produced by the RentalPoint 3 Product Listing Report formatter
+
+### Fixed
+
+- Row delete buttons now work
+- RentalPoint 3 Product Listing Report formatter now works when using a browser on a different computer than the server
+
+### Development
+
+- Made Node the default debug option in VSCode
+- Added DONT_USE_GOLABEL debug option, for dev machines without GoLabel installed
+
+## [1.4.1] - 2023-12-11
+
+### Fixed
+
+- GoLabel installation detection
+
+## [1.4.0] - 2023-12-11
+
+### Added
+
+- RentalPoint 3 Product Listing Report formatter
+
+### Development
+
+- Added test mode for non Windows environments
+
 ## [1.3.0] - 2023-9-15
 
 ### Added
