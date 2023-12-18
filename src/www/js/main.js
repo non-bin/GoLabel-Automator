@@ -201,11 +201,9 @@ function printSplit(split) {
 
     if (options.values['barcodes'].length < 1) {
       splitModal.hide();
-      sendForPrint(splitValues, options.template, options.variant, options.whiteOnBlack, false, options.tableName, true);
       return;
     } else {
       document.getElementById('splitRemaining').innerText = options.values.barcodes.length;
-      sendForPrint(splitValues, options.template, options.variant, options.whiteOnBlack, false, options.tableName, true);
     }
 
     sendForPrint(splitValues, options.template, options.variant, options.whiteOnBlack, false, options.tableName, true);
