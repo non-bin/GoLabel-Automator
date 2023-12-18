@@ -56,14 +56,14 @@
       <div class="input-group mb-3">
         <span class="input-group-text" id="deviceNameLabel">Equipment Name</span>
         <input id="deviceNameInput" type="text" class="form-control" oninput="processInput('deviceNameInput')"
-          aria-label="Equipment Name" aria-describedby="deviceNameLabel">
+          aria-describedby="deviceNameLabel">
       </div>
 
       <div class="mb-3">
         <div class="input-group">
           <span class="input-group-text" id="barcodePrefixLabel">Barcode Prefix</span>
           <input id="barcodePrefixInput" type="text" class="form-control" oninput="processInput('barcodePrefixInput')"
-            aria-label="Barcode Prefix" aria-describedby="barcodePrefixLabel">
+            aria-describedby="barcodePrefixLabel">
         </div>
         <small id="barcodePrefixHelp" class="form-text text-muted">Included at the start of the barcode, eg "ABC-" -> ABC-1 ABC-2</small>
       </div>
@@ -72,7 +72,7 @@
         <div class="input-group">
           <span class="input-group-text" id="barcodeStartLabel">Barcode Number Start</span>
           <input id="barcodeStartInput" type="number" class="form-control" oninput="processInput('barcodeStartInput')"
-            aria-label="Barcode Number Start" aria-describedby="barcodeStartLabel">
+            aria-describedby="barcodeStartLabel">
         </div>
         <small id="barcodeStartHelp" class="form-text text-muted">Leave blank to just use the prefix</small>
       </div>
@@ -81,7 +81,7 @@
         <div class="input-group">
           <span class="input-group-text" id="barcodeEndLabel">Quantity</span>
           <input id="barcodeEndInput" type="number" class="form-control" oninput="processInput('barcodeEndInput')"
-            placeholder="1" aria-label="Quantity" aria-describedby="barcodeEndLabel">
+            placeholder="1" aria-describedby="barcodeEndLabel">
         </div>
         <small id="barcodeEndHelp" class="form-text text-muted">Leave blank for just 1</small>
       </div>
@@ -90,9 +90,9 @@
     <div class="single">
       <div class="actions">
         <span class="mt-5">
-          <!-- <button type="button" class="btn-fix btnPrintBoW btn" onclick="print('single', false, true)" aria-label="Save Database Only">Save DB</button> -->
-          <button type="button" class="btnPrintBoW btn btn-light" onclick="print('single', false)" aria-label="Print black on white">Print</button>
-          <button type="button" class="btn-fix btnPrintWoB btn btn-dark" onclick="print('single', true)" aria-label="Print white on black">Print</button>
+          <!-- <button type="button" class="btn-fix btnPrintBoW btn" onclick="print('single', false, true)" title="Save Database Only">Save DB</button> -->
+          <button type="button" class="btnPrintBoW btn btn-light" onclick="print('single', false)" title="Print black on white">Print</button>
+          <button type="button" class="btn-fix btnPrintWoB btn btn-dark" onclick="print('single', true)" title="Print white on black">Print</button>
           <span class="labelSelectorDropdown dropdown">
             <button class="labelSelectorDropdownButton btn-fix btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Large</button>
             <ul class="dropdown-menu" aria-labelledby="labelSelectorDropdownButton">
@@ -100,8 +100,8 @@
               <li><a class="labelSelectorSmall dropdown-item labelSelectorItems" href="#" onclick="processInput('labelSelector', 'single', 'Small')">Small</a></li>
             </ul>
           </span>
-          <button type="button" class="btn-fix btnPrintBoW btn" aria-label="Add to batch" onclick="addToBatch()">Add to Batch</button>
-          <button type="button" class="btnPrintWoB btn btn-outline-warning" aria-label="Clear all fields" onclick="clearTable('single')">Clear</button>
+          <button type="button" class="btn-fix btnPrintBoW btn" onclick="addToBatch()">Add to Batch</button>
+          <button type="button" class="btnPrintWoB btn btn-outline-warning" title="Clear all fields and preview table" onclick="clearTable('single')">Clear</button>
           <div class="spinner-border align-middle d-none" id="loadingSpinner" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
@@ -130,7 +130,7 @@
                 <input type="text" class="form-control">
               </td>
               <td>
-                <button type="button" class="btn-close" aria-label="Remove Row" disabled onclick="processInput('table', 'removeRow', this)"></button>
+                <button type="button" class="btn-close" title="Remove Row" disabled onclick="processInput('table', 'removeRow', this)"></button>
               </td>
             </tr>
           </tbody>
@@ -142,9 +142,9 @@
       <h2>Batch Printing</h2>
       <div class="actions">
         <span class="mt-5">
-          <!-- <button type="button" class="btn-fix btnPrintBoW btn" onclick="print('batch', false, true)" aria-label="Save Database Only">Save DB</button> -->
-          <button type="button" class="btnPrintBoW btn btn-light" onclick="print('batch', false)" aria-label="Print black on white">Print</button>
-          <button type="button" class="btn-fix btnPrintWoB btn btn-dark" onclick="print('batch', true)" aria-label="Print white on black">Print</button>
+          <!-- <button type="button" class="btn-fix btnPrintBoW btn" onclick="print('batch', false, true)" title="Save Database Only">Save DB</button> -->
+          <button type="button" class="btnPrintBoW btn btn-light" onclick="print('batch', false)" title="Print black on white">Print</button>
+          <button type="button" class="btn-fix btnPrintWoB btn btn-dark" onclick="print('batch', true)" title="Print white on black">Print</button>
           <span class="labelSelectorDropdown dropdown">
             <button class="labelSelectorDropdownButton btn-fix btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Large</button>
             <ul class="dropdown-menu" aria-labelledby="labelSelectorDropdownButton">
@@ -152,7 +152,7 @@
               <li><a class="labelSelectorSmall dropdown-item labelSelectorItems" href="#" onclick="processInput('labelSelector', 'batch', 'Small')">Small</a></li>
             </ul>
           </span>
-          <button type="button" class="btnPrintWoB btn btn-outline-warning" aria-label="Clear all fields" onclick="clearTable('batch')">Clear</button>
+          <button type="button" class="btnPrintWoB btn btn-outline-warning" title="Clear all fields and preview table" onclick="clearTable('batch')">Clear</button>
           <div class="spinner-border align-middle d-none" id="batchLoadingSpinner" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
@@ -181,7 +181,7 @@
                 <input type="text" class="form-control">
               </td>
               <td>
-                <button type="button" class="btn-close" aria-label="Remove Row" disabled onclick="processInput('table', 'removeRow', this)"></button>
+                <button type="button" class="btn-close" title="Remove Row" disabled onclick="processInput('table', 'removeRow', this)"></button>
               </td>
             </tr>
           </tbody>

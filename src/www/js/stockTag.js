@@ -34,7 +34,7 @@ const tableEmptyRow = `
     <input type="text" class="form-control">
   </td>
   <td>
-    <button type="button" class="btn-close" aria-label="Remove Row" disabled onclick="processInput('table', 'removeRow', this)"></button>
+    <button type="button" class="btn-close" title="Remove Row" disabled onclick="processInput('table', 'removeRow', this)"></button>
   </td>
 </tr>`;
 
@@ -131,7 +131,7 @@ function updateTable(deviceName, barcodes) {
         <input type="text" class="form-control" value="${barcodes[i]}">
       </td>
       <td>
-        <button type="button" class="btn-close" aria-label="Remove Row" onclick="processInput('table', 'removeRow', this)"></button>
+        <button type="button" class="btn-close" title="Remove Row" onclick="processInput('table', 'removeRow', this)"></button>
       </td>
     </tr>`;
   }
@@ -225,7 +225,7 @@ function addToBatch() {
         <input type="text" class="form-control" value="${data.barcodes[i]}">
       </td>
       <td>
-        <button type="button" class="btn-close" aria-label="Remove Row" onclick="processInput('table', 'removeRow', this)"></button>
+        <button type="button" class="btn-close" title="Remove Row" onclick="processInput('table', 'removeRow', this)"></button>
       </td>
     </tr>`
     batchTBody.prepend(newRow);
