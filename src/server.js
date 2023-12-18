@@ -249,7 +249,7 @@ function createDB(template, values, leaderCount, callback) {
       header = 'NAME,ID,RETEST,OPERATOR\n';
 
       for (let i = 0; i < values.barcodes.length; i++) {
-        csv += `${values.deviceNames[i]},${values.barcodes[i]},${values.retestPeriods[i]},${values.operatorNames[i]}\n`;
+        csv += `${values.deviceNames[i]},${values.barcodes[i]},${values.retestPeriods[i]},${values.operatorNames[i]}\n`.replace(/"/g, '""');
       }
       break;
 
