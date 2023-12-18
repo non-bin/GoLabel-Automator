@@ -227,11 +227,18 @@ const tableInputListener = function () {
  * @param {*} e Event object
  */
 const tableEnterListener = function (e) {
-  if (e.key === "Enter") {
+  if (e.key === "Enter" || e.key === "ArrowUp" || e.key === "ArrowDown") {
+    e.preventDefault();
+
     const cell = e.target.parentElement;
     const colNum = Array.from(cell.parentElement.children).indexOf(cell);
 
-    const nextRow = cell.parentElement.nextElementSibling;
+    var nextRow;
+    if (e.key === "ArrowUp") {
+      nextRow = cell.parentElement.previousElementSibling;
+    } else {
+      nextRow = cell.parentElement.nextElementSibling;
+    }
     if (nextRow) {
       const nextCell = nextRow.children[colNum];
       const nextInput = nextCell.querySelector('input');
