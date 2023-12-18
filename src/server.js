@@ -257,7 +257,7 @@ function createDB(template, values, leaderCount, callback) {
       header = 'NAME,ID\n';
 
       for (let i = 0; i < values.barcodes.length; i++) {
-        csv += `${values.deviceNames[i]},${values.barcodes[i]}\n`;
+        csv += `${values.deviceNames[i]},${values.barcodes[i]}\n`.replace(/"/g, '""');
       }
       break;
 
