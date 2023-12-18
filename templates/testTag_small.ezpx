@@ -525,6 +525,108 @@
     </VariableFormat>
     <GroupList />
     <qlabel>
+      <GraphicShape xsi:type="Text" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="33.6992035" Y="2.24478912" Alignment="Left" AlignPointX="33.6992035" AlignPointY="2.24478912" FontScript="Default" FontCmd="Microsoft Sans Serif,12&#xD;&#xA;" FontType="BuiltIn_Bitmap_Font" TextSpace="0" Encoding="Default" FontId="B" FontHeight="1" FontWidth="1" IsInverse="false" IsUTF8="true" IsCheckDigit="false" UsePrinterClock="true">
+        <qHitOnCircumferance>false</qHitOnCircumferance>
+        <Selected>false</Selected>
+        <iBackground_color>4294967295</iBackground_color>
+        <Id>3</Id>
+        <ItemLabel>Text_37006452</ItemLabel>
+        <ObjectDrawMode>FW</ObjectDrawMode>
+        <Name>A</Name>
+        <GroupID>0</GroupID>
+        <GroupSelected>false</GroupSelected>
+        <bReplaceSpecialCharFromDB>false</bReplaceSpecialCharFromDB>
+        <CharFilterRule>None</CharFilterRule>
+        <LinkMode>OriginalData</LinkMode>
+        <GraphicMode>false</GraphicMode>
+        <ReplaceInfoItems />
+        <FormatType>None</FormatType>
+        <P1 />
+        <P2 />
+        <P3 />
+        <P4 />
+        <DataField>None</DataField>
+        <Prompt>None</Prompt>
+        <DateFormat>me.dd.y4</DateFormat>
+        <BoundRectWidth>92.9306641</BoundRectWidth>
+        <DispData>Operator:</DispData>
+        <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
+        <Data>Operator:</Data>
+        <ItemInfoList>
+          <Item>
+            <ItemSymbol>1</ItemSymbol>
+            <ItemData>Operator:</ItemData>
+          </Item>
+        </ItemInfoList>
+        <BoundRectHeight>24.578125</BoundRectHeight>
+        <BoundRect>
+          <Location>
+            <X>33.6992035</X>
+            <Y>2.24478912</Y>
+          </Location>
+          <Size>
+            <Width>92.9306641</Width>
+            <Height>24.578125</Height>
+          </Size>
+          <X>33.6992035</X>
+          <Y>2.24478912</Y>
+          <Width>92.9306641</Width>
+          <Height>24.578125</Height>
+        </BoundRect>
+        <NormalRatio>true</NormalRatio>
+        <BTrueType>true</BTrueType>
+      </GraphicShape>
+      <GraphicShape xsi:type="Text" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="156.781677" Y="2.57553482" Alignment="Left" AlignPointX="156.781677" AlignPointY="2.57553482" FontScript="Default" FontCmd="Microsoft Sans Serif,12&#xD;&#xA;" FontType="BuiltIn_Bitmap_Font" TextSpace="0" Encoding="Default" FontId="B" FontHeight="1" FontWidth="1" IsInverse="false" IsUTF8="true" IsCheckDigit="false" UsePrinterClock="true">
+        <qHitOnCircumferance>false</qHitOnCircumferance>
+        <Selected>false</Selected>
+        <iBackground_color>4294967295</iBackground_color>
+        <Id>3</Id>
+        <ItemLabel>Text_37060074</ItemLabel>
+        <ObjectDrawMode>FW</ObjectDrawMode>
+        <Name>A</Name>
+        <GroupID>0</GroupID>
+        <GroupSelected>false</GroupSelected>
+        <bReplaceSpecialCharFromDB>false</bReplaceSpecialCharFromDB>
+        <CharFilterRule>None</CharFilterRule>
+        <LinkMode>OriginalData</LinkMode>
+        <GraphicMode>false</GraphicMode>
+        <ReplaceInfoItems />
+        <FormatType>None</FormatType>
+        <P1 />
+        <P2 />
+        <P3 />
+        <P4 />
+        <DataField>None</DataField>
+        <Prompt>None</Prompt>
+        <DateFormat>me.dd.y4</DateFormat>
+        <BoundRectWidth>48.90918</BoundRectWidth>
+        <DispData>Tash</DispData>
+        <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
+        <Data>^F03</Data>
+        <ItemInfoList>
+          <Item>
+            <ItemSymbol>5</ItemSymbol>
+            <ItemData>^F03</ItemData>
+          </Item>
+        </ItemInfoList>
+        <BoundRectHeight>24.578125</BoundRectHeight>
+        <BoundRect>
+          <Location>
+            <X>156.781677</X>
+            <Y>2.57553482</Y>
+          </Location>
+          <Size>
+            <Width>48.90918</Width>
+            <Height>24.578125</Height>
+          </Size>
+          <X>156.781677</X>
+          <Y>2.57553482</Y>
+          <Width>48.90918</Width>
+          <Height>24.578125</Height>
+        </BoundRect>
+        <NormalRatio>true</NormalRatio>
+        <BTrueType>true</BTrueType>
+      </GraphicShape>
       <GraphicShape xsi:type="Image" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="199.145157" Y="138.804626" Alignment="Center" AlignPointX="199.145157" AlignPointY="138.804626" FontScript="Default" FixedRatio="true">
         <qHitOnCircumferance>false</qHitOnCircumferance>
         <Selected>false</Selected>
@@ -599,8 +701,8 @@
         <P4 />
         <DataField>None</DataField>
         <Prompt>None</Prompt>
-        <BoundRectWidth>323.0345</BoundRectWidth>
-        <DispData>a</DispData>
+        <BoundRectWidth>323</BoundRectWidth>
+        <DispData>Bbbb</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F00</Data>
         <ItemInfoList>
@@ -609,20 +711,20 @@
             <ItemData>^F00</ItemData>
           </Item>
         </ItemInfoList>
-        <BoundRectHeight>65.8788</BoundRectHeight>
+        <BoundRectHeight>66</BoundRectHeight>
         <BoundRect>
           <Location>
             <X>15.4827566</X>
             <Y>69.60396</Y>
           </Location>
           <Size>
-            <Width>323.0345</Width>
-            <Height>65.8788</Height>
+            <Width>323</Width>
+            <Height>66</Height>
           </Size>
           <X>15.4827566</X>
           <Y>69.60396</Y>
-          <Width>323.0345</Width>
-          <Height>65.8788</Height>
+          <Width>323</Width>
+          <Height>66</Height>
         </BoundRect>
         <BTrueType>true</BTrueType>
       </GraphicShape>
@@ -649,7 +751,7 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <BoundRectWidth>100</BoundRectWidth>
-        <DispData>a</DispData>
+        <DispData>BBB</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^F01</Data>
         <ItemInfoList>
@@ -699,7 +801,7 @@
           <BoundRectWidth>100.1</BoundRectWidth>
           <DispData>1234</DispData>
           <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
-          <Data>a</Data>
+          <Data>BBB</Data>
           <ItemInfoList />
           <BoundRectHeight>100.3</BoundRectHeight>
           <BoundRect>
@@ -778,7 +880,7 @@
         <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
         <Id>3</Id>
-        <ItemLabel>Text_37006452</ItemLabel>
+        <ItemLabel>Text_37084497</ItemLabel>
         <ObjectDrawMode>FW</ObjectDrawMode>
         <Name>A</Name>
         <GroupID>0</GroupID>
@@ -847,8 +949,8 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <DateFormat>me.dd.y4</DateFormat>
-        <BoundRectWidth>155.342773</BoundRectWidth>
-        <DispData>Sep.13.2023M2</DispData>
+        <BoundRectWidth>124.759766</BoundRectWidth>
+        <DispData>Dec.15.2024</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^D+M^F02</Data>
         <ItemInfoList />
@@ -859,12 +961,12 @@
             <Y>45.66078</Y>
           </Location>
           <Size>
-            <Width>155.342773</Width>
+            <Width>124.759766</Width>
             <Height>24.578125</Height>
           </Size>
           <X>155.12764</X>
           <Y>45.66078</Y>
-          <Width>155.342773</Width>
+          <Width>124.759766</Width>
           <Height>24.578125</Height>
         </BoundRect>
         <NormalRatio>true</NormalRatio>
@@ -875,7 +977,7 @@
         <Selected>false</Selected>
         <iBackground_color>4294967295</iBackground_color>
         <Id>3</Id>
-        <ItemLabel>Text_37060074</ItemLabel>
+        <ItemLabel>Text_37087057</ItemLabel>
         <ObjectDrawMode>FW</ObjectDrawMode>
         <Name>A</Name>
         <GroupID>0</GroupID>
@@ -893,8 +995,8 @@
         <DataField>None</DataField>
         <Prompt>None</Prompt>
         <DateFormat>me.dd.y4</DateFormat>
-        <BoundRectWidth>124.78125</BoundRectWidth>
-        <DispData>Sep.13.2023</DispData>
+        <BoundRectWidth>124.759766</BoundRectWidth>
+        <DispData>Dec.15.2023</DispData>
         <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
         <Data>^D</Data>
         <ItemInfoList>
@@ -910,62 +1012,12 @@
             <Y>24.5755348</Y>
           </Location>
           <Size>
-            <Width>124.78125</Width>
+            <Width>124.759766</Width>
             <Height>24.578125</Height>
           </Size>
           <X>156.781677</X>
           <Y>24.5755348</Y>
-          <Width>124.78125</Width>
-          <Height>24.578125</Height>
-        </BoundRect>
-        <NormalRatio>true</NormalRatio>
-        <BTrueType>true</BTrueType>
-      </GraphicShape>
-      <GraphicShape xsi:type="Text" Style="Cross" IsPrint="true" PageAlignment="None" Locked="false" bStroke="true" bFill="true" Direction="Angle0" X="33.0389137" Y="2.85281086" Alignment="Left" AlignPointX="33.0389137" AlignPointY="2.85281086" FontScript="Default" FontCmd="Microsoft Sans Serif,12&#xD;&#xA;" FontType="BuiltIn_Bitmap_Font" TextSpace="0" Encoding="Default" FontId="B" FontHeight="1" FontWidth="1" IsInverse="false" IsUTF8="true" IsCheckDigit="false" UsePrinterClock="true">
-        <qHitOnCircumferance>false</qHitOnCircumferance>
-        <Selected>false</Selected>
-        <iBackground_color>4294967295</iBackground_color>
-        <Id>2</Id>
-        <ItemLabel>Text_2</ItemLabel>
-        <ObjectDrawMode>FW</ObjectDrawMode>
-        <Name>A</Name>
-        <GroupID>0</GroupID>
-        <GroupSelected>false</GroupSelected>
-        <bReplaceSpecialCharFromDB>false</bReplaceSpecialCharFromDB>
-        <CharFilterRule>None</CharFilterRule>
-        <LinkMode>OriginalData</LinkMode>
-        <GraphicMode>false</GraphicMode>
-        <ReplaceInfoItems />
-        <FormatType>None</FormatType>
-        <P1 />
-        <P2 />
-        <P3 />
-        <P4 />
-        <DataField>None</DataField>
-        <Prompt>None</Prompt>
-        <BoundRectWidth>264.0752</BoundRectWidth>
-        <DispData>TESTED TO AS/NZS 3760</DispData>
-        <bRemovePreZeroAndEmpty>false</bRemovePreZeroAndEmpty>
-        <Data>TESTED TO AS/NZS 3760</Data>
-        <ItemInfoList>
-          <Item>
-            <ItemSymbol>1</ItemSymbol>
-            <ItemData>TESTED TO AS/NZS 3760</ItemData>
-          </Item>
-        </ItemInfoList>
-        <BoundRectHeight>24.578125</BoundRectHeight>
-        <BoundRect>
-          <Location>
-            <X>33.0389137</X>
-            <Y>2.85281086</Y>
-          </Location>
-          <Size>
-            <Width>264.0752</Width>
-            <Height>24.578125</Height>
-          </Size>
-          <X>33.0389137</X>
-          <Y>2.85281086</Y>
-          <Width>264.0752</Width>
+          <Width>124.759766</Width>
           <Height>24.578125</Height>
         </BoundRect>
         <NormalRatio>true</NormalRatio>
@@ -977,7 +1029,7 @@
     <DateFormat>y2-me-dd</DateFormat>
     <TimeFormat>h:m:s</TimeFormat>
     <DataBaseFormat>Text_CommaDelimited</DataBaseFormat>
-    <DataBaseFilePath>C:\Users\alice\repos\GoLabel-Automator\tmp\db.csv</DataBaseFilePath>
+    <DataBaseFilePath>C:\Users\prolight\Desktop\GoLabel-Automator\tmp\db.csv</DataBaseFilePath>
     <DataBaseSelection>SELECT  * from `db#csv` ;</DataBaseSelection>
     <Delimiter>Delimited(,)</Delimiter>
     <CharacterSet>1252</CharacterSet>
@@ -999,7 +1051,7 @@ Lang:(en-US) OS:Microsoft Windows NT 10.0.19045.0(Win32NT)</Description>
   <DriverName />
   <PrinterModel>RT200</PrinterModel>
   <PrinterLanguage>EZPL</PrinterLanguage>
-  <USBName>GODEX RT200#2248067F</USBName>
+  <USBName>00000000</USBName>
   <COMName />
   <CommunicationType>USB</CommunicationType>
   <NetworkIPAddress>0</NetworkIPAddress>
