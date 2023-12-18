@@ -217,9 +217,28 @@ function printSplit(split) {
 /**
  * Added as an input listener to the inputs of the last row of the table
  */
-const tableListener = function () {
+const tableInputListener = function () {
   processInput('table', 'lastRow', this);
 };
+
+/**
+ * Listen for enter keypresses on the table inputs
+ *
+ * @param {*} e Event object
+ */
+const tableEnterListener = function (e) {
+  if (e.key === "Enter") {
+    const cell = e.target.parentElement;
+    const colNum = Array.from(cell.parentElement.children).indexOf(cell);
+
+    const nextRow = cell.parentElement.nextElementSibling;
+    if (nextRow) {
+      const nextCell = nextRow.children[colNum];
+
+      nextCell.querySelector('input').focus();
+    }
+  }
+}
 
 document.addEventListener('DOMContentLoaded', function () {
   updateTableListeners();
@@ -230,12 +249,14 @@ document.addEventListener('DOMContentLoaded', function () {
 function updateTableListeners() {
   let inputs = document.querySelectorAll('.preview .table tbody tr input');
   for (const input of inputs) {
-    input.removeEventListener('input', tableListener);
+    input.removeEventListener('input', tableInputListener);
+
+    input.addEventListener('keydown', tableEnterListener);
   }
 
   let lastRowInputs = document.querySelectorAll('.preview .table tbody tr:last-child input');
   for (const input of lastRowInputs) {
-    input.addEventListener('input', tableListener);
+    input.addEventListener('input', tableInputListener);
   }
 }
 
