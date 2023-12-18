@@ -129,9 +129,27 @@ function generateBarcodes(barcodeEnd, barcodeStart, barcodePrefix) {
  * @param {boolean} [dbOnly] - True to only update the database, false to print
  * @param {string} [tableName] - The name of the table to print (used for the loading spinner)
  */
-function sendForPrint(values, template, variant, whiteOnBlack, dbOnly, tableName) {
+function sendForPrint(values, template, variant, whiteOnBlack, dbOnly, tableName, overrideLimit) {
   if (dbOnly) {
     variant = 'dbOnly';
+  } else {
+    if (whiteOnBlack && !overrideLimit && values.barcodes.length > 20) {
+      if (!splitModal) {
+        splitModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('splitModal'));
+      }
+      splitModal.show();
+      document.getElementById('splitRemaining').innerText = values.barcodes.length;
+
+      window.printOptionsStore = {
+        values: values,
+        template: template,
+        variant: variant,
+        whiteOnBlack: whiteOnBlack,
+        tableName: tableName
+      };
+
+      return;
+    }
   }
 
   let data = JSON.stringify({
@@ -165,6 +183,34 @@ function sendForPrint(values, template, variant, whiteOnBlack, dbOnly, tableName
   });
 }
 
+var splitModal;
+
+function printSplit(split) {
+  const options = window.printOptionsStore;
+
+  if (split) {
+    let splitValues = {};
+    console.log(options.values);
+    for (const key in options.values) {
+      if (Object.hasOwnProperty.call(options.values, key)) {
+        splitValues[key] = options.values[key].splice(0, 20);
+      }
+    }
+
+    if (options.values['barcodes'].length < 1) {
+      splitModal.hide();
+      sendForPrint(splitValues, options.template, options.variant, options.whiteOnBlack, false, options.tableName, true);
+      return;
+    } else {
+      document.getElementById('splitRemaining').innerText = options.values.barcodes.length;
+      sendForPrint(splitValues, options.template, options.variant, options.whiteOnBlack, false, options.tableName, true);
+    }
+
+    sendForPrint(splitValues, options.template, options.variant, options.whiteOnBlack, false, options.tableName, true);
+  } else {
+    sendForPrint(options.values, options.template, options.variant, options.whiteOnBlack, false, options.tableName, true);
+  }
+}
 
 /**
  * Added as an input listener to the inputs of the last row of the table

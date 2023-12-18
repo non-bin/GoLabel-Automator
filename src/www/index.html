@@ -232,6 +232,28 @@
     </div>
   </div>
 
+  <div id="splitModal" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Warning</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Printing more than 20 inverse labels at once can cause text to become unreadable. Would you like to automatically split up this job?<br>
+          Click "Split" to print a batch of 20, wait a few seconds for the printer to cool down, then click again to print the next batch. <br>
+          Click "Print All At Once" to print all remaining labels at once.<br>
+          <br>
+          Remaining labels: <span id="splitRemaining"></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" onclick="printSplit(false)" class="btn btn-secondary" data-bs-dismiss="modal">Print All At Once</button>
+          <button type="button" onclick="printSplit(true)" class="btn btn-primary">Split</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>
