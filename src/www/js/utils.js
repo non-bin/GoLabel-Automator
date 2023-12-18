@@ -26,7 +26,7 @@ function processRPProdList(event) {
         groupType = 'Category';
       }
       const originalKey = key;
-      key = `"${groupType}";${key}`;
+      key = `"${groupType}",${key}`.replace(/";"/g, '","').replace(/;$/, '');
 
       const inputLines = lines;
       lines = [key];
@@ -36,14 +36,14 @@ function processRPProdList(event) {
         if (line.startsWith('"Group: ')) {
           groupName = line.match(/"Group: (.*?) *"/)[1];
         } else if (inputLines[i] != originalKey) {
-          lines.push(`"${groupName}";${line}`);
+          lines.push(`"${groupName}",${line.replace(/";"/g, '","').replace(/;$/, '')}`);
         }
       }
     }
 
     output = lines.join('\n');
     writeFile(output);
-  };
+  }
   reader.readAsText(input.files[0]);
 };
 
