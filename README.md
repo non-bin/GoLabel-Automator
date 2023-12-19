@@ -2,19 +2,19 @@
 
 ## Getting Started
 
-Download the latest release from [https://github.com/non-bin/GoLabel-Automator/releases]  
+Download the latest release from <https://github.com/non-bin/GoLabel-Automator/releases>  
 Or clone the beta version using `git clone https://github.com/non-bin/GoLabel-Automator`
 
 Install the prerequisites:
 
-- NodeJS [https://nodejs.org/en/]
-- GoLabel II [https://www.godexintl.com/product/16681379086423723?locale=en]
+- NodeJS <https://nodejs.org/en/>
+- GoLabel II <https://www.godexintl.com/product/16681379086423723?locale=en>
 
 Run the application:
 
 - Plug in your printer
 - Run `run.bat` to start the application
-- If SmartScreen pops up, press `More Info` then `Run Anyway` 
+- If SmartScreen pops up, press `More Info` then `Run Anyway`
 - Connect to the server at the address shown on the output window, either on the same machine or on a different machine on the same network
 
 ## For HowTo, Configuration, and Troubleshooting, See [The Wiki](../../wiki)
