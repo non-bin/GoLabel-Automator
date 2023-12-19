@@ -2,7 +2,7 @@
 
 ![Security Issues](image.png)
 
-## Batch import
+## Batch import & export
 
 ## Issues
 

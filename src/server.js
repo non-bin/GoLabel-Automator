@@ -294,8 +294,17 @@ function print(templateFile, whiteOnBlack, callback, testOnly) {
     testOnly = true;
   }
 
-  const templatePath = `.\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}`;
+  let templatePath = `.\\templates\\${templateFile}`;
+
+  if (config.inverseSettings.oldInverseMethod) {
+    templatePath = `.\\${whiteOnBlack ? 'tmp\\inverses' : 'templates'}\\${templateFile}`;
+  }
+
   let command = `"${config.golabelPath}" -f ".\\${templatePath}" -db ".\\tmp\\db.csv"`;
+
+  if (whiteOnBlack && !config.inverseSettings.oldInverseMethod) {
+    command += ` -Inverse 1 -speed ${config.inverseSettings.speed} -dark ${config.inverseSettings.darkness}`;
+  }
 
   if (testOnly) { // Just make sure the program is installed
     command = `"${config.golabelPath}" -v`; // This doesn't actually do anything. Stupid program.
