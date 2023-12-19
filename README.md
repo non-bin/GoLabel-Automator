@@ -2,13 +2,13 @@
 
 ## Getting Started
 
-Download the latest release from [https://github.com/non-bin/GoLabel-Automator/releases](https://github.com/non-bin/GoLabel-Automator/releases)  
+Download the latest release from [https://github.com/non-bin/GoLabel-Automator/releases]  
 Or clone the beta version using `git clone https://github.com/non-bin/GoLabel-Automator`
 
 Install the prerequisites:
 
-- NodeJS [https://nodejs.org/en/](https://nodejs.org/en/)
-- GoLabel II [https://www.godexintl.com/product/16681379086423723?locale=en](https://www.godexintl.com/product/16681379086423723?locale=en)
+- NodeJS [https://nodejs.org/en/]
+- GoLabel II [https://www.godexintl.com/product/16681379086423723?locale=en]
 
 Run the application:
 
